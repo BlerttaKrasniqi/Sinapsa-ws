@@ -1,0 +1,140 @@
+{
+ "sets": [
+  {
+   "id": "sQWIvwEjJCAI",
+   "title": "Nervat kraniale – emrat dhe funksionet kryesore",
+   "author": "Shembuj nga Sinapsa",
+   "faculty": "Mjekësi",
+   "subject": "Anatomia",
+   "description": "12 nervat kraniale sipas radhës, me funksionin kryesor. Mund ta fshini këtë shembull kur të doni.",
+   "createdAt": 1790363848559,
+   "files": [],
+   "cards": [
+    {
+     "term": "N. I – Olfaktor",
+     "def": "Nuhatja"
+    },
+    {
+     "term": "N. II – Optik",
+     "def": "Shikimi"
+    },
+    {
+     "term": "N. III – Okulomotor",
+     "def": "Shumica e lëvizjeve të syrit, ngushtimi i bebëzës, ngritja e qepallës"
+    },
+    {
+     "term": "N. IV – Troklear",
+     "def": "Muskuli i pjerrët i sipërm (syri lëviz poshtë dhe brenda)"
+    },
+    {
+     "term": "N. V – Trigeminal",
+     "def": "Ndjeshmëria e fytyrës; muskujt e përtypjes"
+    },
+    {
+     "term": "N. VI – Abducens",
+     "def": "Muskuli i drejtë anësor (syri lëviz nga jashtë)"
+    },
+    {
+     "term": "N. VII – Facial",
+     "def": "Muskujt e mimikës, shija (2/3 e përparme e gjuhës), gjëndrat lotore dhe të pështymës"
+    },
+    {
+     "term": "N. VIII – Vestibulokoklear",
+     "def": "Dëgjimi dhe ekuilibri"
+    },
+    {
+     "term": "N. IX – Glosofaringeal",
+     "def": "Shija (1/3 e pasme e gjuhës), gëlltitja, gjëndra parotide"
+    },
+    {
+     "term": "N. X – Vagus",
+     "def": "Inervimi parasimpatik i organeve të kraharorit dhe barkut; gëlltitja dhe të folurit"
+    },
+    {
+     "term": "N. XI – Aksesor",
+     "def": "Muskujt sternokleidomastoid dhe trapez"
+    },
+    {
+     "term": "N. XII – Hipoglos",
+     "def": "Lëvizjet e gjuhës"
+    }
+   ]
+  },
+  {
+   "id": "G86NMW1PnnRx",
+   "title": "Fjalor bazë i programimit",
+   "author": "Shembuj nga Sinapsa",
+   "faculty": "Shkenca Kompjuterike",
+   "subject": "Hyrje në programim",
+   "description": "Termat e parë që mësohen në programim.",
+   "createdAt": 1790446648559,
+   "files": [],
+   "cards": [
+    {
+     "term": "Variabël",
+     "def": "Emër që ruan një vlerë në memorie, e cila mund të ndryshojë gjatë ekzekutimit"
+    },
+    {
+     "term": "Funksion",
+     "def": "Bllok kodi me emër që kryen një detyrë dhe mund të thirret shumë herë"
+    },
+    {
+     "term": "Cikël (loop)",
+     "def": "Strukturë që përsërit një bllok kodi derisa të plotësohet një kusht"
+    },
+    {
+     "term": "Algoritëm",
+     "def": "Varg hapash të qartë për zgjidhjen e një problemi"
+    },
+    {
+     "term": "Kompajler",
+     "def": "Program që përkthen kodin burimor në kod që e ekzekuton kompjuteri"
+    },
+    {
+     "term": "Varg (array)",
+     "def": "Koleksion elementesh të renditura, të qasshme me indeks"
+    }
+   ]
+  },
+  {
+   "id": "WXLwoZBKj66R",
+   "title": "Nervat kraniale",
+   "author": "Blendi Kalanderi",
+   "faculty": "Mjekësi",
+   "subject": "Anatomia",
+   "description": "Provimi anatomi",
+   "cards": [
+    {
+     "term": "Nervi ...",
+     "def": "ndjeshmeria e fytyres"
+    },
+    {
+     "term": "nervi tjeter",
+     "def": "muskujt e pertypjes"
+    }
+   ],
+   "files": [
+    {
+     "asset": "vlIBO09grqjS.png",
+     "name": "Screenshot 2024-10-22 202313.png",
+     "type": "image/png",
+     "size": 71479
+    }
+   ],
+   "createdAt": 1790450318602
+  }
+ ],
+ "materials": [
+  {
+   "id": "UnG1L6tdVDf2",
+   "title": "AWS patreon",
+   "faculty": "Shkenca Politike",
+   "subject": "cloud computing",
+   "uploader": "Blendi Kalanderi",
+   "asset": "_OlarikEA7vG.pdf",
+   "fileName": "AWS patreon (1).pdf",
+   "size": 202862,
+   "createdAt": 1790450387878
+  }
+ ]
+}
