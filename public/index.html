@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Sinapsa</title>
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap">
+<style>
+:root{
+  --brand:#1800AD; --brand-ink:#FFFFFF;
+  --bg:#F4F3FA; --surface:#FFFFFF; --surface-2:#F9F8FD; --ink:#16133D; --muted:#5D5A7E;
+  --line:#DDDAF0; --accent:#1800AD; --accent-hover:#12008A; --accent-ink:#FFFFFF; --accent-soft:#E7E4FB;
+  --good:#1D7F47; --good-soft:#DDF3E5; --warn:#B4441A; --warn-soft:#FBE7DD; --danger:#B42318;
+  --shadow:0 1px 2px rgba(22,19,61,.06),0 6px 20px rgba(22,19,61,.07);
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --radius:14px;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0C0A22; --surface:#15123A; --surface-2:#1B1845; --ink:#ECEAFB; --muted:#A19DC8;
+    --line:#2B2760; --accent:#9C90FF; --accent-hover:#B3AAFF; --accent-ink:#0C0A22; --accent-soft:#251F66;
+    --good:#5BD08D; --good-soft:#173524; --warn:#F09067; --warn-soft:#3B2219; --danger:#F2867C;
+    --shadow:0 1px 2px rgba(0,0,0,.35),0 6px 20px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0C0A22; --surface:#15123A; --surface-2:#1B1845; --ink:#ECEAFB; --muted:#A19DC8;
+  --line:#2B2760; --accent:#9C90FF; --accent-hover:#B3AAFF; --accent-ink:#0C0A22; --accent-soft:#251F66;
+  --good:#5BD08D; --good-soft:#173524; --warn:#F09067; --warn-soft:#3B2219; --danger:#F2867C;
+  --shadow:0 1px 2px rgba(0,0,0,.35),0 6px 20px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+img{max-width:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.15}
+button,input,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+a{color:var(--accent)}
+
+/* NAV */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.nav-in{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;background:none;border:0;cursor:pointer;padding:4px 0;flex-shrink:0}
+.brand img{width:38px;height:38px;border-radius:10px;display:block}
+.brand-name{font-family:var(--display);font-weight:800;font-size:23px;letter-spacing:-.02em;color:var(--ink)}
+.search{flex:1;min-width:0;position:relative;max-width:520px}
+.search input{width:100%;height:44px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface-2);padding:0 16px 0 44px;font-size:16px}
+.search input:focus{border-color:var(--accent);outline:none;background:var(--surface)}
+.search svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.menu{display:flex;align-items:center;gap:2px;margin-left:auto}
+.menu-link{background:none;border:0;padding:10px 11px;border-radius:10px;cursor:pointer;font-weight:700;color:var(--muted);white-space:nowrap}
+.menu-link:hover{background:var(--accent-soft);color:var(--ink)}
+.menu-link[aria-current="page"]{color:var(--accent)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;border:1.5px solid transparent;font-weight:700;cursor:pointer;text-decoration:none;white-space:nowrap}
+.btn-primary{background:var(--accent);color:var(--accent-ink)}
+.btn-primary:hover{background:var(--accent-hover)}
+.btn-ghost{background:var(--surface);border-color:var(--line);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--accent)}
+.btn-danger{background:var(--surface);border-color:var(--line);color:var(--danger)}
+.btn-danger:hover{border-color:var(--danger)}
+.btn[disabled]{opacity:.55;cursor:not-allowed}
+.hamb{display:none;background:none;border:1.5px solid var(--line);border-radius:10px;width:44px;height:44px;cursor:pointer;place-items:center;flex-shrink:0}
+.mobile-menu{display:none;border-top:1px solid var(--line);padding:8px 16px 14px;flex-direction:column;gap:6px}
+.mobile-menu .menu-link{text-align:left;padding:12px}
+@media (max-width:900px){
+  .menu{display:none}
+  .hamb{display:grid}
+  .nav-in{flex-wrap:wrap;gap:10px}
+  .search{order:3;flex-basis:100%;max-width:none}
+  .brand{margin-right:auto}
+  .mobile-menu.open{display:flex}
+}
+
+main{max-width:1180px;margin:0 auto;padding:28px 16px 64px}
+.notice{background:var(--warn-soft);color:var(--ink);border-radius:12px;padding:12px 16px;margin-bottom:20px;font-size:15px}
+
+/* HOME */
+.hero{position:relative;overflow:hidden;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;padding:30px 28px;background:var(--brand);color:var(--brand-ink);border-radius:22px;margin-bottom:34px}
+.hero h1{font-size:clamp(28px,4.4vw,42px);font-weight:800;letter-spacing:-.02em;max-width:18ch}
+.hero p{margin:10px 0 0;opacity:.88;max-width:54ch}
+.hero-deco{position:absolute;right:-30px;top:-40px;width:260px;height:260px;opacity:.14;pointer-events:none}
+.hero-actions{display:flex;flex-direction:column;gap:10px;position:relative}
+.btn-white{background:#fff;color:var(--brand)}
+.btn-white:hover{background:#EFEDFF}
+.btn-outline-white{background:transparent;color:#fff;border-color:rgba(255,255,255,.55)}
+.btn-outline-white:hover{border-color:#fff}
+.steps{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:18px;padding:0;list-style:none;font-size:15px}
+.steps li{display:flex;align-items:center;gap:8px}
+.steps b{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.18);display:grid;place-items:center;font-size:13px}
+.section{margin-bottom:38px}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 14px;flex-wrap:wrap}
+.section-head h2{font-size:22px;font-weight:800}
+.link-btn{background:none;border:0;color:var(--accent);font-weight:700;cursor:pointer;padding:6px 0}
+.fac-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.fac-tile{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;background:var(--surface);border:1.5px solid var(--line);border-radius:12px;cursor:pointer;text-align:left;font-weight:700}
+.fac-tile:hover{border-color:var(--accent)}
+.fac-tile small{color:var(--muted);font-weight:400;white-space:nowrap;font-variant-numeric:tabular-nums}
+.filters{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+.filters label{font-weight:700;font-size:15px}
+.filters select{min-width:0;max-width:100%}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.set-card{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius);padding:18px;cursor:pointer;display:flex;flex-direction:column;gap:10px;text-align:left;min-height:180px;transition:border-color .15s,transform .15s}
+.set-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.set-card h3{font-size:19px;font-weight:600;overflow-wrap:anywhere}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:13px;color:var(--muted)}
+.pill{display:inline-flex;align-items:center;gap:5px;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:13px;font-weight:700;color:var(--muted);max-width:100%}
+.fac{background:var(--accent-soft);border-color:transparent;color:var(--accent)}
+.author{display:flex;align-items:center;gap:9px;margin-top:auto;padding-top:10px;border-top:1px dashed var(--line);font-size:14px}
+.avatar{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;font-size:13px;flex-shrink:0}
+.author .by{color:var(--muted);font-size:12px;line-height:1.1}
+.author .nm{font-weight:700;line-height:1.2;overflow-wrap:anywhere}
+.mat-card{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius);padding:14px;cursor:pointer;display:flex;gap:14px;align-items:flex-start;text-align:left;transition:border-color .15s}
+.mat-card:hover{border-color:var(--accent)}
+.mat-card h3{font-size:17px;font-weight:600;overflow-wrap:anywhere;margin-bottom:6px}
+.mat-card .body{min-width:0;flex:1;display:flex;flex-direction:column;gap:6px}
+.ftype{width:52px;height:62px;border-radius:9px;display:grid;place-items:center;font-weight:800;font-size:11px;letter-spacing:.04em;flex-shrink:0;color:#fff;overflow:hidden}
+.ftype img{width:100%;height:100%;object-fit:cover}
+.t-pdf{background:#C0392B}.t-word{background:#2B5CC0}.t-ppt{background:#C8561D}.t-excel{background:#1E7B45}.t-foto{background:#6B3FC0}.t-tekst{background:#5D5A7E}.t-zip{background:#6E6A55}.t-tjeter{background:#4A4868}
+.empty{background:var(--surface);border:1.5px dashed var(--line);border-radius:var(--radius);padding:36px 20px;text-align:center;color:var(--muted)}
+.empty h3{color:var(--ink);font-size:20px;margin-bottom:6px}
+
+/* FORM */
+.page-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.page-head h1{font-size:clamp(26px,4vw,34px);font-weight:800;letter-spacing:-.02em;overflow-wrap:anywhere}
+.page-head p{color:var(--muted);margin:6px 0 0}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px;margin-bottom:18px}
+.panel h2{font-size:18px;font-weight:600;margin-bottom:4px}
+.panel .hint{color:var(--muted);font-size:14px;margin:0 0 14px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fields .full{grid-column:1/-1}
+@media (max-width:640px){.fields{grid-template-columns:1fr}}
+label.f{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:15px}
+.opt{font-weight:400;color:var(--muted);font-size:13px}
+input.t,textarea.t,select.t{border:1.5px solid var(--line);background:var(--surface-2);border-radius:10px;padding:11px 13px;font-size:16px;width:100%}
+input.t:focus,textarea.t:focus,select.t:focus{border-color:var(--accent);outline:none;background:var(--surface)}
+textarea.t{resize:vertical;min-height:52px}
+.card-row{display:grid;grid-template-columns:36px 1fr 1fr auto;gap:12px;align-items:start;padding:14px 0;border-top:1px solid var(--line)}
+.card-row:first-child{border-top:0}
+.card-num{font-family:var(--display);font-weight:800;color:var(--muted);font-size:18px;padding-top:34px;font-variant-numeric:tabular-nums}
+.card-side{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.card-tools{display:flex;flex-direction:column;gap:8px;padding-top:26px}
+.icon-btn{width:44px;height:44px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface);cursor:pointer;display:grid;place-items:center;color:var(--muted);flex-shrink:0}
+.icon-btn:hover{border-color:var(--accent);color:var(--accent)}
+.icon-btn.del:hover{border-color:var(--danger);color:var(--danger)}
+.card-img{display:flex;align-items:center;gap:8px;margin-top:4px;text-transform:none;letter-spacing:0;font-weight:400;flex-wrap:wrap}
+.card-img img{width:56px;height:56px;object-fit:cover;border-radius:8px;border:1px solid var(--line)}
+@media (max-width:640px){
+  .card-row{grid-template-columns:1fr auto;}
+  .card-num{grid-column:1/-1;padding-top:0}
+  .card-row .card-side{grid-column:1/2}
+  .card-tools{grid-row:2/4;grid-column:2;padding-top:24px}
+}
+.drop{border:2px dashed var(--line);border-radius:14px;padding:26px 16px;text-align:center;cursor:pointer;background:var(--surface-2);transition:border-color .15s,background .15s;color:var(--accent)}
+.drop:hover,.drop.over{border-color:var(--accent);background:var(--accent-soft)}
+.drop strong{display:block;font-size:17px;margin:8px 0 2px;color:var(--ink)}
+.drop small{color:var(--muted)}
+.file-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.file-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);min-width:0}
+.file-item .ftype{width:42px;height:42px}
+.file-meta{flex:1;min-width:0}
+.file-meta b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.file-meta small{color:var(--muted)}
+.save-bar{position:sticky;bottom:0;padding:12px 0 calc(12px + env(safe-area-inset-bottom,0px));background:linear-gradient(to top,var(--bg) 70%,transparent);display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+details.bulk{margin-top:14px}
+details.bulk summary{cursor:pointer;font-weight:700;color:var(--accent);padding:6px 0}
+.err{color:var(--danger);font-weight:700;font-size:14px}
+.bar{height:10px;background:var(--line);border-radius:10px;overflow:hidden;margin-top:12px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .2s}
+
+/* SET VIEW */
+.back{background:none;border:0;color:var(--muted);font-weight:700;cursor:pointer;padding:8px 0;margin-bottom:10px;display:inline-flex;align-items:center;gap:6px}
+.back:hover{color:var(--accent)}
+.set-title{font-size:clamp(28px,4.5vw,40px);font-weight:800;letter-spacing:-.02em;overflow-wrap:anywhere}
+.set-desc{color:var(--muted);max-width:65ch;margin:8px 0 0}
+.set-meta{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:14px}
+.study{max-width:760px;margin:28px auto 8px}
+.flip{perspective:1600px;cursor:pointer;user-select:none}
+.flip-in{position:relative;height:min(380px,62vw);min-height:260px;transition:transform .45s cubic-bezier(.2,.7,.2,1);transform-style:preserve-3d}
+.flip.flipped .flip-in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--surface);border:1.5px solid var(--line);border-radius:20px;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:32px 28px;text-align:center;overflow:auto}
+.face.back-f{transform:rotateY(180deg);border-top:5px solid var(--accent)}
+.face .lbl{position:absolute;top:14px;left:18px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.face .tap{position:absolute;bottom:12px;left:0;right:0;font-size:13px;color:var(--muted)}
+.face .txt{font-size:clamp(20px,3.4vw,30px);font-weight:700;max-width:34ch;overflow-wrap:anywhere;white-space:pre-wrap}
+.face.back-f .txt{font-weight:400;font-size:clamp(17px,2.6vw,23px)}
+.face img{max-height:45%;max-width:100%;border-radius:10px;object-fit:contain}
+@media (prefers-reduced-motion:reduce){.flip-in,.set-card,.bar i{transition:none}}
+.controls{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:16px;flex-wrap:wrap}
+.nav-arrows{display:flex;align-items:center;gap:12px}
+.round{width:52px;height:52px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);cursor:pointer;display:grid;place-items:center}
+.round:hover{border-color:var(--accent);color:var(--accent)}
+.round[disabled]{opacity:.4;cursor:default}
+.counter{font-family:var(--display);font-weight:800;font-size:18px;font-variant-numeric:tabular-nums;min-width:70px;text-align:center}
+.progress{height:6px;background:var(--line);border-radius:6px;margin-top:14px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--accent);transition:width .3s}
+.judge{display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+.btn-learn{background:var(--warn-soft);color:var(--warn);border-color:transparent}
+.btn-know{background:var(--good-soft);color:var(--good);border-color:transparent}
+.tally{display:flex;gap:16px;justify-content:center;margin-top:10px;font-size:14px;color:var(--muted);flex-wrap:wrap}
+.tally b{font-variant-numeric:tabular-nums}
+.kbd{font-size:13px;color:var(--muted);text-align:center;margin-top:10px}
+.done{text-align:center;padding:40px 20px;background:var(--surface);border:1.5px solid var(--line);border-radius:20px}
+.done h2{font-size:28px;font-weight:800;margin-bottom:6px}
+.done .big{display:flex;gap:28px;justify-content:center;margin:18px 0}
+.done .big div{font-size:14px;color:var(--muted)}
+.done .big b{display:block;font-family:var(--display);font-size:40px;font-weight:800}
+.cols{display:grid;grid-template-columns:1fr;gap:26px;margin-top:36px}
+.terms{background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.term{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:18px;padding:16px 20px;border-top:1px solid var(--line)}
+.term:first-child{border-top:0}
+.term b{overflow-wrap:anywhere}
+.term p{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+.term img{max-width:160px;border-radius:8px;margin-top:8px;display:block}
+@media (max-width:560px){.term{grid-template-columns:1fr;gap:4px}}
+.files-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+a.file-item,button.file-item{text-decoration:none;color:inherit;cursor:pointer;text-align:left}
+a.file-item:hover,button.file-item:hover{border-color:var(--accent)}
+.confirm{background:var(--warn-soft);border-radius:12px;padding:14px 16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}
+
+/* MATERIAL VIEW */
+.viewer{margin-top:24px;background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.viewer-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);font-weight:700;flex-wrap:wrap}
+.viewer-body{background:var(--surface-2);min-height:200px}
+.viewer iframe{display:block;width:100%;height:80vh;border:0;background:#fff}
+.viewer .img-wrap{padding:16px;text-align:center}
+.viewer pre{margin:0;padding:18px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px;max-height:80vh;overflow:auto}
+.viewer .msg{padding:40px 20px;text-align:center;color:var(--muted)}
+.viewer .msg b{display:block;color:var(--ink);font-size:18px;margin-bottom:6px}
+.docx-wrap{max-height:80vh;overflow:auto;background:#E9E8F2}
+.docx-wrap .docx-wrapper{background:#E9E8F2!important;padding:16px!important}
+.sheet-wrap{max-height:80vh;overflow:auto;background:#fff;color:#111}
+.sheet-wrap table{border-collapse:collapse;font-size:14px}
+.sheet-wrap td,.sheet-wrap th{border:1px solid #ddd;padding:4px 8px;white-space:nowrap}
+.sheet-tabs{display:flex;gap:6px;padding:10px 12px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.detail-actions{display:flex;gap:10px;flex-wrap:wrap}
+
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:999px;font-weight:700;z-index:50;max-width:calc(100% - 32px);text-align:center}
+.lightbox{position:fixed;inset:0;background:rgba(8,6,28,.88);z-index:60;display:grid;place-items:center;padding:20px;cursor:zoom-out}
+.lightbox img{max-height:90vh;max-width:100%;border-radius:10px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+footer{max-width:1180px;margin:0 auto;padding:0 16px 40px;color:var(--muted);font-size:14px;display:flex;align-items:center;gap:10px}
+footer img{width:24px;height:24px;border-radius:6px}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-in">
+    <button class="brand" id="brand" aria-label="Sinapsa – kreu">
+      <img src="logo.png" alt="" width="38" height="38">
+      <span class="brand-name">Sinapsa</span>
+    </button>
+    <div class="search" role="search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <label for="q" class="sr">Kërko</label>
+      <input id="q" type="search" placeholder="Kërko sete, materiale, lëndë ose emra…" autocomplete="off">
+    </div>
+    <nav class="menu" aria-label="Menyja kryesore">
+      <button class="menu-link" data-go="home">Kreu</button>
+      <button class="menu-link" data-go="sets">Kartat</button>
+      <button class="menu-link" data-go="materials">Materialet</button>
+      <button class="menu-link" data-go="mine">Të miat</button>
+      <button class="btn btn-primary" data-go="create">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Krijo set</button>
+    </nav>
+    <button class="hamb" id="hamb" aria-label="Hap menynë" aria-expanded="false">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mmenu">
+    <button class="menu-link" data-go="home">Kreu</button>
+    <button class="menu-link" data-go="sets">Kartat</button>
+    <button class="menu-link" data-go="materials">Materialet</button>
+    <button class="menu-link" data-go="mine">Të miat</button>
+    <button class="btn btn-primary" data-go="create">+ Krijo set</button>
+    <button class="btn btn-ghost" data-go="upload">Ngarko material</button>
+  </div>
+</header>
+
+<main id="app" aria-live="polite"></main>
+<footer><img src="/logo.png" alt=""> Sinapsa · Mësojmë së bashku</footer>
+
+<script>
+(function(){
+const FACULTIES=[
+  "Mjekësi","Stomatologji","Farmaci","Infermieri dhe Shkenca Shëndetësore","Juridik","Ekonomik",
+  "Shkenca Politike","Administratë Publike","Filologjik","Gjuhë të Huaja","Filozofik","Psikologji","Sociologji",
+  "Histori","Gjeografi","Edukim","Matematikë","Fizikë","Kimi","Biologji","Shkenca Kompjuterike",
+  "Inxhinieri Elektrike dhe Kompjuterike","Inxhinieri Mekanike","Ndërtimtari","Arkitekturë",
+  "Inxhinieri Kimike dhe Teknologjike","Gjeoshkenca dhe Miniera","Bujqësi dhe Veterinari","Shkenca Ushqimore",
+  "Shkenca Sportive","Arte","Muzikë","Gazetari dhe Komunikim","Turizëm","Siguri dhe Studime Mbrojtëse","Tjetër"
+];
+const SET_FILE_RE=/^(application\/pdf|image\/(png|jpeg|gif|webp))$/;
+const MAT_EXT=["pdf","doc","docx","odt","rtf","ppt","pptx","odp","xls","xlsx","ods","csv","txt","png","jpg","jpeg","gif","webp","zip","rar","7z"];
+const MAX_MB=50;
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const app=$("#app");
+
+let dbState="loading", sets=[], materials=[];
+let view={name:"home"}, facultyFilter="", query="";
+
+function lsGet(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+async function api(method,path,body){
+  const r=await fetch(path,{method,headers:body?{"Content-Type":"application/json"}:{},body:body?JSON.stringify(body):undefined});
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok)throw new Error(j.error||"Diçka shkoi keq. Ju lutemi provoni përsëri.");
+  return j;
+}
+function uploadFile(file,onProgress){
+  return new Promise((resolve,reject)=>{
+    const x=new XMLHttpRequest();
+    x.open("POST","/api/upload?name="+encodeURIComponent(file.name));
+    x.setRequestHeader("Content-Type","application/octet-stream");
+    x.upload.onprogress=e=>{if(e.lengthComputable&&onProgress)onProgress(e.loaded/e.total)};
+    x.onload=()=>{let j={};try{j=JSON.parse(x.responseText)}catch(e){}
+      if(x.status>=200&&x.status<300)resolve(j);else reject(new Error(j.error||"Ngarkimi dështoi. Provoni përsëri."))};
+    x.onerror=()=>reject(new Error("Nuk u lidh me serverin. Kontrolloni internetin dhe provoni përsëri."));
+    x.send(file);
+  });
+}
+
+function toast(msg){const t=document.createElement("div");t.className="toast";t.setAttribute("role","status");t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2800)}
+function hue(name){let h=0;for(const c of String(name))h=(h*31+c.charCodeAt(0))%360;return h}
+function initials(n){const p=String(n||"?").trim().split(/\s+/);return((p[0]||"?")[0]+(p.length>1?p[p.length-1][0]:"")).toUpperCase()}
+function avatar(n){return `<span class="avatar" style="background:hsl(${(hue(n)%80)+220} 55% 45%)" aria-hidden="true">${esc(initials(n))}</span>`}
+function ago(t){if(!t)return"";const s=(Date.now()-t)/1000;if(s<60)return"tani";
+  if(s<3600)return"para "+Math.floor(s/60)+" min";
+  if(s<86400){const h=Math.floor(s/3600);return"para "+h+(h===1?" ore":" orësh")}
+  const d=Math.floor(s/86400);if(d<30)return"para "+d+(d===1?" dite":" ditësh");
+  return new Date(t).toLocaleDateString("sq-AL")}
+function fmtSize(b){if(!b)return"";if(b<1024)return b+" B";if(b<1048576)return Math.round(b/1024)+" KB";return(b/1048576).toFixed(1).replace(".",",")+" MB"}
+const plural=(n,one,many)=>n+" "+(n===1?one:many);
+function extOf(name){const m=String(name||"").toLowerCase().match(/\.([a-z0-9]+)$/);return m?m[1]:""}
+function kindOf(name){const e=extOf(name);
+  if(e==="pdf")return["pdf","PDF"];
+  if(["doc","docx","odt","rtf"].includes(e))return["word","WORD"];
+  if(["ppt","pptx","odp"].includes(e))return["ppt","PPT"];
+  if(["xls","xlsx","ods","csv"].includes(e))return["excel","EXCEL"];
+  if(["png","jpg","jpeg","gif","webp"].includes(e))return["foto","FOTO"];
+  if(e==="txt")return["tekst","TEKST"];
+  if(["zip","rar","7z"].includes(e))return["zip","ZIP"];
+  return["tjeter",(e||"?").toUpperCase().slice(0,5)]}
+function fileUrl(f){return f&&f.asset?"/uploads/"+encodeURIComponent(f.asset):""}
+function dlUrl(asset,name){return "/uploads/"+encodeURIComponent(asset)+"?download=1&name="+encodeURIComponent(name||asset)}
+function typeBox(name,asset,preview){const [k,l]=kindOf(name);const src=preview||(k==="foto"&&asset?"/uploads/"+encodeURIComponent(asset):"");
+  return `<span class="ftype t-${k}" aria-hidden="true">${src?`<img src="${esc(src)}" alt="" loading="lazy">`:esc(l)}</span>`}
+function facultyOptions(sel,withAll){return (withAll?`<option value="">Të gjitha fakultetet</option>`:"")+FACULTIES.map(f=>`<option ${f===sel?"selected":""}>${esc(f)}</option>`).join("")}
+const I={
+  back:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
+  next:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>',
+  prev:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
+  trash:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>',
+  img:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 17-5-5-9 8"/></svg>',
+  up:'<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>',
+  down:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12M7 11l5 5 5-5M5 20h14"/></svg>',
+  ext:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>',
+  shuffle:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>',
+  cards:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="3" y="6" width="14" height="14" rx="2"/><path d="M7 3h11a3 3 0 0 1 3 3v11"/></svg>',
+  clip:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m21 11-8.5 8.5a5 5 0 0 1-7-7L14 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L15 7"/></svg>',
+  cap:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></svg>',
+  syn:'<svg class="hero-deco" viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" aria-hidden="true"><path d="M30 22c-10 3-14 10-12 17 4 12 22 15 34 17 16 3 28 9 30 21 1 8-5 14-12 15"/><circle cx="37" cy="21" r="10" fill="#fff" stroke="none"/><circle cx="63" cy="92" r="10" fill="#fff" stroke="none"/></svg>'
+};
+
+/* ---------- NAV ---------- */
+function go(name,extra){view=Object.assign({name},extra||{});$("#mmenu").classList.remove("open");$("#hamb").setAttribute("aria-expanded","false");render();window.scrollTo(0,0)}
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>{const g=b.dataset.go;if(g==="home"){query="";$("#q").value=""}go(g)}));
+$("#brand").onclick=()=>{query="";$("#q").value="";go("home")};
+$("#hamb").onclick=()=>{const m=$("#mmenu");const o=m.classList.toggle("open");$("#hamb").setAttribute("aria-expanded",String(o))};
+let qT;$("#q").addEventListener("input",e=>{clearTimeout(qT);qT=setTimeout(()=>{query=e.target.value.trim();if(!["home","sets","materials","mine"].includes(view.name))view={name:"home"};render()},150)});
+function markNav(){document.querySelectorAll(".menu-link").forEach(b=>{if(b.dataset.go===view.name)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")})}
+
+/* ---------- RENDER ---------- */
+function render(){
+  markNav();
+  if(view.name==="create"||view.name==="edit")return renderForm();
+  if(view.name==="set")return renderSet();
+  if(view.name==="upload")return renderUpload();
+  if(view.name==="material")return renderMaterial();
+  renderList();
+}
+function banner(){return dbState==="offline"?`<div class="notice">Nuk po lidhemi dot me serverin e Sinapsës. Kontrolloni internetin dhe rifreskoni faqen.</div>`:""}
+function words(q){return q.toLowerCase().split(/\s+/).filter(Boolean)}
+function setMatches(s){
+  if(facultyFilter&&s.faculty!==facultyFilter)return false;
+  if(!query)return true;
+  const hay=[s.title,s.author,s.faculty,s.subject,s.description,...(s.cards||[]).flatMap(c=>[c.term,c.def])].join(" ").toLowerCase();
+  return words(query).every(w=>hay.includes(w));
+}
+function matMatches(m){
+  if(facultyFilter&&m.faculty!==facultyFilter)return false;
+  if(!query)return true;
+  const hay=[m.title,m.uploader,m.faculty,m.subject,m.fileName].join(" ").toLowerCase();
+  return words(query).every(w=>hay.includes(w));
+}
+function setCard(s){
+  const n=(s.cards||[]).length,f=(s.files||[]).length;
+  return `<button class="set-card" data-open="${esc(s.id)}">
+    <div class="meta-row"><span class="pill fac">${I.cap} ${esc(s.faculty||"Tjetër")}</span></div>
+    <h3>${esc(s.title||"Set pa titull")}</h3>
+    <div class="meta-row">${s.subject?`<span>${esc(s.subject)}</span><span aria-hidden="true">·</span>`:""}<span>${plural(n,"kartë","karta")}</span>${f?`<span aria-hidden="true">·</span><span>${plural(f,"skedar","skedarë")}</span>`:""}</div>
+    <div class="author">${avatar(s.author)}<div><div class="by">Krijuar nga · ${esc(ago(s.createdAt))}</div><div class="nm">${esc(s.author||"Anonim")}</div></div></div>
+  </button>`;
+}
+function matCard(m){
+  return `<button class="mat-card" data-mat="${esc(m.id)}">${typeBox(m.fileName,m.asset)}
+    <div class="body"><h3>${esc(m.title)}</h3>
+      <div class="meta-row"><span class="pill fac">${I.cap} ${esc(m.faculty||"Tjetër")}</span></div>
+      <div class="meta-row"><span>Ngarkuar nga <b style="color:var(--ink)">${esc(m.uploader||"Anonim")}</b></span></div>
+      <div class="meta-row"><span>${esc(fmtSize(m.size))}</span><span aria-hidden="true">·</span><span>${esc(ago(m.createdAt))}</span></div>
+    </div></button>`;
+}
+function emptyBox(title,text,btn){return `<div class="empty"><h3>${title}</h3>${text?`<p>${text}</p>`:""}${btn||""}</div>`}
+function filterRow(){return `<div class="filters"><label for="ff">Fakulteti:</label><select class="t" id="ff" style="width:auto">${facultyOptions(facultyFilter,true)}</select>${facultyFilter?`<button class="link-btn" id="ff-clear">Hiq filtrin</button>`:""}</div>`}
+function bindCommon(){
+  app.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>go("set",{id:b.dataset.open}));
+  app.querySelectorAll("[data-mat]").forEach(b=>b.onclick=()=>go("material",{id:b.dataset.mat}));
+  app.querySelectorAll("[data-go2]").forEach(b=>b.onclick=()=>go(b.dataset.go2));
+  const ff=$("#ff");if(ff)ff.onchange=()=>{facultyFilter=ff.value;render()};
+  const fc=$("#ff-clear");if(fc)fc.onclick=()=>{facultyFilter="";render()};
+  app.querySelectorAll("[data-fac]").forEach(b=>b.onclick=()=>{facultyFilter=b.dataset.fac;go(b.dataset.target||"sets")});
+}
+function renderList(){
+  const loading=dbState==="loading";
+  const myName=(lsGet("sin_name","")||"").toLowerCase();
+  const mineSets=lsGet("sin_mine",[]),mineMats=lsGet("sin_mine_mat",[]);
+  let S=sets.filter(setMatches),M=materials.filter(matMatches);
+  if(view.name==="mine"){S=S.filter(s=>mineSets.includes(s.id)||(myName&&(s.author||"").toLowerCase()===myName));M=M.filter(m=>mineMats.includes(m.id)||(myName&&(m.uploader||"").toLowerCase()===myName))}
+  let html=banner();
+  const setsBlock=(title,list,limit,more)=>`<section class="section"><div class="section-head"><h2>${title}</h2><span class="meta-row">${loading?"":plural(list.length,"set","sete")}${more?` · <button class="link-btn" data-go2="sets">Shiko të gjitha</button>`:""}</span></div>
+    ${loading?emptyBox("Duke u ngarkuar…"):list.length?`<div class="grid">${list.slice(0,limit||9999).map(setCard).join("")}</div>`
+      :emptyBox(query?`Asnjë set nuk përputhet me “${esc(query)}”`:facultyFilter?`Ende nuk ka sete për ${esc(facultyFilter)}`:"Ende nuk ka sete",query?"Provoni një fjalë më të shkurtër ose kontrolloni drejtshkrimin.":"",query?"":`<button class="btn btn-primary" data-go2="create">Krijo një set</button>`)}</section>`;
+  const matsBlock=(title,list,limit,more)=>`<section class="section"><div class="section-head"><h2>${title}</h2><span class="meta-row">${loading?"":plural(list.length,"material","materiale")}${more?` · <button class="link-btn" data-go2="materials">Shiko të gjitha</button>`:""}</span></div>
+    ${loading?emptyBox("Duke u ngarkuar…"):list.length?`<div class="grid">${list.slice(0,limit||9999).map(matCard).join("")}</div>`
+      :emptyBox(query?`Asnjë material nuk përputhet me “${esc(query)}”`:facultyFilter?`Ende nuk ka materiale për ${esc(facultyFilter)}`:"Ende nuk ka materiale",query?"":"Ndani skriptat, ligjëratat dhe detyrat me kolegët.",query?"":`<button class="btn btn-primary" data-go2="upload">Ngarko material</button>`)}</section>`;
+
+  if(query){
+    html+=`<div class="page-head"><div><h1>Rezultatet për “${esc(query)}”</h1></div></div>${filterRow()}`+setsBlock("Setet e kartave",S)+matsBlock("Materialet",M);
+  }else if(view.name==="home"){
+    const c={};for(const s of sets){c[s.faculty]=c[s.faculty]||[0,0];c[s.faculty][0]++}for(const m of materials){c[m.faculty]=c[m.faculty]||[0,0];c[m.faculty][1]++}
+    const facs=FACULTIES.filter(f=>c[f]).sort((a,b)=>(c[b][0]+c[b][1])-(c[a][0]+c[a][1]));
+    html+=`<section class="hero">${I.syn}<div style="position:relative"><h1>Mësojmë së bashku, kartë pas karte.</h1>
+      <p>Krijoni karta mësimore për provime, ndani skriptat dhe ligjëratat me kolegët nga çdo fakultet. Pa llogari – mjafton të shkruani emrin tuaj.</p>
+      <ol class="steps"><li><b>1</b>Krijoni një set</li><li><b>2</b>Shtoni karta dhe skedarë</li><li><b>3</b>Prekni kartën për ta kthyer</li></ol></div>
+      <div class="hero-actions"><button class="btn btn-white" data-go2="create" style="min-height:52px;padding:0 26px;font-size:17px">+ Krijo set me karta</button><button class="btn btn-outline-white" data-go2="upload">Ngarko material</button></div></section>
+      ${facs.length?`<section class="section"><div class="section-head"><h2>Shfleto sipas fakultetit</h2></div><div class="fac-grid">${facs.map(f=>`<button class="fac-tile" data-fac="${esc(f)}" data-target="${c[f][0]?"sets":"materials"}"><span>${esc(f)}</span><small>${c[f][0]?plural(c[f][0],"set","sete"):""}${c[f][0]&&c[f][1]?" · ":""}${c[f][1]?plural(c[f][1],"material","materiale"):""}</small></button>`).join("")}</div></section>`:""}`
+      +setsBlock("Setet më të reja",S,6,S.length>6)+matsBlock("Materialet më të reja",M,6,M.length>6);
+  }else if(view.name==="sets"){
+    html+=`<div class="page-head"><div><h1>Setet e kartave</h1><p>Zgjidhni një set dhe mësoni me karta që kthehen.</p></div><button class="btn btn-primary" data-go2="create">+ Krijo set</button></div>${filterRow()}`+setsBlock(facultyFilter||"Të gjitha setet",S);
+  }else if(view.name==="materials"){
+    html+=`<div class="page-head"><div><h1>Materialet</h1><p>Skripta, ligjërata, prezantime dhe detyra – për t'i hapur këtu ose për t'i shkarkuar.</p></div><button class="btn btn-primary" data-go2="upload">${I.up.replace('width="30" height="30"','width="18" height="18"')} Ngarko material</button></div>${filterRow()}`+matsBlock(facultyFilter||"Të gjitha materialet",M);
+  }else if(view.name==="mine"){
+    html+=`<div class="page-head"><div><h1>Të miat</h1><p>Setet dhe materialet që keni krijuar në këtë pajisje ose me emrin tuaj.</p></div></div>`+setsBlock("Setet e mia",S)+matsBlock("Materialet e mia",M);
+  }
+  app.innerHTML=html;bindCommon();
+}
+
+/* ---------- SET FORM ---------- */
+let draft=null;
+function newDraft(){return{title:"",author:lsGet("sin_name",""),faculty:facultyFilter||lsGet("sin_fac","")||"",subject:"",description:"",cards:[{term:"",def:""},{term:"",def:""},{term:"",def:""}],files:[]}}
+function renderForm(){
+  if(!draft||draft._for!==(view.id||"new")){
+    if(view.name==="edit"){const s=sets.find(x=>x.id===view.id);if(!s){go("home");return}
+      draft=JSON.parse(JSON.stringify({title:s.title,author:s.author,faculty:s.faculty,subject:s.subject||"",description:s.description||"",cards:s.cards||[],files:s.files||[]}));}
+    else draft=newDraft();
+    draft._for=view.id||"new";
+  }
+  const d=draft,edit=view.name==="edit";
+  app.innerHTML=`${banner()}
+  <div class="page-head"><h1>${edit?"Ndrysho setin":"Krijo një set të ri me karta"}</h1></div>
+  <section class="panel"><h2>Të dhënat e setit</h2><p class="hint">Emri juaj shfaqet te seti, që kolegët ta dinë kush e ka krijuar.</p>
+    <div class="fields">
+      <label class="f">Emri juaj<input class="t" id="f-author" maxlength="60" placeholder="p.sh. Blerta Krasniqi" value="${esc(d.author)}"></label>
+      <label class="f">Fakulteti<select class="t" id="f-faculty"><option value="">– Zgjidhni fakultetin –</option>${facultyOptions(d.faculty)}</select></label>
+      <label class="f full">Titulli<input class="t" id="f-title" maxlength="120" placeholder="p.sh. Nervat kraniale – emrat dhe funksionet" value="${esc(d.title)}"></label>
+      <label class="f">Lënda <span class="opt">(opsionale)</span><input class="t" id="f-subject" maxlength="60" placeholder="p.sh. Anatomia" value="${esc(d.subject)}"></label>
+      <label class="f">Përshkrimi <span class="opt">(opsional)</span><input class="t" id="f-desc" maxlength="500" placeholder="Për cilin provim ose ligjëratë është?" value="${esc(d.description)}"></label>
+    </div>
+  </section>
+  <section class="panel"><h2>Skedarë dhe foto <span class="opt">(opsionale)</span></h2><p class="hint">Bashkëngjitni ligjëratat si PDF ose foto të shënimeve dhe skemave. Deri në ${MAX_MB} MB secili. Për Word, PowerPoint e të tjera përdorni faqen <b>Materialet</b>.</p>
+    <div class="drop" id="drop" tabindex="0" role="button" aria-label="Shto skedarë">${I.up}<strong>Prekni për të zgjedhur skedarë ose tërhiqini këtu</strong><small>PDF, JPG, PNG, GIF, WEBP</small></div>
+    <input type="file" id="f-files" accept="application/pdf,image/png,image/jpeg,image/gif,image/webp" multiple hidden>
+    <div class="file-list" id="flist"></div>
+  </section>
+  <section class="panel"><h2>Kartat</h2><p class="hint"><b>Para</b> është pyetja ose termi. <b>Prapa</b> është përgjigjja. Mund t'i shtoni një foto çdo karte.</p>
+    <div id="cards"></div>
+    <div style="margin-top:14px"><button class="btn btn-ghost" id="add-card">+ Shto kartë</button></div>
+    <details class="bulk"><summary>Ngjitni shumë karta njëherësh</summary>
+      <p class="hint" style="margin-top:8px">Shkruani një kartë për rresht, me vizë ndërmjet parës dhe prapës. Shembull:<br><code>Valvula mitrale - Ndërmjet atriumit të majtë dhe ventrikulit të majtë</code></p>
+      <textarea class="t" id="bulk" rows="5" placeholder="Para - Prapa"></textarea>
+      <button class="btn btn-ghost" id="bulk-add" style="margin-top:10px">Shto këto karta</button>
+    </details>
+  </section>
+  <div id="form-err" class="err" role="alert"></div>
+  <div class="save-bar"><button class="btn btn-ghost" id="cancel">Anulo</button><button class="btn btn-primary" id="save" style="min-width:170px">${edit?"Ruaj ndryshimet":"Krijo setin"}</button></div>`;
+  const bind=(id,key,ev)=>$(id).addEventListener(ev||"input",e=>d[key]=e.target.value);
+  bind("#f-author","author");bind("#f-title","title");bind("#f-desc","description");bind("#f-subject","subject");bind("#f-faculty","faculty","change");
+  renderCards();renderFiles();
+  const drop=$("#drop"),fi=$("#f-files");
+  drop.onclick=()=>fi.click();drop.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();fi.click()}};
+  drop.ondragover=e=>{e.preventDefault();drop.classList.add("over")};drop.ondragleave=()=>drop.classList.remove("over");
+  drop.ondrop=e=>{e.preventDefault();drop.classList.remove("over");addFiles(e.dataTransfer.files)};
+  fi.onchange=()=>{addFiles(fi.files);fi.value=""};
+  $("#add-card").onclick=()=>{d.cards.push({term:"",def:""});renderCards();const ts=app.querySelectorAll("[data-term]");ts[ts.length-1].focus()};
+  $("#bulk-add").onclick=()=>{const lines=$("#bulk").value.split(/\n/).map(l=>l.trim()).filter(Boolean);let n=0;
+    d.cards=d.cards.filter(c=>c.term||c.def||c.img||c._pending);
+    for(const l of lines){const m=l.split(/\s+[-–—:]\s+|\t/);if(m.length>=2){d.cards.push({term:m[0].trim(),def:m.slice(1).join(" - ").trim()});n++}}
+    if(!d.cards.length)d.cards.push({term:"",def:""});
+    $("#bulk").value="";renderCards();toast(n?`U shtuan ${plural(n,"kartë","karta")}`:"Nuk u gjet asnjë kartë. Vendosni vizë ndërmjet parës dhe prapës.")};
+  $("#cancel").onclick=()=>{const id=view.id;draft=null;id?go("set",{id}):go("home")};
+  $("#save").onclick=saveDraft;
+}
+function renderCards(){
+  const d=draft,box=$("#cards");
+  box.innerHTML=d.cards.map((c,i)=>`<div class="card-row">
+    <div class="card-num">${i+1}</div>
+    <label class="card-side">Para (termi)<textarea class="t" rows="2" data-term="${i}" placeholder="p.sh. Nervi trigeminal">${esc(c.term)}</textarea></label>
+    <label class="card-side">Prapa (përkufizimi)<textarea class="t" rows="2" data-def="${i}" placeholder="p.sh. N. V – ndjeshmëria e fytyrës, muskujt e përtypjes">${esc(c.def)}</textarea>
+      ${c.img||c._pending?`<span class="card-img"><img src="${esc(c._preview||fileUrl(c.img))}" alt="">Foto e shtuar <button class="btn btn-ghost" style="min-height:34px;padding:0 12px" data-rmimg="${i}">Hiqe</button></span>`:""}</label>
+    <div class="card-tools"><button class="icon-btn" data-addimg="${i}" aria-label="Shto foto te karta ${i+1}" title="Shto foto">${I.img}</button><button class="icon-btn del" data-del="${i}" aria-label="Fshi kartën ${i+1}" title="Fshi kartën">${I.trash}</button></div>
+  </div>`).join("");
+  box.querySelectorAll("[data-term]").forEach(t=>t.oninput=()=>d.cards[t.dataset.term].term=t.value);
+  box.querySelectorAll("[data-def]").forEach(t=>t.oninput=()=>d.cards[t.dataset.def].def=t.value);
+  box.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{d.cards.splice(+b.dataset.del,1);if(!d.cards.length)d.cards.push({term:"",def:""});renderCards()});
+  box.querySelectorAll("[data-rmimg]").forEach(b=>b.onclick=e=>{e.preventDefault();const c=d.cards[+b.dataset.rmimg];delete c.img;delete c._pending;delete c._preview;renderCards()});
+  box.querySelectorAll("[data-addimg]").forEach(b=>b.onclick=()=>{const inp=document.createElement("input");inp.type="file";inp.accept="image/png,image/jpeg,image/gif,image/webp";
+    inp.onchange=()=>{const f=inp.files[0];if(!f)return;if(!SET_FILE_RE.test(f.type)||f.type==="application/pdf"){toast("Zgjidhni një foto (JPG, PNG, GIF ose WEBP).");return}
+      const c=d.cards[+b.dataset.addimg];c._pending=f;c._preview=URL.createObjectURL(f);delete c.img;renderCards()};inp.click()});
+}
+function addFiles(list){
+  for(const f of list){
+    if(!SET_FILE_RE.test(f.type)){toast(`“${f.name}” nuk mund të shtohet këtu. Ngarkojeni te faqja Materialet.`);continue}
+    if(f.size>MAX_MB*1048576){toast(`“${f.name}” është më i madh se ${MAX_MB} MB.`);continue}
+    draft.files.push({name:f.name,type:f.type,size:f.size,_pending:f,_preview:f.type.startsWith("image/")?URL.createObjectURL(f):""});
+  }
+  renderFiles();
+}
+function renderFiles(){
+  const box=$("#flist");if(!box)return;
+  box.innerHTML=draft.files.map((f,i)=>`<div class="file-item">${typeBox(f.name,f.asset,f._preview)}<div class="file-meta"><b>${esc(f.name)}</b><small>${esc(fmtSize(f.size))}${f._pending?" · gati për ngarkim":""}</small></div><button class="icon-btn del" data-rmf="${i}" aria-label="Hiq ${esc(f.name)}">${I.trash}</button></div>`).join("");
+  box.querySelectorAll("[data-rmf]").forEach(b=>b.onclick=()=>{draft.files.splice(+b.dataset.rmf,1);renderFiles()});
+}
+async function saveDraft(){
+  const d=draft,err=$("#form-err");err.textContent="";
+  const author=d.author.trim(),title=d.title.trim();
+  const cards=d.cards.filter(c=>(c.term||"").trim()||(c.def||"").trim()||c.img||c._pending);
+  if(!author){err.textContent="Ju lutemi shkruani emrin tuaj në krye, që kolegët ta dinë kush e ka krijuar setin.";$("#f-author").focus();return}
+  if(!d.faculty){err.textContent="Ju lutemi zgjidhni fakultetin.";$("#f-faculty").focus();return}
+  if(!title){err.textContent="Ju lutemi jepini setit një titull.";$("#f-title").focus();return}
+  if(!cards.length){err.textContent="Shtoni të paktën një kartë (para dhe prapa).";return}
+  const btn=$("#save"),label=btn.textContent;btn.disabled=true;btn.textContent="Duke ruajtur…";
+  try{
+    const outFiles=[];
+    for(const f of d.files){
+      if(f._pending){const r=await uploadFile(f._pending,p=>btn.textContent=`Duke ngarkuar ${Math.round(p*100)}%`);outFiles.push({name:f.name,type:f.type,size:f.size,asset:r.id})}
+      else outFiles.push({name:f.name,type:f.type,size:f.size,asset:f.asset});
+    }
+    const outCards=[];
+    for(const c of cards){
+      const o={term:(c.term||"").trim(),def:(c.def||"").trim()};
+      if(c._pending){btn.textContent="Duke ngarkuar fotot…";const r=await uploadFile(c._pending);o.img={asset:r.id,name:c._pending.name,type:c._pending.type}}
+      else if(c.img)o.img=c.img;
+      outCards.push(o);
+    }
+    const body={title,author,faculty:d.faculty,subject:d.subject.trim(),description:d.description.trim(),cards:outCards,files:outFiles};
+    lsSet("sin_name",author);lsSet("sin_fac",d.faculty);
+    let id=view.id,rec;
+    if(id)rec=await api("PUT","/api/sets/"+encodeURIComponent(id),body);else rec=await api("POST","/api/sets",body);
+    id=rec.id;upsert(sets,rec);
+    const mine=lsGet("sin_mine",[]);if(!mine.includes(id)){mine.push(id);lsSet("sin_mine",mine)}
+    const wasEdit=view.name==="edit";draft=null;toast(wasEdit?"Ndryshimet u ruajtën":"Seti u krijua");go("set",{id});
+  }catch(e){btn.disabled=false;btn.textContent=label;err.textContent=(e&&e.message)||"Ruajtja dështoi. Kontrolloni lidhjen dhe provoni përsëri."}
+}
+function upsert(arr,rec){const i=arr.findIndex(s=>s.id===rec.id);if(i>=0)arr[i]=rec;else arr.unshift(rec)}
+
+/* ---------- MATERIAL UPLOAD ---------- */
+let up=null;
+function renderUpload(){
+  if(!up)up={file:null,title:"",faculty:facultyFilter||lsGet("sin_fac",""),subject:"",uploader:lsGet("sin_name","")};
+  app.innerHTML=`${banner()}
+  <button class="back" id="back">${I.back} Kthehu</button>
+  <div class="page-head"><div><h1>Ngarko material</h1><p>PDF, Word, PowerPoint, Excel, foto, tekst ose arkiva ZIP – deri në ${MAX_MB} MB.</p></div></div>
+  <section class="panel"><h2>1. Zgjidhni skedarin</h2>
+    <div class="drop" id="mdrop" tabindex="0" role="button" aria-label="Zgjidh skedarin">${I.up}<strong>Prekni për të zgjedhur skedarin ose tërhiqeni këtu</strong><small>PDF · DOC/DOCX · PPT/PPTX · XLS/XLSX · TXT · JPG/PNG · ZIP</small></div>
+    <input type="file" id="mfile" hidden accept="${MAT_EXT.map(e=>"."+e).join(",")}">
+    <div class="file-list" id="mchosen"></div>
+  </section>
+  <section class="panel"><h2>2. Përshkruajeni</h2>
+    <div class="fields">
+      <label class="f full">Emri i skedarit<input class="t" id="m-title" maxlength="140" placeholder="p.sh. Skripta e Fiziologjisë – Kapitulli 3" value="${esc(up.title)}"></label>
+      <label class="f">Fakulteti<select class="t" id="m-faculty"><option value="">– Zgjidhni fakultetin –</option>${facultyOptions(up.faculty)}</select></label>
+      <label class="f">Lënda <span class="opt">(opsionale)</span><input class="t" id="m-subject" maxlength="60" placeholder="p.sh. Fiziologjia" value="${esc(up.subject)}"></label>
+      <label class="f full">Emri juaj <span class="opt">(opsional – nëse e lini bosh, shfaqet “Anonim”)</span><input class="t" id="m-uploader" maxlength="60" placeholder="p.sh. Arta Berisha" value="${esc(up.uploader)}"></label>
+    </div>
+  </section>
+  <div id="m-err" class="err" role="alert"></div>
+  <div class="bar" id="mbar" hidden><i></i></div>
+  <div class="save-bar"><button class="btn btn-ghost" id="m-cancel">Anulo</button><button class="btn btn-primary" id="m-save" style="min-width:170px">Ngarko</button></div>`;
+  const showChosen=()=>{$("#mchosen").innerHTML=up.file?`<div class="file-item">${typeBox(up.file.name)}<div class="file-meta"><b>${esc(up.file.name)}</b><small>${esc(fmtSize(up.file.size))}</small></div><button class="icon-btn del" id="m-rm" aria-label="Hiq skedarin">${I.trash}</button></div>`:"";
+    const rm=$("#m-rm");if(rm)rm.onclick=()=>{up.file=null;showChosen()}};
+  const pick=f=>{if(!f)return;const e=extOf(f.name);
+    if(!MAT_EXT.includes(e)){toast("Ky lloj skedari nuk lejohet. Përdorni PDF, Word, PowerPoint, Excel, foto, TXT ose ZIP.");return}
+    if(f.size>MAX_MB*1048576){toast(`Skedari është më i madh se ${MAX_MB} MB.`);return}
+    up.file=f;if(!up.title.trim()){up.title=f.name.replace(/\.[^.]+$/,"").replace(/[_]+/g," ");$("#m-title").value=up.title}showChosen()};
+  showChosen();
+  const drop=$("#mdrop"),fi=$("#mfile");
+  drop.onclick=()=>fi.click();drop.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();fi.click()}};
+  drop.ondragover=e=>{e.preventDefault();drop.classList.add("over")};drop.ondragleave=()=>drop.classList.remove("over");
+  drop.ondrop=e=>{e.preventDefault();drop.classList.remove("over");pick(e.dataTransfer.files[0])};
+  fi.onchange=()=>{pick(fi.files[0]);fi.value=""};
+  $("#m-title").oninput=e=>up.title=e.target.value;$("#m-subject").oninput=e=>up.subject=e.target.value;
+  $("#m-uploader").oninput=e=>up.uploader=e.target.value;$("#m-faculty").onchange=e=>up.faculty=e.target.value;
+  $("#back").onclick=$("#m-cancel").onclick=()=>{up=null;go("materials")};
+  $("#m-save").onclick=async()=>{
+    const err=$("#m-err");err.textContent="";
+    if(!up.file){err.textContent="Ju lutemi zgjidhni një skedar.";return}
+    if(!up.title.trim()){err.textContent="Ju lutemi shkruani emrin e skedarit.";$("#m-title").focus();return}
+    if(!up.faculty){err.textContent="Ju lutemi zgjidhni fakultetin.";$("#m-faculty").focus();return}
+    const btn=$("#m-save"),bar=$("#mbar");btn.disabled=true;bar.hidden=false;
+    try{
+      const r=await uploadFile(up.file,p=>{bar.firstElementChild.style.width=(p*100).toFixed(0)+"%";btn.textContent=`Duke ngarkuar ${Math.round(p*100)}%`});
+      btn.textContent="Duke ruajtur…";
+      const rec=await api("POST","/api/materials",{title:up.title.trim(),faculty:up.faculty,subject:up.subject.trim(),uploader:up.uploader.trim(),asset:r.id,fileName:up.file.name,size:up.file.size});
+      if(up.uploader.trim())lsSet("sin_name",up.uploader.trim());lsSet("sin_fac",up.faculty);
+      const mine=lsGet("sin_mine_mat",[]);mine.push(rec.id);lsSet("sin_mine_mat",mine);
+      upsert(materials,rec);up=null;toast("Materiali u ngarkua");go("material",{id:rec.id});
+    }catch(e){btn.disabled=false;btn.textContent="Ngarko";bar.hidden=true;err.textContent=e.message}
+  };
+}
+
+/* ---------- MATERIAL VIEW ---------- */
+const loaded={};
+function loadScript(src){return loaded[src]||(loaded[src]=new Promise((res,rej)=>{const s=document.createElement("script");s.src=src;s.onload=res;s.onerror=()=>{delete loaded[src];rej(new Error("load"))};document.head.appendChild(s)}))}
+function renderMaterial(){
+  const m=materials.find(x=>x.id===view.id);
+  if(!m){app.innerHTML=dbState==="loading"?emptyBox("Duke u ngarkuar…"):emptyBox("Ky material është fshirë ose nuk ekziston","",`<button class="btn btn-primary" data-go2="materials">Te materialet</button>`);bindCommon();return}
+  const [k]=kindOf(m.fileName),url=fileUrl(m),dl=dlUrl(m.asset,m.fileName);
+  const canOpenTab=["pdf","foto","tekst"].includes(k);
+  app.innerHTML=`
+  <button class="back" id="back">${I.back} Kthehu</button>
+  <div class="page-head" style="align-items:flex-start">
+    <div style="display:flex;gap:16px;min-width:0;flex:1">${typeBox(m.fileName,m.asset)}
+      <div style="min-width:0"><div class="meta-row" style="margin-bottom:8px"><span class="pill fac">${I.cap} ${esc(m.faculty)}</span>${m.subject?`<span class="pill">${esc(m.subject)}</span>`:""}</div>
+      <h1>${esc(m.title)}</h1>
+      <div class="set-meta"><div class="author" style="border:0;padding:0;margin:0">${avatar(m.uploader||"Anonim")}<div><div class="by">Ngarkuar nga</div><div class="nm">${esc(m.uploader||"Anonim")}</div></div></div><span class="meta-row">${esc(m.fileName)} · ${esc(fmtSize(m.size))} · ${esc(ago(m.createdAt))}</span></div></div>
+    </div>
+    <div class="detail-actions"><a class="btn btn-primary" href="${esc(dl)}" download="${esc(m.fileName)}">${I.down} Shkarko</a>${canOpenTab?`<a class="btn btn-ghost" href="${esc(url)}" target="_blank" rel="noopener">${I.ext} Hape në skedë të re</a>`:""}<button class="btn btn-danger" id="mdel">Fshi</button></div>
+  </div>
+  <div id="confirm-slot"></div>
+  <section class="viewer"><div class="viewer-head"><span>Parapamja</span><span class="meta-row" id="vhint"></span></div><div class="viewer-body" id="vbody"><div class="msg">Duke hapur skedarin…</div></div></section>`;
+  $("#back").onclick=()=>go("materials");
+  $("#mdel").onclick=()=>{
+    $("#confirm-slot").innerHTML=`<div class="confirm"><b>Ta fshini “${esc(m.title)}” për të gjithë?</b> Ky veprim nuk kthehet mbrapsht.<span style="flex:1"></span><button class="btn btn-ghost" id="no">Jo, mbaje</button><button class="btn btn-primary" style="background:var(--danger);color:#fff" id="yes">Po, fshije</button></div>`;
+    $("#no").onclick=()=>$("#confirm-slot").innerHTML="";
+    $("#yes").onclick=async()=>{try{await api("DELETE","/api/materials/"+encodeURIComponent(m.id));materials=materials.filter(x=>x.id!==m.id);toast("Materiali u fshi");go("materials")}catch(e){toast("Fshirja dështoi. Provoni përsëri.")}};
+  };
+  showPreview(m,k,url);
+}
+async function showPreview(m,k,url){
+  const box=$("#vbody"),hint=$("#vhint");const cant=(t)=>{box.innerHTML=`<div class="msg"><b>${t}</b>Shkarkojeni skedarin për ta hapur në kompjuter ose telefon.<br><br><a class="btn btn-primary" href="${esc(dlUrl(m.asset,m.fileName))}" download="${esc(m.fileName)}">${I.down} Shkarko</a></div>`};
+  const e=extOf(m.fileName);
+  try{
+    if(k==="pdf"){box.innerHTML=`<iframe src="${esc(url)}" title="${esc(m.title)}"></iframe>`;hint.textContent="Nëse nuk shfaqet në telefon, përdorni “Hape në skedë të re” ose “Shkarko”.";return}
+    if(k==="foto"){box.innerHTML=`<div class="img-wrap"><img src="${esc(url)}" alt="${esc(m.title)}"></div>`;return}
+    if(e==="txt"){const t=await (await fetch(url)).text();box.innerHTML=`<pre></pre>`;box.firstElementChild.textContent=t.slice(0,500000);return}
+    if(e==="docx"){
+      await loadScript("/vendor/jszip.min.js");await loadScript("/vendor/docx-preview.min.js");
+      const blob=await (await fetch(url)).blob();if(view.id!==m.id)return;
+      box.innerHTML=`<div class="docx-wrap"></div>`;await window.docx.renderAsync(blob,box.firstElementChild,null,{inWrapper:true,ignoreLastRenderedPageBreak:true});
+      hint.textContent="Paraqitja mund të ndryshojë pak nga origjinali.";return}
+    if(["xlsx","xls","ods","csv"].includes(e)){
+      await loadScript("/vendor/xlsx.full.min.js");
+      const buf=await (await fetch(url)).arrayBuffer();if(view.id!==m.id)return;
+      const wb=window.XLSX.read(buf,{type:"array"});
+      const show=name=>{box.querySelector(".sheet-wrap").innerHTML=window.XLSX.utils.sheet_to_html(wb.Sheets[name],{header:"",footer:""});box.querySelectorAll("[data-sheet]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.sheet===name)))};
+      box.innerHTML=`${wb.SheetNames.length>1?`<div class="sheet-tabs">${wb.SheetNames.map(n=>`<button class="btn btn-ghost" style="min-height:36px" data-sheet="${esc(n)}">${esc(n)}</button>`).join("")}</div>`:""}<div class="sheet-wrap"></div>`;
+      box.querySelectorAll("[data-sheet]").forEach(b=>b.onclick=()=>show(b.dataset.sheet));show(wb.SheetNames[0]);return}
+    if(e==="doc")return cant("Skedarët e vjetër Word (.doc) nuk mund të shfaqen këtu.");
+    if(k==="ppt")return cant("Prezantimet PowerPoint nuk mund të shfaqen këtu.");
+    if(k==="zip")return cant("Arkivat ZIP nuk mund të hapen këtu.");
+    return cant("Ky lloj skedari nuk mund të shfaqet këtu.");
+  }catch(err){cant("Parapamja nuk u hap.")}
+}
+
+/* ---------- SET VIEW / STUDY ---------- */
+let study=null;
+function startStudy(s,shuffle){
+  const order=s.cards.map((_,i)=>i);
+  if(shuffle)for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]]}
+  study={id:s.id,order,pos:0,flipped:false,know:0,learn:0,learnIdx:[],done:false};
+}
+function renderSet(){
+  const s=sets.find(x=>x.id===view.id);
+  if(!s){app.innerHTML=dbState==="loading"?emptyBox("Duke u ngarkuar…"):emptyBox("Ky set është fshirë ose nuk ekziston","",`<button class="btn btn-primary" data-go2="home">Te kreu</button>`);bindCommon();return}
+  const cards=s.cards||[],files=s.files||[];
+  if(!study||study.id!==s.id||study.order.some(i=>i>=cards.length))startStudy(s,false);
+  app.innerHTML=`
+  <button class="back" id="back">${I.back} Kthehu</button>
+  <div class="page-head" style="align-items:flex-start;margin-bottom:0">
+    <div style="min-width:0;flex:1">
+      <div class="meta-row" style="margin-bottom:10px"><span class="pill fac">${I.cap} ${esc(s.faculty||"Tjetër")}</span>${s.subject?`<span class="pill">${esc(s.subject)}</span>`:""}<span class="pill">${I.cards} ${plural(cards.length,"kartë","karta")}</span></div>
+      <h1 class="set-title">${esc(s.title)}</h1>
+      ${s.description?`<p class="set-desc">${esc(s.description)}</p>`:""}
+      <div class="set-meta"><div class="author" style="border:0;padding:0;margin:0">${avatar(s.author)}<div><div class="by">Krijuar nga</div><div class="nm">${esc(s.author)}</div></div></div><span class="meta-row">${esc(ago(s.createdAt))}${s.updatedAt?" · ndryshuar "+esc(ago(s.updatedAt)):""}</span></div>
+    </div>
+    <div class="detail-actions"><button class="btn btn-ghost" id="edit">Ndrysho</button><button class="btn btn-danger" id="del">Fshi</button></div>
+  </div>
+  <div id="confirm-slot"></div>
+  <section class="study" id="study" aria-label="Kartat mësimore"></section>
+  <div class="cols">
+    ${files.length?`<section><div class="section-head"><h2>Skedarë dhe foto</h2><span class="meta-row">Prekni për t'i hapur</span></div><div class="files-grid">${files.map(f=>{
+      const url=fileUrl(f),img=(f.type||"").startsWith("image/");
+      return img?`<button class="file-item" data-zoom="${esc(url)}">${typeBox(f.name,f.asset)}<div class="file-meta"><b>${esc(f.name)}</b><small>Foto · ${esc(fmtSize(f.size))}</small></div></button>`
+        :`<a class="file-item" href="${esc(url)}" target="_blank" rel="noopener">${typeBox(f.name)}<div class="file-meta"><b>${esc(f.name)}</b><small>PDF · ${esc(fmtSize(f.size))} · hapet në skedë të re</small></div></a>`}).join("")}</div></section>`:""}
+    <section><div class="section-head"><h2>Të gjitha kartat e këtij seti (${cards.length})</h2></div>
+      <div class="terms">${cards.map(c=>`<div class="term"><b>${esc(c.term)}</b><div><p>${esc(c.def)}</p>${c.img?`<img src="${esc(fileUrl(c.img))}" alt="" data-zoom="${esc(fileUrl(c.img))}" style="cursor:zoom-in">`:""}</div></div>`).join("")}</div></section>
+  </div>`;
+  $("#back").onclick=()=>go("sets");
+  $("#edit").onclick=()=>{draft=null;go("edit",{id:s.id})};
+  $("#del").onclick=()=>{
+    $("#confirm-slot").innerHTML=`<div class="confirm"><b>Ta fshini “${esc(s.title)}” për të gjithë?</b> Ky veprim nuk kthehet mbrapsht.<span style="flex:1"></span><button class="btn btn-ghost" id="no">Jo, mbaje</button><button class="btn btn-primary" style="background:var(--danger);color:#fff" id="yes">Po, fshije</button></div>`;
+    $("#no").onclick=()=>$("#confirm-slot").innerHTML="";
+    $("#yes").onclick=async()=>{try{await api("DELETE","/api/sets/"+encodeURIComponent(s.id));sets=sets.filter(x=>x.id!==s.id);toast("Seti u fshi");go("sets")}catch(e){toast("Fshirja dështoi. Provoni përsëri.")}};
+  };
+  app.querySelectorAll("[data-zoom]").forEach(el=>el.onclick=()=>{const src=el.dataset.zoom;if(!src)return;const lb=document.createElement("div");lb.className="lightbox";lb.innerHTML=`<img src="${esc(src)}" alt="">`;lb.onclick=()=>lb.remove();document.body.appendChild(lb)});
+  renderStudy(s);
+}
+function renderStudy(s){
+  const box=$("#study");if(!box)return;const cards=s.cards||[];
+  if(!cards.length){box.innerHTML=emptyBox("Ky set nuk ka ende karta");return}
+  const st=study;
+  if(st.done){
+    box.innerHTML=`<div class="done"><h2>Raundi përfundoi!</h2><p style="color:var(--muted);margin:0">Ja si shkuat.</p>
+      <div class="big"><div><b style="color:var(--good)">${st.know}</b>I di</div><div><b style="color:var(--warn)">${st.learn}</b>Po i mësoj ende</div></div>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">${st.learnIdx.length?`<button class="btn btn-primary" id="again-learn">Praktiko ${plural(st.learnIdx.length,"kartën","kartat")} që po mëson ende</button>`:""}<button class="btn btn-ghost" id="again">Fillo nga e para</button></div></div>`;
+    $("#again").onclick=()=>{startStudy(s,false);renderStudy(s)};
+    if($("#again-learn"))$("#again-learn").onclick=()=>{const idx=st.learnIdx.slice();study={id:s.id,order:idx,pos:0,flipped:false,know:0,learn:0,learnIdx:[],done:false};renderStudy(s)};
+    return;
+  }
+  const c=cards[st.order[st.pos]]||{};const imgSrc=c.img?fileUrl(c.img):"";
+  box.innerHTML=`
+    <div class="flip ${st.flipped?"flipped":""}" id="flip" role="button" tabindex="0" aria-label="Kartë mësimore. ${st.flipped?"Po shfaqet ana e prapme":"Po shfaqet ana e parme"}. Shtypni për ta kthyer.">
+      <div class="flip-in">
+        <div class="face"><span class="lbl">Para</span><div class="txt">${esc(c.term||"—")}</div><span class="tap">Prekni kartën për të parë përgjigjen</span></div>
+        <div class="face back-f"><span class="lbl">Prapa</span>${imgSrc?`<img src="${esc(imgSrc)}" alt="">`:""}<div class="txt">${esc(c.def||"—")}</div></div>
+      </div>
+    </div>
+    <div class="progress" aria-hidden="true"><i style="width:${(st.pos/st.order.length*100).toFixed(1)}%"></i></div>
+    <div class="controls">
+      <button class="btn btn-ghost" id="shuf">${I.shuffle} Përziej</button>
+      <div class="nav-arrows"><button class="round" id="prev" aria-label="Karta e mëparshme" ${st.pos===0?"disabled":""}>${I.prev}</button><span class="counter" aria-live="polite">${st.pos+1} / ${st.order.length}</span><button class="round" id="nxt" aria-label="Karta tjetër">${I.next}</button></div>
+      <span style="width:110px" aria-hidden="true"></span>
+    </div>
+    <div class="judge"><button class="btn btn-learn" id="learn">Po e mësoj ende</button><button class="btn btn-know" id="know">E di</button></div>
+    <div class="tally"><span>E di: <b>${st.know}</b></span><span>Po e mësoj ende: <b>${st.learn}</b></span></div>
+    <div class="kbd">Tastiera: Hapësira për ta kthyer · ← → për të lëvizur</div>`;
+  const flip=()=>{st.flipped=!st.flipped;$("#flip").classList.toggle("flipped",st.flipped)};
+  $("#flip").onclick=flip;$("#flip").onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();flip()}};
+  const advance=()=>{st.flipped=false;if(st.pos<st.order.length-1)st.pos++;else st.done=true;renderStudy(s)};
+  $("#nxt").onclick=advance;
+  $("#prev").onclick=()=>{if(st.pos>0){st.pos--;st.flipped=false;renderStudy(s)}};
+  $("#know").onclick=()=>{st.know++;advance()};
+  $("#learn").onclick=()=>{st.learn++;st.learnIdx.push(st.order[st.pos]);advance()};
+  $("#shuf").onclick=()=>{startStudy(s,true);renderStudy(s);toast("Kartat u përzien")};
+}
+document.addEventListener("keydown",e=>{
+  if(view.name!=="set"||!study||study.done)return;
+  if(/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName))return;
+  if(e.key===" "){e.preventDefault();const f=$("#flip");if(f)f.click()}
+  else if(e.key==="ArrowRight"){const b=$("#nxt");if(b)b.click()}
+  else if(e.key==="ArrowLeft"){const b=$("#prev");if(b&&!b.disabled)b.click()}
+});
+
+/* ---------- BOOT ---------- */
+let lastStamp="";
+async function refresh(){
+  try{
+    const r=await api("GET","/api/all");
+    const stamp=JSON.stringify([r.sets.map(s=>[s.id,s.updatedAt||s.createdAt]),r.materials.map(m=>m.id)]);
+    const wasReady=dbState==="ready";
+    sets=r.sets;materials=r.materials;dbState="ready";
+    const v=view.name;
+    if(["create","edit","upload"].includes(v)){/* never interrupt a form */}
+    else if(v==="set"||v==="material"){const gone=v==="set"?!sets.some(x=>x.id===view.id):!materials.some(x=>x.id===view.id);if(!wasReady||gone)render()}
+    else if(stamp!==lastStamp||!wasReady)render();
+    lastStamp=stamp;
+  }catch(e){if(dbState!=="ready"){dbState="offline";render()}}
+}
+render();refresh();
+setInterval(()=>{if(!document.hidden)refresh()},15000);
+})();
+</script>
+</body>
+</html>
