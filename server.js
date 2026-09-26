@@ -124,6 +124,22 @@ function readBody(req, limit) {
     req.on("error", reject);
   });
 }
+// Shkruan ngarkimin drejt e në disk (pa e mbajtur në memorie)
+function streamToFile(req, dest, limit) {
+  return new Promise((resolve, reject) => {
+    const tmp = dest + ".part"; const out = fs.createWriteStream(tmp); let size = 0, done = false;
+    const abort = err => { if (done) return; done = true; out.destroy(); fs.unlink(tmp, () => {}); reject(err); };
+    req.on("data", c => { size += c.length; if (size > limit) { abort(fail(413, "Skedari është shumë i madh. Kufiri është 50 MB.")); req.unpipe(out); req.resume(); } });
+    req.on("error", abort); req.on("aborted", () => abort(fail(400, "Ngarkimi u ndërpre. Provoni përsëri.")));
+    out.on("error", abort);
+    out.on("finish", () => {
+      if (done) return; done = true;
+      if (!size) { fs.unlink(tmp, () => {}); return reject(fail(400, "Skedari është bosh.")); }
+      fs.rename(tmp, dest, e => e ? reject(e) : resolve());
+    });
+    req.pipe(out);
+  });
+}
 async function readJson(req) {
   try { return JSON.parse((await readBody(req, MAX_JSON)).toString("utf8") || "{}"); }
   catch (e) { if (e.status) throw e; throw fail(400, "Kërkesë e pavlefshme."); }
@@ -230,10 +246,8 @@ const server = http.createServer(async (req, res) => {
       const name = str(url.searchParams.get("name"), 200);
       const ext = (name.toLowerCase().match(/\.([a-z0-9]+)$/) || [])[1];
       if (!ext || !TYPES[ext]) return send(res, 415, { error: "Ky lloj skedari nuk lejohet. Përdorni PDF, Word, PowerPoint, Excel, foto, TXT ose ZIP." });
-      const buf = await readBody(req, MAX_UPLOAD);
-      if (!buf.length) return send(res, 400, { error: "Skedari është bosh." });
       const id = newId() + "." + ext;
-      fs.writeFileSync(path.join(UPLOAD_DIR, id), buf);
+      await streamToFile(req, path.join(UPLOAD_DIR, id), MAX_UPLOAD);
       return send(res, 201, { id });
     }
     if (p.startsWith("/uploads/") && req.method === "GET") {
