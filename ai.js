@@ -97,55 +97,74 @@ const SCHEMA = {
 const upper = s => JSON.parse(JSON.stringify(s).replace(/"type":"(\w+)"/g, (_, t) => `"type":"${t.toUpperCase()}"`));
 
 // ---------- thirrjet te AI ----------
-let geminiModel = MODEL; // mund të ndryshojë vetë nëse modeli nuk është i disponueshëm për këtë çelës
+let geminiModel = MODEL; // ndryshon vetë nëse ky model nuk funksionon
 const JSON_SHAPE = `Return ONLY a JSON object, no other text, in exactly this shape:
 {"title":"...","description":"...","subject":"...","cards":[{"term":"...","def":"..."}],"quiz":[{"q":"...","options":["...","...","...","..."],"answer":0,"explanation":"..."}]}`;
-async function geminiRequest(parts, prompt, withSchema) {
+async function geminiRequest(model, parts, prompt, withSchema) {
   const body = {
     contents: [{ role: "user", parts: [
       ...parts.map(p => p.kind === "text" ? { text: p.text } : { inlineData: { mimeType: p.mime, data: p.data } }),
       { text: withSchema ? prompt : prompt + "\n\n" + JSON_SHAPE },
     ] }],
-    generationConfig: Object.assign({ responseMimeType: "application/json", temperature: 0.4 }, withSchema ? { responseSchema: upper(SCHEMA) } : {}),
+    generationConfig: Object.assign({ responseMimeType: "application/json", temperature: 0.4, maxOutputTokens: 32768 }, withSchema ? { responseSchema: upper(SCHEMA) } : {}),
   };
-  const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(geminiModel)}:generateContent`, {
-    method: "POST", headers: { "Content-Type": "application/json", "x-goog-api-key": GEMINI_KEY }, body: JSON.stringify(body),
-    signal: AbortSignal.timeout(170000),
-  });
-  const j = await r.json().catch(() => ({}));
-  return { ok: r.ok, status: r.status, j };
+  try {
+    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
+      method: "POST", headers: { "Content-Type": "application/json", "x-goog-api-key": GEMINI_KEY }, body: JSON.stringify(body),
+      signal: AbortSignal.timeout(150000),
+    });
+    const j = await r.json().catch(() => ({}));
+    return { ok: r.ok, status: r.status, j, msg: (j.error && j.error.message) || "" };
+  } catch (e) { return { ok: false, status: 504, j: {}, msg: e.name === "TimeoutError" ? "koha mbaroi" : e.message }; }
 }
-// Gjen vetë një model "flash" që funksionon me këtë çelës
-async function pickGeminiModel() {
-  const r = await fetch("https://generativelanguage.googleapis.com/v1beta/models?pageSize=200", { headers: { "x-goog-api-key": GEMINI_KEY }, signal: AbortSignal.timeout(20000) });
-  const j = await r.json().catch(() => ({}));
-  const names = (j.models || []).filter(m => (m.supportedGenerationMethods || []).includes("generateContent"))
-    .map(m => String(m.name || "").replace(/^models\//, ""))
-    .filter(n => /^gemini-[\d.]+-flash(-lite)?$/.test(n) || n === "gemini-flash-latest");
-  const ver = n => parseFloat((n.match(/gemini-([\d.]+)/) || [])[1] || "0");
-  names.sort((a, b) => (/-lite$/.test(a) - /-lite$/.test(b)) || ver(b) - ver(a));
-  console.log("AI: modelet e disponueshme:", names.join(", ") || "(asnjë)");
-  return names[0] || null;
+// Lista e modeleve "flash" që ka ky çelës (ruhet për 6 orë)
+let modelCache = null, modelCacheAt = 0;
+async function listGeminiModels() {
+  if (modelCache && Date.now() - modelCacheAt < 6 * 3600000) return modelCache;
+  try {
+    const r = await fetch("https://generativelanguage.googleapis.com/v1beta/models?pageSize=200", { headers: { "x-goog-api-key": GEMINI_KEY }, signal: AbortSignal.timeout(20000) });
+    const j = await r.json().catch(() => ({}));
+    const names = (j.models || []).filter(m => (m.supportedGenerationMethods || []).includes("generateContent"))
+      .map(m => String(m.name || "").replace(/^models\//, ""))
+      .filter(n => /^gemini-[\d.]+-flash(-lite)?$/.test(n) || n === "gemini-flash-latest" || n === "gemini-flash-lite-latest");
+    const ver = n => parseFloat((n.match(/gemini-([\d.]+)/) || [])[1] || "0");
+    names.sort((a, b) => (/lite/.test(a) - /lite/.test(b)) || ver(b) - ver(a));
+    console.log("AI: modelet e disponueshme:", names.join(", ") || "(asnjë)", r.ok ? "" : `(gabim ${r.status})`);
+    if (names.length) { modelCache = names; modelCacheAt = Date.now(); }
+    return names;
+  } catch (e) { console.error("AI: lista e modeleve dështoi:", e.message); return []; }
 }
+// Provon modelin kryesor; nëse Google ka probleme, provon format më të thjeshtë dhe pastaj modele të tjera
 async function callGemini(parts, prompt) {
-  let res = await geminiRequest(parts, prompt, true);
-  if (!res.ok && res.status === 404) { // modeli nuk u gjet: zgjidh një tjetër
-    const alt = await pickGeminiModel().catch(() => null);
-    if (alt && alt !== geminiModel) { console.log(`AI: modeli ${geminiModel} nuk u gjet, po përdor ${alt}`); geminiModel = alt; res = await geminiRequest(parts, prompt, true); }
+  const others = (await listGeminiModels()).filter(n => n !== geminiModel);
+  const models = [geminiModel, ...others].slice(0, 4);
+  let last = null;
+  for (const model of models) {
+    for (const withSchema of [true, false]) {
+      const res = await geminiRequest(model, parts, prompt, withSchema);
+      if (res.ok) {
+        const cand = (res.j.candidates || [])[0] || {};
+        const text = ((cand.content || {}).parts || []).filter(p => !p.thought).map(p => p.text || "").join("");
+        if (!text) {
+          const why = (res.j.promptFeedback && res.j.promptFeedback.blockReason) || cand.finishReason || "bosh";
+          console.error(`AI: ${model} ktheu përgjigje pa tekst:`, why);
+          last = { status: 422, msg: `përgjigje pa tekst (${why})` };
+          if (why === "SAFETY" || why === "PROHIBITED_CONTENT" || why === "OTHER") break;
+          continue;
+        }
+        try {
+          const out = parseJson(text);
+          if (model !== geminiModel) { console.log(`AI: po përdor ${model} në vend të ${geminiModel}`); geminiModel = model; }
+          return out;
+        } catch (e) { console.error(`AI: ${model} ktheu JSON të paplotë (finishReason=${cand.finishReason})`); last = { status: 502, msg: "përgjigje e paplotë" }; continue; }
+      }
+      console.error(`AI error ${res.status} (${model}${withSchema ? ", me skemë" : ", pa skemë"}):`, res.msg);
+      last = res;
+      if (res.status === 401 || res.status === 403 || res.status === 413) throw providerError(res.status, res.msg);
+      if (res.status === 404 || res.status === 429) break; // ky model nuk shërben: provo tjetrin
+    }
   }
-  if (!res.ok && res.status === 400) { // formati nuk u pranua: provo pa skemë
-    console.error("AI error 400 (me skemë):", res.j.error && res.j.error.message);
-    res = await geminiRequest(parts, prompt, false);
-  }
-  if (!res.ok) throw providerError(res.status, res.j.error && res.j.error.message);
-  const cand = (res.j.candidates || [])[0] || {};
-  const text = ((cand.content || {}).parts || []).map(p => p.text || "").join("");
-  if (!text) {
-    const why = (res.j.promptFeedback && res.j.promptFeedback.blockReason) || cand.finishReason || "bosh";
-    console.error("AI: përgjigje pa tekst:", why);
-    throw Object.assign(new Error(`AI nuk ktheu përmbajtje për këtë skedar (${why}).`), { status: 422 });
-  }
-  return parseJson(text);
+  throw providerError(last ? last.status : 502, last && last.msg);
 }
 async function callClaude(parts, prompt) {
   const content = parts.map(p => p.kind === "text" ? { type: "text", text: p.text }
@@ -170,14 +189,16 @@ async function callClaude(parts, prompt) {
 }
 function providerError(status, msg) {
   console.error("AI error", status, msg);
+  const d = msg ? ` [Google: ${String(msg).slice(0, 140)}]` : "";
   const e = (text, st, transient) => Object.assign(new Error(text), { status: st, transient: !!transient, code: status });
-  if (status === 429) return e("AI është e zënë për momentin (shumë kërkesa).", 429, true);
-  if (status === 401 || status === 403) return e("Çelësi i AI-së nuk është i vlefshëm ose nuk ka leje. Kontrolloni GEMINI_API_KEY / ANTHROPIC_API_KEY te Render.", 400);
-  if (status === 404) return e("Modeli i AI-së nuk u gjet për këtë çelës. Kontrolloni Logs te Render.", 400);
+  if (status === 429) return e("AI është e zënë për momentin (shumë kërkesa)." + d, 429, true);
+  if (status === 401 || status === 403) return e("Çelësi i AI-së nuk është i vlefshëm ose nuk ka leje. Kontrolloni GEMINI_API_KEY / ANTHROPIC_API_KEY te Render." + d, 400);
+  if (status === 404) return e("Modeli i AI-së nuk u gjet për këtë çelës." + d, 400);
   if (status === 413) return e("Skedari është shumë i madh për AI. Provoni një pjesë më të vogël.", 400);
-  if (status === 400) return e("AI nuk e pranoi këtë skedar" + (msg ? `: ${String(msg).slice(0, 160)}` : "."), 400);
-  if (status >= 500) return e("Shërbimi i AI-së ka probleme për momentin.", 502, true);
-  return e(`AI ktheu gabim (kodi ${status}).`, 502);
+  if (status === 400) return e("AI nuk e pranoi këtë skedar." + d, 400);
+  if (status === 422) return e("AI nuk ktheu përmbajtje për këtë skedar." + d, 422);
+  if (status >= 500) return e("Shërbimi i AI-së ka probleme për momentin." + d, 502, true);
+  return e(`AI ktheu gabim (kodi ${status}).` + d, 502);
 }
 function parseJson(text) {
   try { return JSON.parse(text); } catch {}
@@ -226,5 +247,7 @@ async function generate(files, { count = 15, language = "sq" } = {}) {
   const out = PROVIDER === "gemini" ? await callGemini(parts, prompt) : PROVIDER === "claude" ? await callClaude(parts, prompt) : await mock();
   return clean(out);
 }
+
+if (PROVIDER === "gemini") setTimeout(() => listGeminiModels(), 1500); // shfaq te Logs cilat modele janë të disponueshme
 
 module.exports = { generate, enabled: !!PROVIDER, provider: PROVIDER, get model() { return PROVIDER === "gemini" ? geminiModel : MODEL; }, AI_EXT };
