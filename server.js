@@ -9,6 +9,7 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
+const ai = require("./ai");
 
 const PORT = process.env.PORT || 3000;
 const ROOT = __dirname;
@@ -20,6 +21,7 @@ const MAX_UPLOAD = 50 * 1024 * 1024; // 50 MB për skedar
 const MAX_JSON = 2 * 1024 * 1024;
 const SESSION_DAYS = 30;
 const TZ = "Europe/Belgrade"; // e njëjta orë si Kosova dhe Shqipëria
+const AI_DAILY_LIMIT = +process.env.AI_DAILY_LIMIT || 100; // sa krijime me AI lejohen në ditë (për të kontrolluar kostot)
 const ADMIN_EMAILS = String(process.env.ADMIN_EMAILS || "").split(",").map(s => s.trim().toLowerCase()).filter(Boolean);
 
 const FACULTIES = [
@@ -243,7 +245,7 @@ function canManage(req, user, item) {
   return !!(key && item.ownerKeyHash && item.ownerKeyHash === sha(key));
 }
 function publicItem(item, user) {
-  const { ownerId, ownerKeyHash, ...rest } = item;
+  const { ownerId, ownerKeyHash, aiTries, ...rest } = item;
   rest.mine = !!(user && ownerId && ownerId === user.id);
   return rest;
 }
@@ -294,9 +296,12 @@ function adminOverview() {
     stats: {
       today: days[days.length - 1].visitors, viewsToday: days[days.length - 1].views,
       week: uniq(7), month: uniq(30), online: [...online.values()].filter(t => now - t < 5 * 60000).length,
-      users: db.users.length, sets: db.sets.length, materials: db.materials.length, bytes, files,
+      users: db.users.length, ai: (db.stats.ai || {})[dayKey()] || 0, aiLimit: AI_DAILY_LIMIT, aiEnabled: ai.enabled,
+      aiPending: db.materials.filter(x => x.aiStatus === "pending").length,
+      aiOld: db.materials.filter(x => !x.aiStatus && !aiEligible(x)).length, sets: db.sets.length, materials: db.materials.length, bytes, files,
     },
     days,
+    aiFailed: byNewest(db.materials.filter(x => x.aiStatus === "failed")).map(x => ({ id: x.id, title: x.title, error: x.aiError, createdAt: x.createdAt })),
     reports: byNewest(db.reports).map(r => {
       const item = r.type === "set" ? db.sets.find(s => s.id === r.itemId) : db.materials.find(m => m.id === r.itemId);
       return Object.assign({}, r, { itemTitle: item ? item.title : null });
@@ -306,6 +311,60 @@ function adminOverview() {
     adminEmailsSet: ADMIN_EMAILS.length > 0,
   };
 }
+
+// ---------- kartat dhe kuizi automatik nga materialet ----------
+// Kur ngarkohet një material, serveri krijon vetë një set me karta dhe kuiz (në prapavijë, një nga një).
+const AI_MAX_BYTES = 20 * 1024 * 1024;
+function aiEligible(mat) {
+  const ext = (ASSET_RE.exec(mat.asset) || [])[1];
+  if (!ext || !ai.AI_EXT.has(ext)) return "Ky lloj skedari nuk përdoret për karta automatike.";
+  if ((mat.size || 0) > AI_MAX_BYTES) return "Skedari është më i madh se 20 MB, prandaj kartat nuk u krijuan automatikisht.";
+  return null;
+}
+function markForAi(mat) {
+  if (!ai.enabled) return;
+  const why = aiEligible(mat);
+  if (why) { mat.aiStatus = "unsupported"; mat.aiError = why; return; }
+  mat.aiStatus = "pending"; delete mat.aiError; mat.aiTries = 0;
+  enqueueAi(mat.id);
+}
+const aiQueue = []; let aiWorking = false;
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+function enqueueAi(id) { if (!aiQueue.includes(id)) aiQueue.push(id); pumpAi(); }
+async function pumpAi() {
+  if (aiWorking || !ai.enabled) return; aiWorking = true;
+  try {
+    while (aiQueue.length) {
+      const id = aiQueue[0], mat = db.materials.find(x => x.id === id);
+      if (!mat || mat.aiStatus !== "pending") { aiQueue.shift(); continue; }
+      db.stats.ai = db.stats.ai || {}; const dk = dayKey();
+      if ((db.stats.ai[dk] || 0) >= AI_DAILY_LIMIT) break; // kufiri ditor: vazhdon më vonë
+      try {
+        const out = await ai.generate([{ file: path.join(UPLOAD_DIR, mat.asset), ext: ASSET_RE.exec(mat.asset)[1], name: mat.fileName }], { count: 15, language: "sq" });
+        db.stats.ai[dk] = (db.stats.ai[dk] || 0) + 1;
+        const still = db.materials.find(x => x.id === id);
+        if (still && still.aiStatus === "pending") {
+          const set = {
+            id: newId(), title: out.title || still.title, author: still.uploader || "Anonim", faculty: still.faculty,
+            subject: still.subject || out.subject, description: out.description, cards: out.cards, files: [], quiz: out.quiz,
+            ai: true, sourceMaterial: still.id, createdAt: Date.now(), ownerId: still.ownerId || null, ownerKeyHash: still.ownerKeyHash || null,
+          };
+          db.sets.push(set); still.aiStatus = "done"; still.setId = set.id; delete still.aiError;
+        }
+        aiQueue.shift();
+      } catch (e) {
+        const again = (e.status === 429 || e.status === 502 || e.name === "TimeoutError") && (mat.aiTries || 0) < 3;
+        if (again) { mat.aiTries = (mat.aiTries || 0) + 1; aiQueue.shift(); aiQueue.push(id); saveDb(); await sleep(60000); continue; }
+        mat.aiStatus = "failed"; mat.aiError = e.status && e.status < 500 ? e.message : "Kartat nuk u krijuan dot për këtë skedar.";
+        console.error("AI:", mat.fileName, e.message); aiQueue.shift();
+      }
+      saveDb();
+    }
+  } finally { aiWorking = false; }
+}
+function requeuePending() { for (const mt of db.materials) if (mt.aiStatus === "pending") enqueueAi(mt.id); }
+setTimeout(requeuePending, 3000); // pas rinisjes vazhdon me ato që kanë mbetur
+setInterval(requeuePending, 10 * 60000);
 
 // ---------- rrugët ----------
 const server = http.createServer(async (req, res) => {
@@ -319,7 +378,7 @@ const server = http.createServer(async (req, res) => {
       return send(res, 200, {
         sets: byNewest(db.sets).map(s => publicItem(s, user)),
         materials: byNewest(db.materials).map(m => publicItem(m, user)),
-        me: publicUser(user),
+        me: publicUser(user), ai: ai.enabled,
       });
     }
     if (p === "/api/visit" && req.method === "POST") {
@@ -376,12 +435,14 @@ const server = http.createServer(async (req, res) => {
         throw fail(403, "Vetëm krijuesi i këtij seti ose admini mund ta ndryshojë ose fshijë.");
       if (req.method === "PUT") {
         const set = Object.assign({ id: old.id }, cleanSet(await readJson(req)),
-          { createdAt: old.createdAt, updatedAt: Date.now(), ownerId: old.ownerId || null, ownerKeyHash: old.ownerKeyHash || null });
+          { createdAt: old.createdAt, updatedAt: Date.now(), ownerId: old.ownerId || null, ownerKeyHash: old.ownerKeyHash || null },
+          old.quiz ? { quiz: old.quiz } : {}, old.ai ? { ai: true } : {}, old.sourceMaterial ? { sourceMaterial: old.sourceMaterial } : {});
         db.sets[i] = set; saveDb(); removeUnusedAssets(assetsOf(old));
         return send(res, 200, publicItem(set, user));
       }
       if (req.method === "DELETE") {
         db.sets.splice(i, 1); db.reports = db.reports.filter(r => r.itemId !== old.id);
+        if (old.sourceMaterial) { const src = db.materials.find(x => x.id === old.sourceMaterial); if (src) { src.aiStatus = "removed"; delete src.setId; } }
         saveDb(); removeUnusedAssets(assetsOf(old));
         return send(res, 200, { ok: true });
       }
@@ -400,7 +461,7 @@ const server = http.createServer(async (req, res) => {
         id: newId(), title, faculty: fac, subject: str(b.subject, 60), uploader: str(b.uploader, 60),
         asset, fileName: str(b.fileName, 200) || asset, size: fs.statSync(path.join(UPLOAD_DIR, asset)).size, createdAt: Date.now(),
       }, own.fields);
-      db.materials.push(mat); saveDb();
+      db.materials.push(mat); markForAi(mat); saveDb();
       return send(res, 201, Object.assign(publicItem(mat, user), { ownerKey: own.key }));
     }
     m = p.match(/^\/api\/materials\/([A-Za-z0-9_-]+)$/);
@@ -410,6 +471,8 @@ const server = http.createServer(async (req, res) => {
       const old = db.materials[i];
       if (!canManage(req, user, old)) throw fail(403, "Vetëm ai që e ngarkoi këtë material ose admini mund ta fshijë.");
       db.materials.splice(i, 1); db.reports = db.reports.filter(r => r.itemId !== old.id);
+      const gen = db.sets.findIndex(x => x.sourceMaterial === old.id); // kartat e krijuara nga ky material fshihen bashkë me të
+      if (gen >= 0) { const gs = db.sets[gen]; db.sets.splice(gen, 1); db.reports = db.reports.filter(r => r.itemId !== gs.id); }
       saveDb(); removeUnusedAssets(assetsOf(old));
       return send(res, 200, { ok: true });
     }
@@ -429,6 +492,15 @@ const server = http.createServer(async (req, res) => {
     if (p.startsWith("/api/admin/")) {
       if (!isAdmin(user)) throw fail(403, "Kjo faqe është vetëm për adminët.");
       if (p === "/api/admin/overview" && req.method === "GET") return send(res, 200, adminOverview());
+      if (p === "/api/admin/ai" && req.method === "POST") {
+        if (!ai.enabled) throw fail(400, "AI nuk është aktivizuar. Shtoni GEMINI_API_KEY ose ANTHROPIC_API_KEY te Render.");
+        const b = await readJson(req); let n = 0;
+        for (const mt of db.materials) {
+          const want = b.id ? mt.id === b.id : b.all === "old" ? !mt.aiStatus : b.all === "failed" ? mt.aiStatus === "failed" : false;
+          if (want && mt.aiStatus !== "pending" && mt.aiStatus !== "done") { markForAi(mt); n++; }
+        }
+        saveDb(); return send(res, 200, { queued: n });
+      }
       m = p.match(/^\/api\/admin\/reports\/([A-Za-z0-9_-]+)$/);
       if (m && req.method === "DELETE") { db.reports = db.reports.filter(r => r.id !== m[1]); saveDb(); return send(res, 200, { ok: true }); }
       m = p.match(/^\/api\/admin\/users\/([A-Za-z0-9_-]+)$/);
@@ -487,5 +559,6 @@ const server = http.createServer(async (req, res) => {
 
 server.listen(PORT, () => {
   console.log(`\n  Sinapsa po punon!  Hapeni në shfletues:  http://localhost:${PORT}`);
+  console.log(ai.enabled ? `  AI: ${ai.provider} (${ai.model})` : "  AI: jo aktive (vendosni GEMINI_API_KEY ose ANTHROPIC_API_KEY)");
   console.log(ADMIN_EMAILS.length ? `  Adminët: ${ADMIN_EMAILS.join(", ")}\n` : `  Kujdes: ADMIN_EMAILS nuk është vendosur – askush nuk mund të hyjë te paneli i adminit.\n`);
 });
