@@ -10,30 +10,21 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap">
 <style>
 :root{
+  color-scheme:light;
   --brand:#1800AD; --brand-ink:#FFFFFF;
-  --bg:#F4F3FA; --surface:#FFFFFF; --surface-2:#F9F8FD; --ink:#16133D; --muted:#5D5A7E;
-  --line:#DDDAF0; --accent:#1800AD; --accent-hover:#12008A; --accent-ink:#FFFFFF; --accent-soft:#E7E4FB;
-  --good:#1D7F47; --good-soft:#DDF3E5; --warn:#B4441A; --warn-soft:#FBE7DD; --danger:#B42318;
-  --shadow:0 1px 2px rgba(22,19,61,.06),0 6px 20px rgba(22,19,61,.07);
+  --bg:#F7F6FF; --surface:#FFFFFF; --surface-2:#FAF9FF; --ink:#15123B; --muted:#5F5B85;
+  --line:#E5E2F7; --accent:#1800AD; --accent-hover:#12008A; --accent-ink:#FFFFFF; --accent-soft:#ECE9FF;
+  --good:#0B8763; --good-soft:#E1F7EF; --warn:#B4441A; --warn-soft:#FFEDE6; --danger:#D62B46;
+  /* ngjyrat e lojërave, rreth ngjyrës së logos */
+  --lilac:#7B4DFF; --lilac-ink:#5A2FE0; --lilac-soft:#F0EBFF;
+  --sky:#1C8CE3; --sky-ink:#1470BD; --sky-soft:#E3F2FE;
+  --mint:#12B886; --mint-ink:#0B8763; --mint-soft:#E1F7EF;
+  --sun:#FFB020; --sun-ink:#8A5300; --sun-soft:#FFF4D9;
+  --coral:#FF5A72; --coral-ink:#D62B46; --coral-soft:#FFEAEE;
+  --shadow:0 1px 2px rgba(24,0,173,.05),0 8px 24px rgba(24,0,173,.07);
   --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
   --body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --radius:14px;
-}
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    color-scheme:dark;
-    --bg:#0C0A22; --surface:#15123A; --surface-2:#1B1845; --ink:#ECEAFB; --muted:#A19DC8;
-    --line:#2B2760; --accent:#9C90FF; --accent-hover:#B3AAFF; --accent-ink:#0C0A22; --accent-soft:#251F66;
-    --good:#5BD08D; --good-soft:#173524; --warn:#F09067; --warn-soft:#3B2219; --danger:#F2867C;
-    --shadow:0 1px 2px rgba(0,0,0,.35),0 6px 20px rgba(0,0,0,.3);
-  }
-}
-:root[data-theme="dark"]{
-  color-scheme:dark;
-  --bg:#0C0A22; --surface:#15123A; --surface-2:#1B1845; --ink:#ECEAFB; --muted:#A19DC8;
-  --line:#2B2760; --accent:#9C90FF; --accent-hover:#B3AAFF; --accent-ink:#0C0A22; --accent-soft:#251F66;
-  --good:#5BD08D; --good-soft:#173524; --warn:#F09067; --warn-soft:#3B2219; --danger:#F2867C;
-  --shadow:0 1px 2px rgba(0,0,0,.35),0 6px 20px rgba(0,0,0,.3);
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -95,7 +86,7 @@ main{max-width:1180px;margin:0 auto;padding:28px 16px 64px}
 .hero{position:relative;overflow:hidden;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;padding:30px 28px;background:var(--brand);color:var(--brand-ink);border-radius:22px;margin-bottom:34px}
 .hero h1{font-size:clamp(28px,4.4vw,42px);font-weight:800;letter-spacing:-.02em;max-width:18ch}
 .hero p{margin:10px 0 0;opacity:.88;max-width:54ch}
-.hero-deco{position:absolute;right:-30px;top:-40px;width:260px;height:260px;opacity:.14;pointer-events:none}
+.hero-deco{position:absolute;right:-30px;top:-40px;width:260px;height:260px;opacity:.07;pointer-events:none}
 .hero2 .hero-deco{left:-50px;right:auto;top:auto;bottom:-70px}
 .hero-actions{display:flex;flex-direction:column;gap:10px;position:relative}
 .btn-white{background:#fff;color:var(--brand)}
@@ -258,99 +249,184 @@ a.file-item:hover,button.file-item:hover{border-color:var(--accent)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 
 /* HERO ME VIDEO */
-.hero2{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:32px;align-items:center;background:var(--brand);color:#fff;border-radius:24px;padding:38px 36px;margin-bottom:34px}
-.hero2 h1{font-size:clamp(34px,5vw,56px);font-weight:800;letter-spacing:-.03em;line-height:1.02}
-.hero2 p{margin:14px 0 0;opacity:.9;max-width:46ch;font-size:17px}
-.hero2 .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
-.hero2 .cta .btn{min-height:52px;padding:0 24px;font-size:17px}
-.hero2 .mini{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:18px;font-size:14px;opacity:.85;list-style:none;padding:0}
-.hero2 .mini li{display:flex;align-items:center;gap:6px}
-.demo{position:relative;border-radius:14px;overflow:hidden;box-shadow:0 24px 60px rgba(4,0,40,.45);background:#0C0A22;border:1px solid rgba(255,255,255,.18)}
-.demo .chrome{height:28px;background:#241F63;display:flex;gap:6px;align-items:center;padding:0 12px}
-.demo .chrome i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.35)}
-.demo .chrome span{margin-left:10px;font-size:11px;color:rgba(255,255,255,.7);background:rgba(255,255,255,.1);padding:2px 10px;border-radius:6px}
-.demo video{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;background:#0C0A22}
-.demo .vbtn{position:absolute;right:10px;bottom:10px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(12,10,34,.6);color:#fff;cursor:pointer;display:grid;place-items:center}
-@media (max-width:900px){.hero2{grid-template-columns:1fr;padding:28px 20px;gap:24px}}
+.hero2{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:32px;align-items:center;
+  background:radial-gradient(circle at 8% 110%,var(--sky-soft) 0 22%,transparent 23%),radial-gradient(circle at 96% -8%,var(--sun-soft) 0 16%,transparent 17%),linear-gradient(135deg,#EEEBFF 0%,#F8F6FF 55%,#EAF4FF 100%);
+  color:var(--ink);border:1px solid var(--line);border-radius:28px;padding:40px 38px;margin-bottom:34px}
+.hero2 h1{font-size:clamp(36px,5.2vw,60px);font-weight:800;letter-spacing:-.035em;line-height:1;color:var(--brand)}
+.hero2 h1 em{font-style:normal;background:linear-gradient(transparent 62%,var(--sun-soft) 62% 92%,transparent 92%)}
+.hero2 p{margin:16px 0 0;color:var(--muted);max-width:46ch;font-size:17px}
+.hero2 .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.hero2 .cta .btn{min-height:54px;padding:0 26px;font-size:17px}
+.hero2 .mini{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;font-size:14px;list-style:none;padding:0}
+.hero2 .mini li{display:flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-weight:700;color:var(--ink)}
+.hero2 .mini li i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.hero-deco{color:var(--brand)}
+.demo{position:relative;border-radius:16px;overflow:hidden;box-shadow:0 30px 60px rgba(24,0,173,.18);background:#fff;border:1px solid var(--line);transform:rotate(-1deg)}
+.demo .chrome{height:30px;background:#F1EFFD;display:flex;gap:6px;align-items:center;padding:0 12px;border-bottom:1px solid var(--line)}
+.demo .chrome i{width:10px;height:10px;border-radius:50%}
+.demo .chrome i:nth-child(1){background:var(--coral)}.demo .chrome i:nth-child(2){background:var(--sun)}.demo .chrome i:nth-child(3){background:var(--mint)}
+.demo .chrome span{margin-left:10px;font-size:11px;color:var(--muted);background:#fff;padding:2px 12px;border-radius:6px;border:1px solid var(--line)}
+.demo video{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;background:#fff}
+.demo .vbtn{position:absolute;right:10px;bottom:10px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(21,18,59,.65);color:#fff;cursor:pointer;display:grid;place-items:center}
+@media (max-width:900px){.hero2{grid-template-columns:1fr;padding:28px 20px;gap:26px}.demo{transform:none}}
+@media (prefers-reduced-motion:reduce){.demo{transform:none}}
 
-/* MËNYRAT E STUDIMIT */
-.modes{display:flex;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px;width:max-content;max-width:100%;margin:28px auto 0;overflow-x:auto}
-.modes button{border:0;background:none;padding:10px 18px;border-radius:999px;font-weight:700;cursor:pointer;color:var(--muted);display:inline-flex;gap:7px;align-items:center;white-space:nowrap}
-.modes button:hover{color:var(--ink)}
-.modes button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
-.ai-pill{background:linear-gradient(0deg,var(--accent-soft),var(--accent-soft));color:var(--accent);border-color:transparent}
-
-/* LOJA: KUIZ */
-.game{max-width:760px;margin:22px auto 0}
-.game-top{display:flex;align-items:center;gap:14px;margin-bottom:16px}
-.hearts{display:flex;gap:3px;flex-shrink:0}
-.hearts svg{display:block}
-.gbar{flex:1;height:14px;background:var(--line);border-radius:14px;overflow:hidden}
-.gbar i{display:block;height:100%;background:var(--good);border-radius:14px;transition:width .35s}
-.xp{font-family:var(--display);font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
-.streak{display:inline-flex;align-items:center;gap:3px;color:#E8590C;font-weight:800;font-variant-numeric:tabular-nums}
-.mute{background:none;border:0;cursor:pointer;color:var(--muted);width:36px;height:36px;display:grid;place-items:center;border-radius:8px;flex-shrink:0}
-.mute:hover{color:var(--ink)}
-.qcard{background:var(--surface);border:1.5px solid var(--line);border-radius:20px;padding:26px;box-shadow:var(--shadow)}
-.qhint{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+/* QENDRA E LOJËRAVE */
+.ai-pill{background:var(--accent-soft);color:var(--accent);border-color:transparent}
+.m-karta{--c:var(--brand);--ct:var(--brand);--cs:var(--accent-soft)}
+.m-kuiz{--c:var(--lilac);--ct:var(--lilac-ink);--cs:var(--lilac-soft)}
+.m-sprint{--c:var(--coral);--ct:var(--coral-ink);--cs:var(--coral-soft)}
+.m-vg{--c:var(--mint);--ct:var(--mint-ink);--cs:var(--mint-soft)}
+.m-perputh{--c:var(--sky);--ct:var(--sky-ink);--cs:var(--sky-soft)}
+.player{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:12px 14px;margin-top:28px}
+.lvl{width:50px;height:50px;border-radius:15px;background:var(--brand);color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:21px;flex-shrink:0;box-shadow:inset 0 -4px 0 rgba(0,0,0,.18)}
+.player .who{min-width:150px}
+.player .who b{display:block;font-family:var(--display);font-size:17px}
+.player .who small{color:var(--muted);font-weight:700;font-variant-numeric:tabular-nums}
+.lvl-bar{height:8px;background:var(--accent-soft);border-radius:8px;overflow:hidden;width:180px;max-width:100%;margin-top:6px}
+.lvl-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--lilac));border-radius:8px}
+.player .chips{display:flex;gap:8px;margin-left:auto;flex-wrap:wrap}
+.pchip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:8px 13px;font-weight:800;font-size:14px;border:0;cursor:pointer;font-variant-numeric:tabular-nums;text-decoration:none}
+.pchip.fire{background:var(--sun-soft);color:var(--sun-ink)}
+.pchip.xpc{background:var(--accent-soft);color:var(--brand)}
+.pchip.achc{background:var(--lilac-soft);color:var(--lilac-ink)}
+.pchip.achc:hover{box-shadow:0 0 0 2px var(--lilac)}
+.hub{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:12px}
+@media (max-width:980px){.hub{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 2px 8px}.hub .mode{flex:0 0 168px;scroll-snap-align:start}}
+.mode{position:relative;text-align:left;background:var(--surface);border:2px solid var(--line);border-radius:20px;padding:14px;cursor:pointer;display:flex;flex-direction:column;gap:6px;transition:transform .15s,border-color .15s,box-shadow .15s}
+.mode:hover{transform:translateY(-3px);border-color:var(--c)}
+.mode[aria-selected="true"]{border-color:var(--c);box-shadow:0 0 0 4px var(--cs);background:linear-gradient(180deg,var(--cs),var(--surface) 75%)}
+.mode .blob{width:46px;height:46px;border-radius:15px;background:var(--cs);color:var(--ct);display:grid;place-items:center;transition:background .15s}
+.mode[aria-selected="true"] .blob{background:var(--c);color:#fff}
+.mode b{font-family:var(--display);font-size:17px;line-height:1.15}
+.mode small{color:var(--muted);font-size:13px;line-height:1.35}
+.mode .best{font-size:12px;font-weight:800;color:var(--ct);margin-top:auto;padding-top:4px;font-variant-numeric:tabular-nums}
+.stage{max-width:800px;margin:20px auto 0}
+.gtop{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:10px 12px;margin-bottom:14px}
+.hearts{display:flex;gap:2px;flex-shrink:0}
+.hearts svg{display:block;width:22px;height:22px}
+.gbar{flex:1;height:12px;background:var(--cs);border-radius:12px;overflow:hidden}
+.gbar i{display:block;height:100%;background:var(--c);border-radius:12px;transition:width .35s}
+.xp{display:inline-flex;align-items:center;gap:4px;background:var(--sun-soft);color:var(--sun-ink);border-radius:999px;padding:5px 10px;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+.streak{display:inline-flex;align-items:center;gap:3px;background:var(--coral-soft);color:var(--coral-ink);border-radius:999px;padding:5px 10px;font-weight:800;font-variant-numeric:tabular-nums}
+.mute{background:none;border:0;cursor:pointer;color:var(--muted);width:36px;height:36px;display:grid;place-items:center;border-radius:10px;flex-shrink:0}
+.mute:hover{color:var(--ink);background:var(--bg)}
+.qcard{position:relative;overflow:hidden;background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:28px 26px 24px;box-shadow:0 12px 32px rgba(24,0,173,.08)}
+.qcard::before{content:"";position:absolute;left:0;right:0;top:0;height:6px;background:var(--c)}
+.qhint{display:inline-block;font-size:12px;font-weight:800;color:var(--ct);background:var(--cs);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;padding:5px 10px;border-radius:8px}
 .qtext{font-size:clamp(19px,2.8vw,25px);font-weight:700;line-height:1.3;overflow-wrap:anywhere}
-.opts{display:grid;gap:10px;margin-top:20px}
-.qopt{display:flex;gap:12px;align-items:center;text-align:left;padding:14px 16px;border:2px solid var(--line);border-bottom-width:4px;border-radius:14px;background:var(--surface);cursor:pointer;font-size:17px;line-height:1.35;transition:transform .08s}
-.qopt:hover:not([disabled]){border-color:var(--accent)}
-.qopt:active:not([disabled]){transform:translateY(2px);border-bottom-width:2px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+@media (max-width:640px){.opts{grid-template-columns:1fr}}
+.qopt{display:flex;gap:12px;align-items:center;text-align:left;padding:14px;min-height:68px;border:2px solid var(--line);border-bottom-width:5px;border-radius:16px;background:var(--surface);cursor:pointer;font-size:16px;line-height:1.35;transition:transform .08s,border-color .15s}
+.qopt:hover:not([disabled]){border-color:var(--c)}
+.qopt:active:not([disabled]){transform:translateY(3px);border-bottom-width:2px}
 .qopt[disabled]{cursor:default}
-.qopt .k{width:30px;height:30px;border-radius:8px;border:1.5px solid var(--line);display:grid;place-items:center;font-weight:800;font-size:14px;color:var(--muted);flex-shrink:0}
+.qopt .k{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-weight:800;font-size:15px;flex-shrink:0;font-family:var(--display)}
+.k0{background:var(--lilac-soft);color:var(--lilac-ink)}.k1{background:var(--sky-soft);color:var(--sky-ink)}.k2{background:var(--sun-soft);color:var(--sun-ink)}.k3{background:var(--coral-soft);color:var(--coral-ink)}
 .qopt span.t{overflow-wrap:anywhere}
-.qopt.right{border-color:var(--good);background:var(--good-soft)}
-.qopt.right .k{background:var(--good);border-color:var(--good);color:#fff}
-.qopt.wrong{border-color:var(--danger);background:var(--warn-soft)}
-.qopt.wrong .k{background:var(--danger);border-color:var(--danger);color:#fff}
-.qopt.dim{opacity:.55}
-.fbk{margin-top:14px;border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.fbk.ok{background:var(--good-soft)}.fbk.no{background:var(--warn-soft)}
+.qopt.right{border-color:var(--mint);background:var(--mint-soft)}
+.qopt.right .k{background:var(--mint);color:#fff}
+.qopt.wrong{border-color:var(--coral);background:var(--coral-soft)}
+.qopt.wrong .k{background:var(--coral);color:#fff}
+.qopt.dim{opacity:.5}
+.fbk{margin-top:16px;border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.fbk.ok{background:var(--mint-soft)}.fbk.no{background:var(--coral-soft)}
 .fbk .msg{flex:1;min-width:200px}
-.fbk .msg b{display:block;font-size:18px}
-.fbk.ok .msg b{color:var(--good)}.fbk.no .msg b{color:var(--danger)}
+.fbk .msg b{display:block;font-size:18px;font-family:var(--display)}
+.fbk.ok .msg b{color:var(--mint-ink)}.fbk.no .msg b{color:var(--coral-ink)}
 .fbk .msg span{font-size:15px}
-.pop{position:fixed;pointer-events:none;font-family:var(--display);font-weight:800;color:var(--good);font-size:22px;z-index:70;animation:pop .9s ease-out forwards}
+.btn-play{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--c);color:#fff;min-height:54px;padding:0 30px;font-size:18px;border-radius:999px;border:0;font-weight:800;cursor:pointer;box-shadow:inset 0 -4px 0 rgba(0,0,0,.16);font-family:var(--body)}
+.btn-play:hover{filter:brightness(1.05)}
+.btn-play:active{transform:translateY(2px);box-shadow:none}
+.btn-cont{background:var(--c);color:#fff}
+.setup{text-align:center;background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:30px 22px;box-shadow:0 12px 32px rgba(24,0,173,.06)}
+.setup .big-blob{width:72px;height:72px;border-radius:22px;background:var(--c);color:#fff;display:grid;place-items:center;margin:0 auto 12px;box-shadow:inset 0 -5px 0 rgba(0,0,0,.15)}
+.setup .big-blob svg{width:34px;height:34px}
+.setup h2{font-size:28px;font-weight:800}
+.setup p{color:var(--muted);margin:6px auto 0;max-width:46ch}
+.opt-rows{display:flex;flex-direction:column;gap:12px;align-items:center;margin:22px 0}
+.opt-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center}
+.opt-row>span{font-weight:800;min-width:90px;text-align:right}
+.seg{display:inline-flex;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:4px;gap:4px}
+.seg button{border:0;background:none;padding:9px 16px;border-radius:10px;font-weight:800;cursor:pointer;color:var(--muted);font-variant-numeric:tabular-nums}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ct);box-shadow:0 2px 6px rgba(24,0,173,.12)}
+.pb{margin-top:14px;font-size:14px;color:var(--muted);font-weight:700}
+.pop{position:fixed;pointer-events:none;font-family:var(--display);font-weight:800;color:var(--sun-ink);font-size:22px;z-index:70;animation:pop .9s ease-out forwards}
 @keyframes pop{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-50px)}}
 .shake{animation:shake .35s}
 @keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
-.result{text-align:center;padding:36px 20px;background:var(--surface);border:1.5px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}
-.result h2{font-size:30px;font-weight:800}
+.result{text-align:center;padding:34px 20px;background:linear-gradient(180deg,var(--cs),var(--surface) 55%);border:1px solid var(--line);border-radius:24px;box-shadow:0 12px 32px rgba(24,0,173,.08)}
+.result h2{font-size:32px;font-weight:800}
 .stars{display:flex;justify-content:center;gap:8px;margin:14px 0 6px}
-.stars svg{width:52px;height:52px}
-.rstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;max-width:520px;margin:18px auto}
-.rstats div{background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:12px}
-.rstats b{display:block;font-family:var(--display);font-size:28px;font-weight:800;font-variant-numeric:tabular-nums}
+.stars svg{width:54px;height:54px}
+.stars span:nth-child(2) svg{width:66px;height:66px;margin-top:-8px}
+.rstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;max-width:560px;margin:18px auto}
+.rstats div{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px}
+.rstats b{display:block;font-family:var(--display);font-size:28px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ct)}
 .rstats small{color:var(--muted);font-weight:700}
-.day-streak{display:inline-flex;align-items:center;gap:6px;background:#FFF1E6;color:#B4441A;border-radius:999px;padding:6px 14px;font-weight:800}
-:root[data-theme="dark"] .day-streak{background:#3B2219;color:#F09067}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .day-streak{background:#3B2219;color:#F09067}}
-
-/* LOJA: PËRPUTH */
+.new-ach{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:6px 0 16px}
+.new-ach span{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1.5px solid var(--sun);border-radius:999px;padding:6px 14px 6px 6px;font-weight:800}
+.day-streak{display:inline-flex;align-items:center;gap:6px;background:var(--sun-soft);color:var(--sun-ink);border-radius:999px;padding:6px 14px;font-weight:800}
+/* Sprint */
+.ring{--p:100;width:60px;height:60px;border-radius:50%;background:conic-gradient(var(--c) calc(var(--p)*1%),var(--cs) 0);display:grid;place-items:center;flex-shrink:0}
+.ring b{width:46px;height:46px;border-radius:50%;background:var(--surface);display:grid;place-items:center;font-family:var(--display);font-size:18px;font-variant-numeric:tabular-nums}
+.ring.low b{color:var(--coral-ink)}
+.score-big{font-family:var(--display);font-weight:800;font-size:26px;font-variant-numeric:tabular-nums;color:var(--ct)}
+/* E vërtetë apo e gabuar */
+.tf-card{text-align:center}
+.tf-card .term{font-family:var(--display);font-size:clamp(24px,3.6vw,34px);font-weight:800;color:var(--ct)}
+.tf-card .eq{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--cs);color:var(--ct);font-weight:800;margin:12px 0}
+.tf-card .def{font-size:clamp(17px,2.4vw,21px);max-width:52ch;margin:0 auto;overflow-wrap:anywhere}
+.tf-btns{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+.tf-btns button{min-height:84px;border-radius:18px;border:2px solid transparent;border-bottom-width:6px;font-size:19px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;font-family:var(--body)}
+.tf-yes{background:var(--mint-soft);color:var(--mint-ink);border-color:var(--mint)!important}
+.tf-no{background:var(--coral-soft);color:var(--coral-ink);border-color:var(--coral)!important}
+.tf-btns button:active{transform:translateY(3px);border-bottom-width:3px}
+.tf-btns button[disabled]{opacity:.55;cursor:default}
+.flash-ok{animation:fok .5s}.flash-no{animation:fno .5s}
+@keyframes fok{30%{box-shadow:0 0 0 6px var(--mint)}}
+@keyframes fno{30%{box-shadow:0 0 0 6px var(--coral)}}
+/* Përputh */
 .match-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
-.clock{font-family:var(--display);font-size:28px;font-weight:800;font-variant-numeric:tabular-nums}
+.clock{font-family:var(--display);font-size:28px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ct)}
 .match-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
 @media (max-width:700px){.match-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.mt{min-height:104px;border:2px solid var(--line);border-bottom-width:4px;border-radius:14px;background:var(--surface);padding:10px 12px;font-size:14px;line-height:1.35;cursor:pointer;display:flex;align-items:center;justify-content:center;text-align:center;overflow-wrap:anywhere;transition:opacity .3s,transform .3s}
-.mt.term{font-weight:700;font-size:15px}
-.mt:hover{border-color:var(--accent)}
-.mt.sel{border-color:var(--accent);background:var(--accent-soft)}
-.mt.bad{border-color:var(--danger);background:var(--warn-soft)}
-.mt.ok{border-color:var(--good);background:var(--good-soft)}
-.mt.gone{opacity:0;transform:scale(.9);pointer-events:none}
-@media (prefers-reduced-motion:reduce){.pop,.shake{animation:none}.mt,.gbar i,.opt{transition:none}}
+.mt{min-height:106px;border:2px solid var(--line);border-bottom-width:5px;border-radius:16px;background:var(--surface);padding:10px 12px;font-size:14px;line-height:1.35;cursor:pointer;display:flex;align-items:center;justify-content:center;text-align:center;overflow-wrap:anywhere;transition:opacity .3s,transform .3s,border-color .15s}
+.mt.term{font-weight:800;font-size:15px;background:var(--cs);color:var(--ct);border-color:transparent}
+.mt:hover{border-color:var(--c)}
+.mt.sel{border-color:var(--c);box-shadow:0 0 0 3px var(--cs);transform:translateY(-2px)}
+.mt.bad{border-color:var(--coral);background:var(--coral-soft);color:var(--coral-ink)}
+.mt.ok{border-color:var(--mint);background:var(--mint-soft);color:var(--mint-ink)}
+.mt.gone{opacity:0;transform:scale(.85);pointer-events:none}
+/* Arritjet */
+.ach-toast{position:fixed;left:50%;top:calc(80px + env(safe-area-inset-top,0px));transform:translateX(-50%);z-index:90;display:flex;align-items:center;gap:12px;background:var(--surface);border:2px solid var(--sun);border-radius:18px;padding:10px 16px 10px 10px;box-shadow:0 16px 40px rgba(24,0,173,.2);animation:achIn .5s cubic-bezier(.2,.9,.3,1.3);max-width:calc(100% - 32px)}
+.ach-toast small{display:block;color:var(--sun-ink);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:11px}
+.ach-toast b{font-family:var(--display);font-size:17px}
+@keyframes achIn{from{opacity:0;transform:translate(-50%,-20px) scale(.9)}}
+.medal{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;flex-shrink:0;color:#fff;box-shadow:inset 0 -4px 0 rgba(0,0,0,.15),0 0 0 4px var(--surface),0 0 0 6px currentColor}
+.medal svg{width:24px;height:24px;color:#fff}
+.medal.sm{width:32px;height:32px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.15)}
+.medal.sm svg{width:16px;height:16px}
+.ach-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.ach{display:flex;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px}
+.ach b{display:block;font-family:var(--display);font-size:16px}
+.ach small{color:var(--muted);font-size:13px;line-height:1.35;display:block}
+.ach.locked .medal{background:var(--line)!important;color:var(--muted)!important;box-shadow:none}
+.ach.locked b{color:var(--muted)}
+.ach .when{color:var(--mint-ink);font-weight:800;font-size:12px;margin-top:3px}
+.prof-head{display:flex;gap:18px;align-items:center;flex-wrap:wrap;background:linear-gradient(135deg,#EEEBFF,#F8F6FF 60%,#EAF4FF);border:1px solid var(--line);border-radius:24px;padding:24px;margin-bottom:22px}
+.prof-head .lvl{width:78px;height:78px;border-radius:24px;font-size:34px}
+.prof-head h1{font-size:clamp(26px,4vw,36px);font-weight:800;color:var(--brand)}
+.prof-head .lvl-bar{width:260px;height:10px}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:95}
+@media (prefers-reduced-motion:reduce){.pop,.shake,.ach-toast,.flash-ok,.flash-no{animation:none}.mt,.gbar i,.qopt,.mode{transition:none}}
 
 /* KARTAT AUTOMATIKE TE MATERIALI */
 .ai-box{display:flex;align-items:center;gap:16px;flex-wrap:wrap;background:var(--accent-soft);border:1.5px solid transparent;border-radius:18px;padding:16px 18px;margin-top:22px}
-.ai-box.ready{background:var(--brand);color:#fff}
-.ai-box.ready .body span{color:rgba(255,255,255,.85)}
-.ai-box.ready .btn-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
-.ai-box.ready .btn-primary{background:#fff;color:var(--brand)}
+.ai-box.ready{background:linear-gradient(135deg,#ECE9FF,#E6F3FF);border-color:#D9D4FB}
+.ai-box.ready .ai-ic{background:var(--brand);color:#fff}
 .ai-box.fail{background:var(--warn-soft)}
-.ai-box .ai-ic{width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,.18);display:grid;place-items:center;flex-shrink:0}
-.ai-box:not(.ready) .ai-ic{background:var(--surface)}
+.ai-box .ai-ic{width:46px;height:46px;border-radius:14px;background:var(--surface);display:grid;place-items:center;flex-shrink:0}
 .ai-box .body{flex:1;min-width:220px;display:flex;flex-direction:column;gap:2px}
 .ai-box .body b{font-size:17px}
 .ai-box .body span{font-size:14px;color:var(--muted)}
@@ -385,9 +461,9 @@ footer img{width:24px;height:24px;border-radius:6px}
 .soc.icon-only{width:44px;padding:0;justify-content:center}
 
 /* ABOUT */
-.about-hero{background:var(--brand);color:#fff;border-radius:22px;padding:34px 28px;position:relative;overflow:hidden;margin-bottom:26px}
-.about-hero h1{font-size:clamp(30px,5vw,46px);font-weight:800;letter-spacing:-.02em}
-.about-hero p{max-width:60ch;opacity:.9;margin:12px 0 0;font-size:17px}
+.about-hero{background:radial-gradient(circle at 100% 0,var(--sun-soft) 0 14%,transparent 15%),linear-gradient(135deg,#EEEBFF 0%,#F8F6FF 55%,#EAF4FF 100%);border:1px solid var(--line);color:var(--ink);border-radius:26px;padding:36px 30px;position:relative;overflow:hidden;margin-bottom:26px}
+.about-hero h1{font-size:clamp(30px,5vw,48px);font-weight:800;letter-spacing:-.03em;color:var(--brand)}
+.about-hero p{max-width:60ch;color:var(--muted);margin:12px 0 0;font-size:17px}
 .about-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:26px}
 .about-grid .panel{margin:0}
 .about-grid h3{font-size:18px;font-weight:600;margin-bottom:6px}
@@ -479,6 +555,7 @@ table.users td.num{font-variant-numeric:tabular-nums}
     <button class="menu-link" data-go="sets">Kartat</button>
     <button class="menu-link" data-go="materials">Materialet</button>
     <button class="menu-link" data-go="mine">Të miat</button>
+    <button class="menu-link" data-go="achievements">Arritjet e mia</button>
     <button class="menu-link" data-go="about">Rreth nesh</button>
     <div class="auth-slot-m" style="display:flex;flex-direction:column;gap:6px"></div>
     <button class="btn btn-primary" data-go="upload">Ngarko materiale</button>
@@ -589,12 +666,12 @@ const I={
   sound:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>',
   mute:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m22 9-6 6M16 9l6 6"/></svg>',
   cap:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></svg>',
-  syn:'<svg class="hero-deco" viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" aria-hidden="true"><path d="M30 22c-10 3-14 10-12 17 4 12 22 15 34 17 16 3 28 9 30 21 1 8-5 14-12 15"/><circle cx="37" cy="21" r="10" fill="#fff" stroke="none"/><circle cx="63" cy="92" r="10" fill="#fff" stroke="none"/></svg>'
+  syn:'<svg class="hero-deco" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" aria-hidden="true"><path d="M30 22c-10 3-14 10-12 17 4 12 22 15 34 17 16 3 28 9 30 21 1 8-5 14-12 15"/><circle cx="37" cy="21" r="10" fill="currentColor" stroke="none"/><circle cx="63" cy="92" r="10" fill="currentColor" stroke="none"/></svg>'
 };
 
 /* ---------- NAV ---------- */
 /* Çdo faqe ka adresën e vet (#/...), që rifreskimi dhe butoni "prapa" të funksionojnë */
-const SLUG={home:"",sets:"kartat",materials:"materialet",mine:"te-miat",about:"rreth-nesh",create:"krijo",upload:"ngarko",admin:"admin"};
+const SLUG={achievements:"arritjet",home:"",sets:"kartat",materials:"materialet",mine:"te-miat",about:"rreth-nesh",create:"krijo",upload:"ngarko",admin:"admin"};
 function hashFor(v){
   if(v.name==="set")return "#/set/"+encodeURIComponent(v.id)+(v.mode&&v.mode!=="karta"?"/"+v.mode:"");
   if(v.name==="material")return "#/material/"+encodeURIComponent(v.id);
@@ -605,7 +682,7 @@ function hashFor(v){
 function viewFromHash(){
   const parts=location.hash.replace(/^#\/?/,"").split("/").map(x=>{try{return decodeURIComponent(x)}catch(e){return x}});
   const [a,b,c]=parts;
-  if(a==="set"&&b)return{name:"set",id:b,mode:["kuiz","perputh"].includes(c)?c:"karta"};
+  if(a==="set"&&b)return{name:"set",id:b,mode:["kuiz","sprint","vg","perputh"].includes(c)?c:"karta"};
   if(a==="material"&&b)return{name:"material",id:b};
   if(a==="ndrysho"&&b)return{name:"edit",id:b};
   if(a==="hyr")return{name:"auth",tab:b==="regjistrohu"?"signup":"login"};
@@ -639,7 +716,7 @@ function renderAuthSlots(){
     m.innerHTML=`${me.isAdmin?`<button class="btn btn-ghost" data-go-a="admin">Paneli i adminit</button>`:""}<button class="btn btn-ghost" data-logout>Dil (${esc(me.name)})</button>`;
     $("#uchip").onclick=e=>{e.stopPropagation();if(document.querySelector(".dd-menu")){closeDd();return}
       const menu=document.createElement("div");menu.className="dd-menu";
-      menu.innerHTML=`<div class="who"><b style="color:var(--ink)">${esc(me.name)}</b><br>${esc(me.email)}</div>${me.isAdmin?`<button data-go-a="admin">Paneli i adminit</button>`:""}<button data-go-a="mine">Të miat</button><button data-logout>Dil</button>`;
+      menu.innerHTML=`<div class="who"><b style="color:var(--ink)">${esc(me.name)}</b><br>${esc(me.email)}</div>${me.isAdmin?`<button data-go-a="admin">Paneli i adminit</button>`:""}<button data-go-a="mine">Të miat</button><button data-go-a="achievements">Arritjet e mia</button><button data-logout>Dil</button>`;
       $("#uchip").parentNode.appendChild(menu);bindAuthButtons(menu)};
   }
   bindAuthButtons(d);bindAuthButtons(m);
@@ -665,6 +742,7 @@ function render(){
   if(view.name==="about")return renderAbout();
   if(view.name==="auth")return renderAuth();
   if(view.name==="admin")return renderAdmin();
+  if(view.name==="achievements")return renderAchievements();
   renderList();
 }
 function banner(){return dbState==="offline"?`<div class="notice">Nuk po lidhemi dot me serverin e Sinapsës. Kontrolloni internetin dhe rifreskoni faqen.</div>`:""}
@@ -726,10 +804,10 @@ function renderList(){
     const c={};for(const s of sets){c[s.faculty]=c[s.faculty]||[0,0];c[s.faculty][0]++}for(const m of materials){c[m.faculty]=c[m.faculty]||[0,0];c[m.faculty][1]++}
     const facs=FACULTIES.filter(f=>c[f]).sort((a,b)=>(c[b][0]+c[b][1])-(c[a][0]+c[a][1]));
     html+=`<section class="hero2">${I.syn}<div style="position:relative">
-      <h1>Mëso duke luajtur.</h1>
+      <h1>Mëso duke <em>luajtur.</em></h1>
       <p>Ngarko një PDF, ligjëratë ose foto të shënimeve – Sinapsa krijon automatikisht karta mësimore dhe kuize në formë loje. Falas, për studentët e çdo fakulteti.</p>
-      <div class="cta"><button class="btn btn-white" data-go2="upload">Ngarko materiale</button><button class="btn btn-outline-white" data-go2="sets">Shfleto kartat</button></div>
-      <ul class="mini"><li>✓ Pa regjistrim</li><li>✓ PDF, Word, PowerPoint, foto</li><li>✓ Kuize me pikë dhe jetë</li></ul></div>
+      <div class="cta"><button class="btn btn-primary" data-go2="upload">Ngarko materiale</button><button class="btn btn-ghost" data-go2="sets">Shfleto kartat</button></div>
+      <ul class="mini"><li><i style="background:var(--mint)"></i>Pa regjistrim</li><li><i style="background:var(--sky)"></i>PDF, Word, PowerPoint, foto</li><li><i style="background:var(--coral)"></i>5 lojëra dhe arritje</li></ul></div>
       <div class="demo" style="position:relative"><div class="chrome" aria-hidden="true"><i></i><i></i><i></i><span>sinapsa</span></div>
         <video id="demo-v" src="/demo.mp4" poster="/demo.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Video demonstruese: si krijohen kartat dhe kuizi nga një PDF në Sinapsa"></video>
         <button class="vbtn" id="demo-p" aria-label="Ndalo videon"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg></button></div>
@@ -1041,12 +1119,9 @@ function renderSet(){
     <div class="detail-actions">${canManage(s)?`<button class="btn btn-ghost" id="edit">Ndrysho</button><button class="btn btn-danger" id="del">Fshi</button>`:`<button class="btn btn-ghost" id="report">Raporto</button>`}</div>
   </div>
   <div id="confirm-slot"></div>
-  <div class="modes" role="tablist" aria-label="Mënyra e studimit">
-    <button role="tab" data-mode="karta" aria-selected="${mode==="karta"}">${I.cards.replace('width="14" height="14"','width="16" height="16"')} Karta</button>
-    <button role="tab" data-mode="kuiz" aria-selected="${mode==="kuiz"}">${I.game} Kuiz</button>
-    <button role="tab" data-mode="perputh" aria-selected="${mode==="perputh"}">${I.bolt} Përputh</button>
-  </div>
-  <section class="study" id="study" aria-live="polite"></section>
+  <div id="player">${playerStrip()}</div>
+  <div class="hub" role="tablist" aria-label="Zgjidhni lojën">${MODES.map(md=>`<button role="tab" class="mode m-${md.id}" data-mode="${md.id}" aria-selected="${mode===md.id}"><span class="blob">${md.icon}</span><b>${md.name}</b><small>${md.desc}</small><span class="best">${esc(bestLabel(md.id,s))}</span></button>`).join("")}</div>
+  <section class="study stage m-${mode}" id="study" aria-live="polite"></section>
   <div class="cols">
     ${files.length?`<section><div class="section-head"><h2>Skedarë dhe foto</h2><span class="meta-row">Prekni për t'i hapur</span></div><div class="files-grid">${files.map(f=>{
       const url=fileUrl(f),img=(f.type||"").startsWith("image/");
@@ -1061,16 +1136,21 @@ function renderSet(){
   if($("#del"))$("#del").onclick=()=>confirmDelete(s.title,async()=>{await api("DELETE","/api/sets/"+encodeURIComponent(s.id),null,ownerHeader(s.id));sets=sets.filter(x=>x.id!==s.id);toast("Seti u fshi");go("sets")});
   if($("#report"))$("#report").onclick=()=>reportBox("set",s.id);
   app.querySelectorAll("[data-zoom]").forEach(el=>el.onclick=()=>{const src=el.dataset.zoom;if(!src)return;const lb=document.createElement("div");lb.className="lightbox";lb.innerHTML=`<img src="${esc(src)}" alt="">`;lb.onclick=()=>lb.remove();document.body.appendChild(lb)});
-  app.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>{setMode(b.dataset.mode);app.querySelectorAll("[data-mode]").forEach(x=>x.setAttribute("aria-selected",String(x===b)));renderMode(s)});
+  app.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>switchMode(s,b.dataset.mode));
+  const pl=$("#player");if(pl)pl.onclick=e=>{if(e.target.closest("[data-ach]"))go("achievements")};
   renderMode(s);
 }
+function switchMode(s,m){setMode(m);app.querySelectorAll("[data-mode]").forEach(x=>x.setAttribute("aria-selected",String(x.dataset.mode===m)));renderMode(s)}
 function renderMode(s){
-  stopMatchTimer();
-  const m=view.mode||"karta";
+  stopTimers();
+  const m=view.mode||"karta",box=$("#study");if(box)box.className="study stage m-"+m;
   if(m==="kuiz")return renderQuiz(s,false);
+  if(m==="sprint")return renderSprint(s);
+  if(m==="vg")return renderTF(s);
   if(m==="perputh")return renderMatch(s,false);
   renderStudy(s);
 }
+function refreshHub(s){const pl=$("#player");if(pl)pl.innerHTML=playerStrip();app.querySelectorAll(".mode").forEach(b=>{const el=b.querySelector(".best");if(el)el.textContent=bestLabel(b.dataset.mode,s)})}
 function renderStudy(s){
   const box=$("#study");if(!box)return;const cards=s.cards||[];
   if(!cards.length){box.innerHTML=emptyBox("Ky set nuk ka ende karta");return}
@@ -1102,7 +1182,7 @@ function renderStudy(s){
     <div class="kbd">Tastiera: Hapësira për ta kthyer · ← → për të lëvizur</div>`;
   const flip=()=>{st.flipped=!st.flipped;$("#flip").classList.toggle("flipped",st.flipped)};
   $("#flip").onclick=flip;$("#flip").onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();flip()}};
-  const advance=()=>{st.flipped=false;if(st.pos<st.order.length-1)st.pos++;else st.done=true;renderStudy(s)};
+  const advance=()=>{st.flipped=false;if(st.pos<st.order.length-1)st.pos++;else{st.done=true;finishGame({mode:"karta",setId:s.id,xp:st.know*3+st.learn});refreshHub(s)}renderStudy(s)};
   $("#nxt").onclick=advance;
   $("#prev").onclick=()=>{if(st.pos>0){st.pos--;st.flipped=false;renderStudy(s)}};
   $("#know").onclick=()=>{st.know++;advance()};
@@ -1112,9 +1192,15 @@ function renderStudy(s){
 document.addEventListener("keydown",e=>{
   if(view.name!=="set")return;
   if(/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName))return;
-  if(view.mode==="kuiz"){
+  if(view.mode==="kuiz"||view.mode==="sprint"){
     if(/^[1-4]$/.test(e.key)){const b=document.querySelector(`[data-opt="${+e.key-1}"]`);if(b&&!b.disabled)b.click()}
-    else if(e.key==="Enter"){const b=$("#qnext");if(b){e.preventDefault();b.click()}}
+    else if(e.key==="Enter"){const b=$("#qnext")||$("#g-start");if(b){e.preventDefault();b.click()}}
+    return;
+  }
+  if(view.mode==="vg"){
+    if(e.key==="ArrowLeft"||e.key.toLowerCase()==="v"){const b=$("#tf-yes");if(b&&!b.disabled)b.click()}
+    else if(e.key==="ArrowRight"||e.key.toLowerCase()==="g"){const b=$("#tf-no");if(b&&!b.disabled)b.click()}
+    else if(e.key==="Enter"){const b=$("#g-start");if(b){e.preventDefault();b.click()}}
     return;
   }
   if(view.mode==="perputh"||!study||study.done)return;
@@ -1130,80 +1216,275 @@ function dayStreak(){const st=lsGet("sin_streak",{last:"",n:0});const y=new Date
   return st.last===todayKey()||st.last===yk?st.n:0}
 function markPlayed(){const st=lsGet("sin_streak",{last:"",n:0});if(st.last===todayKey())return st.n;
   const n=dayStreak()+1;lsSet("sin_streak",{last:todayKey(),n});return n}
-/* tinguj të vegjël për lojën (mund të fiken) */
 let actx=null;
-function beep(ok){if(lsGet("sin_mute",false))return;try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();
-  const notes=ok?[660,880]:[220,165];notes.forEach((f,i)=>{const o=actx.createOscillator(),g=actx.createGain();o.type=ok?"triangle":"sawtooth";o.frequency.value=f;
-    const t=actx.currentTime+i*.09;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(ok?.18:.08,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+.16);o.connect(g).connect(actx.destination);o.start(t);o.stop(t+.18)})}catch(e){}}
-function popXp(el,txt){try{const r=el.getBoundingClientRect();const p=document.createElement("div");p.className="pop";p.textContent=txt;p.style.left=(r.right-70)+"px";p.style.top=(r.top-10)+"px";document.body.appendChild(p);setTimeout(()=>p.remove(),950)}catch(e){}}
+function beep(ok,big){if(lsGet("sin_mute",false))return;try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();
+  const notes=big?[523,659,784,1047]:ok?[660,880]:[220,165];notes.forEach((f,i)=>{const o=actx.createOscillator(),g=actx.createGain();o.type=ok||big?"triangle":"sawtooth";o.frequency.value=f;
+    const t=actx.currentTime+i*(big?.11:.09);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(ok||big?.18:.07,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+.18);o.connect(g).connect(actx.destination);o.start(t);o.stop(t+.2)})}catch(e){}}
+function popXp(el,txt){try{const r=el.getBoundingClientRect();const p=document.createElement("div");p.className="pop";p.textContent=txt;p.style.left=(r.left)+"px";p.style.top=(r.top-6)+"px";document.body.appendChild(p);setTimeout(()=>p.remove(),950)}catch(e){}}
+const muteBtn=()=>`<button class="mute" id="mute" aria-label="${lsGet("sin_mute",false)?"Ndize zërin":"Fike zërin"}">${lsGet("sin_mute",false)?I.mute:I.sound}</button>`;
+function bindMute(rerender){const b=$("#mute");if(b)b.onclick=()=>{lsSet("sin_mute",!lsGet("sin_mute",false));rerender()}}
+
+const SV=(d,extra)=>`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+const IC={
+  cards:SV('<rect x="3" y="6" width="14" height="14" rx="2.5"/><path d="M7 3h11a3 3 0 0 1 3 3v11"/>'),
+  quiz:SV('<rect x="2" y="7" width="20" height="11" rx="5"/><path d="M7 11v3M5.5 12.5h3"/><circle cx="16" cy="11.5" r="1" fill="currentColor"/><circle cx="18" cy="14" r="1" fill="currentColor"/>'),
+  timer:SV('<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/>'),
+  tf:SV('<path d="m5 12 4 4 10-10"/>'),
+  match:SV('<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>'),
+  x:SV('<path d="M6 6l12 12M18 6 6 18"/>'),
+  trophy:SV('<path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 21h8M9 17h6"/>'),
+  star:'<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2.8 2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg>',
+  flame:'<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2c1 3.5 5 6 5 11a5 5 0 0 1-10 0c0-2.2 1-3.8 2.3-5 .2 1.6 1 2.7 2.2 3.2C11 8.6 11.3 5 12 2z"/></svg>',
+  compass:SV('<circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/>'),
+  moon:SV('<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>'),
+  lock:SV('<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'),
+};
+const MODES=[
+  {id:"karta",name:"Karta",desc:"Kthe kartat dhe mëso me ritmin tënd",icon:IC.cards},
+  {id:"kuiz",name:"Kuiz",desc:"4 përgjigje, jetë, pikë dhe seri",icon:IC.quiz},
+  {id:"sprint",name:"Sprint 60s",desc:"Sa më shumë të sakta në një minutë",icon:IC.timer},
+  {id:"vg",name:"E vërtetë apo e gabuar",desc:"Vendos shpejt: a përputhen?",icon:IC.tf},
+  {id:"perputh",name:"Përputh",desc:"Bashko çiftet kundër kohës",icon:IC.match},
+];
+/* Profili i lojtarit (ruhet në këtë pajisje) */
+function prof(){return Object.assign({xp:0,games:0,sets:{},modes:{},bestCombo:0,perfect:0,sprintBest:0,tfBest:0,matchBest:null,night:0,unlocked:{}},lsGet("sin_prof",{}))}
+function saveProf(p){lsSet("sin_prof",p)}
+const need=n=>50*n*(n-1); // XP e nevojshme për nivelin n
+function levelInfo(xp){let n=1;while(xp>=need(n+1))n++;const a=need(n),b=need(n+1);
+  const title=n>=12?"Mjeshtër":n>=8?"Ekspert":n>=5?"Njohës":n>=3?"Studiues":"Fillestar";return{n,title,pct:Math.round((xp-a)/(b-a)*100),toNext:b-xp}}
+const ACH=[
+  {id:"first",name:"Hapi i parë",desc:"Përfundo lojën e parë",color:"var(--sun)",icon:IC.star,ok:p=>p.games>=1},
+  {id:"perfect",name:"Pa asnjë gabim",desc:"100% në një Kuiz",color:"var(--mint)",icon:IC.tf,ok:p=>p.perfect>=1},
+  {id:"combo5",name:"Në zjarr",desc:"5 përgjigje të sakta rresht",color:"var(--coral)",icon:IC.flame,ok:p=>p.bestCombo>=5},
+  {id:"combo10",name:"E pandalshme",desc:"10 përgjigje të sakta rresht",color:"var(--coral)",icon:IC.flame,ok:p=>p.bestCombo>=10},
+  {id:"sprint15",name:"Sprinter",desc:"15 të sakta në Sprint 60s",color:"var(--lilac)",icon:IC.timer,ok:p=>p.sprintBest>=15},
+  {id:"tf12",name:"Detektiv",desc:"12 të sakta te E vërtetë apo e gabuar",color:"var(--mint)",icon:IC.compass,ok:p=>p.tfBest>=12},
+  {id:"match20",name:"Rrufe",desc:"Përputh nën 20 sekonda",color:"var(--sky)",icon:IC.match,ok:p=>p.matchBest!=null&&p.matchBest<20000},
+  {id:"days3",name:"Këmbëngulës",desc:"Mëso 3 ditë rresht",color:"var(--sun)",icon:IC.flame,ok:()=>dayStreak()>=3},
+  {id:"days7",name:"Javë e artë",desc:"Mëso 7 ditë rresht",color:"var(--sun)",icon:IC.trophy,ok:()=>dayStreak()>=7},
+  {id:"sets5",name:"Eksplorues",desc:"Luaj me 5 sete të ndryshme",color:"var(--lilac)",icon:IC.cards,ok:p=>Object.keys(p.sets).length>=5},
+  {id:"allmodes",name:"I gjithanshëm",desc:"Provo të 5 lojërat",color:"var(--sky)",icon:IC.quiz,ok:p=>MODES.every(m=>p.modes[m.id])},
+  {id:"xp1000",name:"1000 XP",desc:"Mblidh 1000 pikë gjithsej",color:"var(--brand)",icon:IC.trophy,ok:p=>p.xp>=1000},
+  {id:"night",name:"Bufi i natës",desc:"Mëso pas orës 22:00",color:"var(--lilac)",icon:IC.moon,ok:p=>p.night>=1},
+];
+const medal=(a,sm)=>`<span class="medal${sm?" sm":""}" style="background:${a.color};color:${a.color}">${a.icon}</span>`;
+/* Thirret kur mbaron çdo lojë: shton XP, ruan rekordet, hap arritjet */
+function finishGame(r){
+  const p=prof(),beforeLvl=levelInfo(p.xp).n;
+  p.xp+=Math.max(0,r.xp||0);p.games++;p.sets[r.setId]=1;p.modes[r.mode]=1;
+  if(r.combo)p.bestCombo=Math.max(p.bestCombo,r.combo);
+  if(r.perfect)p.perfect++;
+  if(r.sprint!=null)p.sprintBest=Math.max(p.sprintBest,r.sprint);
+  if(r.tf!=null)p.tfBest=Math.max(p.tfBest,r.tf);
+  if(r.matchMs!=null)p.matchBest=p.matchBest==null?r.matchMs:Math.min(p.matchBest,r.matchMs);
+  if(new Date().getHours()>=22)p.night++;
+  markPlayed();
+  const fresh=ACH.filter(a=>!p.unlocked[a.id]&&a.ok(p));fresh.forEach(a=>p.unlocked[a.id]=Date.now());
+  saveProf(p);
+  const lvl=levelInfo(p.xp);
+  if(fresh.length||lvl.n>beforeLvl){confetti();beep(true,true)}
+  fresh.forEach((a,i)=>setTimeout(()=>achToast(a),600+i*2600));
+  if(lvl.n>beforeLvl)setTimeout(()=>toast(`Niveli ${lvl.n}! Tani je ${lvl.title}`),300);
+  return{fresh,lvl};
+}
+function achToast(a){const t=document.createElement("div");t.className="ach-toast";t.setAttribute("role","status");
+  t.innerHTML=`${medal(a)}<div><small>Arritje e re</small><b>${esc(a.name)}</b></div>`;document.body.appendChild(t);setTimeout(()=>t.remove(),2400)}
+function confetti(){
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  const c=document.createElement("canvas");c.id="confetti";c.width=innerWidth;c.height=innerHeight;document.body.appendChild(c);
+  const ctx=c.getContext("2d"),cols=["#1800AD","#7B4DFF","#1C8CE3","#12B886","#FFB020","#FF5A72"];
+  const ps=Array.from({length:140},()=>({x:innerWidth/2+(Math.random()-.5)*200,y:innerHeight*.35,vx:(Math.random()-.5)*14,vy:-Math.random()*13-4,r:Math.random()*6+4,c:cols[Math.floor(Math.random()*cols.length)],a:Math.random()*6,s:Math.random()*.3-.15}));
+  let t=0;(function f(){t++;ctx.clearRect(0,0,c.width,c.height);ps.forEach(q=>{q.vy+=.35;q.x+=q.vx;q.y+=q.vy;q.vx*=.99;q.a+=q.s;ctx.save();ctx.translate(q.x,q.y);ctx.rotate(q.a);ctx.fillStyle=q.c;ctx.fillRect(-q.r/2,-q.r/4,q.r,q.r/2);ctx.restore()});
+    if(t<110)requestAnimationFrame(f);else c.remove()})();
+}
+function playerStrip(){
+  const p=prof(),L=levelInfo(p.xp),ds=dayStreak(),got=Object.keys(p.unlocked).length;
+  return `<div class="player"><span class="lvl" title="Niveli">${L.n}</span><div class="who"><b>${L.title}</b><small>${p.xp} XP · edhe ${L.toNext} XP për nivelin ${L.n+1}</small><div class="lvl-bar"><i style="width:${L.pct}%"></i></div></div>
+    <div class="chips"><span class="pchip fire" title="Ditë rresht duke mësuar">${I.flame} ${plural(ds,"ditë","ditë")}</span><button class="pchip achc" data-ach>${IC.trophy.replace('width="22" height="22"','width="16" height="16"')} ${got}/${ACH.length} arritje</button></div></div>`;
+}
+function bestLabel(m,s){
+  if(m==="karta")return plural((s.cards||[]).length,"kartë","karta");
+  if(m==="kuiz"){const b=lsGet("sin_best",{})[s.id];return b?`Rekordi: ${b} XP`:"Pa rekord ende"}
+  if(m==="sprint"){const b=lsGet("sin_sprint",{})[s.id];return b?`Rekordi: ${b} të sakta`:"Pa rekord ende"}
+  if(m==="vg"){const b=lsGet("sin_tf",{})[s.id];return b?`Rekordi: ${b} të sakta`:"Pa rekord ende"}
+  if(m==="perputh"){const b=lsGet("sin_match",{})[s.id];return b?`Rekordi: ${fmtTime(b)}`:"Pa rekord ende"}
+  return "";
+}
+function setupScreen(md,title,desc,opts,extra){
+  return `<div class="setup"><div class="big-blob">${md.icon}</div><h2>${title}</h2><p>${desc}</p>${opts?`<div class="opt-rows">${opts}</div>`:"<div style='height:18px'></div>"}
+    <button class="btn-play" id="g-start">${IC.quiz.replace('width="22" height="22"','width="20" height="20"')} Fillo lojën</button>${extra||""}</div>`;
+}
+const seg=(name,vals,cur)=>`<div class="seg" role="group">${vals.map(([v,l])=>`<button type="button" data-${name}="${v}" aria-pressed="${String(cur)===String(v)}">${l}</button>`).join("")}</div>`;
+let T1=null;
+function stopTimers(){if(T1){clearInterval(T1);T1=null}stopMatchTimer()}
 
 /* Pyetjet: nga AI, ose të krijuara nga kartat (duhen të paktën 4 karta) */
 function buildQuestions(s){
   if(s.quiz&&s.quiz.length)return shuffle(s.quiz).map(q=>{const order=shuffle([0,1,2,3]);return{q:q.q,hint:"Zgjidhni përgjigjen e saktë",options:order.map(i=>q.options[i]),answer:order.indexOf(q.answer),explanation:q.explanation||""}});
   const c=(s.cards||[]).filter(x=>x.term&&x.def);if(c.length<4)return[];
-  return shuffle(c).slice(0,20).map(card=>{const others=shuffle(c.filter(x=>x.term!==card.term)).slice(0,3).map(x=>x.term);if(others.length<3)return null;
-    const options=shuffle([card.term,...others]);return{q:card.def,hint:"Cili term përputhet me këtë përshkrim?",options,answer:options.indexOf(card.term),explanation:`${card.term}: ${card.def}`}}).filter(Boolean);
+  return shuffle(c).map(card=>{const others=shuffle(c.filter(x=>x.term!==card.term)).slice(0,3).map(x=>x.term);if(others.length<3)return null;
+    const options=shuffle([card.term,...others]);return{q:card.def,hint:"Cili term përputhet?",options,answer:options.indexOf(card.term),explanation:`${card.term}: ${card.def}`}}).filter(Boolean);
 }
+const LET=["A","B","C","D"];
+const PRAISE=["Saktë!","Shkëlqyeshëm!","Bravo!","Ashtu është!","Super!"];
+function pickPraise(){return PRAISE[Math.floor(Math.random()*PRAISE.length)]}
+
+/* ===== KUIZ ===== */
 let G=null;
+function quizOpts(){return Object.assign({count:10,lives:3},lsGet("sin_qopt",{}))}
 function newGame(s,onlyWrong){
-  let qs=buildQuestions(s);
-  if(onlyWrong&&G&&G.id===s.id&&G.missed.length){const miss=new Set(G.missed);qs=qs.filter(q=>miss.has(q.q));}
-  G={id:s.id,qs,queue:qs.map((_,i)=>i),pos:0,hearts:3,xp:0,streak:0,best:0,firstRight:0,cleared:0,requeued:new Set(),missed:[],picked:null,state:"ask"};
+  const o=quizOpts();let qs=buildQuestions(s);
+  if(onlyWrong&&G&&G.id===s.id&&G.missed&&G.missed.length){const miss=new Set(G.missed);qs=qs.filter(q=>miss.has(q.q))}
+  else if(o.count)qs=qs.slice(0,o.count);
+  G={id:s.id,qs,queue:qs.map((_,i)=>i),pos:0,lives:o.lives,hearts:o.lives||Infinity,xp:0,streak:0,best:0,firstRight:0,cleared:0,requeued:new Set(),missed:[],picked:null,state:"ask",finished:false};
 }
 function renderQuiz(s,restart){
-  const box=$("#study");if(!box)return;
-  if(restart||!G||G.id!==s.id)newGame(s);
-  if(!G.qs.length){box.innerHTML=`<div class="game">${emptyBox("Ky set ka shumë pak karta për kuiz","Kuizi krijohet kur seti ka të paktën 4 karta.")}</div>`;return}
+  const box=$("#study");if(!box)return;const md=MODES[1];
+  if(restart)newGame(s);
+  if(!G||G.id!==s.id)G={id:s.id,state:"setup"};
+  const total0=buildQuestions(s).length;
+  if(!total0){box.innerHTML=emptyBox("Ky set ka shumë pak karta për kuiz","Kuizi krijohet kur seti ka të paktën 4 karta.");return}
+  if(G.state==="setup"){const o=quizOpts();
+    box.innerHTML=setupScreen(md,"Kuiz","Zgjidhni përgjigjen e saktë. Pyetjet e gabuara kthehen më vonë në raund.",
+      `<div class="opt-row"><span>Pyetje</span>${seg("qc",[[10,"10"],[20,"20"],[0,`Të gjitha (${total0})`]],o.count)}</div>
+       <div class="opt-row"><span>Jetë</span>${seg("ql",[[3,"3"],[5,"5"],[0,"Pa kufi"]],o.lives)}</div>`,
+      lsGet("sin_best",{})[s.id]?`<div class="pb">Rekordi juaj: ${lsGet("sin_best",{})[s.id]} XP</div>`:"");
+    box.querySelectorAll("[data-qc]").forEach(b=>b.onclick=()=>{lsSet("sin_qopt",Object.assign(quizOpts(),{count:+b.dataset.qc}));renderQuiz(s)});
+    box.querySelectorAll("[data-ql]").forEach(b=>b.onclick=()=>{lsSet("sin_qopt",Object.assign(quizOpts(),{lives:+b.dataset.ql}));renderQuiz(s)});
+    $("#g-start").onclick=()=>{newGame(s);renderQuiz(s)};return}
   if(G.state==="over"||G.state==="done")return quizResult(s);
   const q=G.qs[G.queue[G.pos]],total=G.qs.length,answered=G.state!=="ask";
-  const hearts=[0,1,2].map(i=>`<span style="color:${i<G.hearts?"#E5484D":"var(--line)"};fill:currentColor">${I.heart}</span>`).join("");
-  box.innerHTML=`<div class="game">
-    <div class="game-top"><div class="hearts" aria-label="${G.hearts} jetë">${hearts}</div>
+  const hearts=G.lives?Array.from({length:G.lives},(_,i)=>`<span style="color:${i<G.hearts?"var(--coral)":"var(--line)"};fill:currentColor">${I.heart}</span>`).join(""):`<span class="streak" style="background:var(--mint-soft);color:var(--mint-ink)">∞</span>`;
+  box.innerHTML=`<div class="gtop"><div class="hearts" aria-label="${G.lives?G.hearts+" jetë":"Jetë pa kufi"}">${hearts}</div>
       <div class="gbar" role="progressbar" aria-valuemin="0" aria-valuemax="${total}" aria-valuenow="${G.cleared}" aria-label="Përparimi"><i style="width:${(G.cleared/total*100).toFixed(1)}%"></i></div>
-      ${G.streak>1?`<span class="streak" title="Përgjigje të sakta rresht">${I.flame}${G.streak}</span>`:""}<span class="xp" id="xp">${G.xp} XP</span>
-      <button class="mute" id="mute" aria-label="${lsGet("sin_mute",false)?"Ndize zërin":"Fike zërin"}">${lsGet("sin_mute",false)?I.mute:I.sound}</button></div>
-    <div class="qcard" id="qcard"><div class="qhint">${esc(q.hint)}</div><div class="qtext">${esc(q.q)}</div>
+      ${G.streak>1?`<span class="streak" title="Seri">${I.flame}${G.streak}</span>`:""}<span class="xp" id="xp">${IC.star.replace('width="22" height="22"','width="15" height="15"')} ${G.xp}</span>${muteBtn()}</div>
+    <div class="qcard" id="qcard"><span class="qhint">Pyetja ${Math.min(G.cleared+1,total)} nga ${total}</span><div class="qtext">${esc(q.q)}</div>
       <div class="opts">${q.options.map((o,i)=>{let cls="";if(answered){if(i===q.answer)cls="right";else if(i===G.picked)cls="wrong";else cls="dim"}
-        return `<button class="qopt ${cls}" data-opt="${i}" ${answered?"disabled":""}><span class="k">${i+1}</span><span class="t">${esc(o)}</span></button>`}).join("")}</div>
+        return `<button class="qopt ${cls}" data-opt="${i}" ${answered?"disabled":""}><span class="k k${i}">${LET[i]}</span><span class="t">${esc(o)}</span></button>`}).join("")}</div>
       ${answered?`<div class="fbk ${G.state==="right"?"ok":"no"}"><div class="msg"><b>${G.state==="right"?pickPraise():"Jo tamam."}</b><span>${esc(G.state==="right"?(q.explanation||""):("Përgjigjja e saktë: "+q.options[q.answer]+(q.explanation?" – "+q.explanation:"")))}</span></div>
-        <button class="btn btn-primary" id="qnext">${G.hearts===0?"Shiko rezultatin":"Vazhdo"}</button></div>`:""}
+        <button class="btn btn-cont" id="qnext">${G.hearts<=0?"Shiko rezultatin":"Vazhdo"}</button></div>`:""}
     </div>
-    <div class="kbd">Tastiera: 1–4 për të zgjedhur · Enter për të vazhduar</div></div>`;
-  $("#mute").onclick=()=>{lsSet("sin_mute",!lsGet("sin_mute",false));renderQuiz(s)};
+    <div class="kbd">Tastiera: 1–4 për të zgjedhur · Enter për të vazhduar</div>`;
+  bindMute(()=>renderQuiz(s));
   box.querySelectorAll("[data-opt]").forEach(b=>b.onclick=()=>{
     if(G.state!=="ask")return;G.picked=+b.dataset.opt;const idx=G.queue[G.pos];
     if(G.picked===q.answer){G.state="right";G.streak++;G.best=Math.max(G.best,G.streak);const gain=10+Math.min(G.streak-1,5)*2;G.xp+=gain;G.cleared++;
       if(!G.requeued.has(idx))G.firstRight++;beep(true);renderQuiz(s);popXp($("#xp"),"+"+gain)}
-    else{G.state="wrong";G.streak=0;G.hearts--;if(!G.missed.includes(q.q))G.missed.push(q.q);
-      if(!G.requeued.has(idx)&&G.hearts>0){G.requeued.add(idx);G.queue.push(idx)}else if(G.requeued.has(idx)){}
-      beep(false);renderQuiz(s);const c=$("#qcard");if(c){c.classList.add("shake");}}
+    else{G.state="wrong";G.streak=0;if(G.lives)G.hearts--;if(!G.missed.includes(q.q))G.missed.push(q.q);
+      if(!G.requeued.has(idx)&&G.hearts>0){G.requeued.add(idx);G.queue.push(idx)}
+      beep(false);renderQuiz(s);const c=$("#qcard");if(c)c.classList.add("shake")}
   });
-  const nx=$("#qnext");if(nx){nx.focus({preventScroll:true});const fb=$(".fbk");if(fb)fb.scrollIntoView({block:"nearest",behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});nx.onclick=()=>{
-    if(G.hearts<=0){G.state="over";markPlayed();return renderQuiz(s)}
-    G.pos++;G.picked=null;
-    if(G.pos>=G.queue.length){G.state="done";markPlayed();return renderQuiz(s)}
-    G.state="ask";renderQuiz(s)}}
+  const nx=$("#qnext");if(nx){nx.focus({preventScroll:true});const fb=$(".fbk");if(fb)fb.scrollIntoView({block:"nearest",behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
+    nx.onclick=()=>{
+      if(G.hearts<=0){G.state="over";return renderQuiz(s)}
+      G.pos++;G.picked=null;
+      if(G.pos>=G.queue.length){G.state="done";return renderQuiz(s)}
+      G.state="ask";renderQuiz(s)}}
 }
-const PRAISE=["Saktë!","Shkëlqyeshëm!","Bravo!","Ashtu është!","Super!"];
-function pickPraise(){return PRAISE[Math.floor(Math.random()*PRAISE.length)]}
 function quizResult(s){
   const box=$("#study"),total=G.qs.length,acc=Math.round(G.firstRight/total*100),won=G.state==="done";
   const stars=won?(acc>=90?3:acc>=70?2:1):0;
-  const bests=lsGet("sin_best",{}),prev=bests[s.id]||0,rec=G.xp>prev;if(rec){bests[s.id]=G.xp;lsSet("sin_best",bests)}
+  let res={fresh:[]};
+  if(!G.finished){G.finished=true;const bests=lsGet("sin_best",{});G.record=G.xp>(bests[s.id]||0);if(G.record){bests[s.id]=G.xp;lsSet("sin_best",bests)}
+    res=finishGame({mode:"kuiz",setId:s.id,xp:G.xp,combo:G.best,perfect:won&&acc===100});G.fresh=res.fresh;refreshHub(s)}
   const ds=dayStreak();
-  box.innerHTML=`<div class="game"><div class="result">
+  box.innerHTML=`<div class="result">
     <h2>${won?(stars===3?"E përsosur!":"Raundi përfundoi!"):"Mbaruan jetët!"}</h2>
     <p style="color:var(--muted);margin:6px 0 0">${won?"I kaluat të gjitha pyetjet.":"Mos u dorëzo – provo sërish, pyetjet e gabuara kthehen."}</p>
-    <div class="stars" aria-label="${stars} yje nga 3">${[0,1,2].map(i=>`<span style="fill:${i<stars?"#F5B301":"var(--line)"}">${I.star}</span>`).join("")}</div>
-    ${ds?`<span class="day-streak">${I.flame} ${plural(ds,"ditë","ditë")} rresht duke mësuar</span>`:""}
-    <div class="rstats"><div><b>${G.xp}</b><small>XP${rec&&G.xp?" · rekord i ri!":""}</small></div><div><b>${acc}%</b><small>saktë herën e parë</small></div><div><b>${G.best}</b><small>seria më e gjatë</small></div></div>
-    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">${G.missed.length?`<button class="btn btn-primary" id="q-miss">Praktiko ${plural(G.missed.length,"gabimin","gabimet")}</button>`:""}<button class="btn ${G.missed.length?"btn-ghost":"btn-primary"}" id="q-again">Luaj sërish</button><button class="btn btn-ghost" id="q-match">${I.bolt} Provo Përputh</button></div>
-  </div></div>`;
+    <div class="stars" aria-label="${stars} yje nga 3">${[0,1,2].map(i=>`<span style="fill:${i<stars?"var(--sun)":"var(--line)"}">${I.star}</span>`).join("")}</div>
+    ${(G.fresh||[]).length?`<div class="new-ach">${G.fresh.map(a=>`<span>${medal(a,true)} ${esc(a.name)}</span>`).join("")}</div>`:""}
+    ${ds?`<span class="day-streak">${I.flame} ${plural(ds,"ditë","ditë")} rresht</span>`:""}
+    <div class="rstats"><div><b>${G.xp}</b><small>XP${G.record&&G.xp?" · rekord!":""}</small></div><div><b>${acc}%</b><small>saktë herën e parë</small></div><div><b>${G.best}</b><small>seria më e gjatë</small></div></div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">${G.missed.length?`<button class="btn-play" id="q-miss">Praktiko ${plural(G.missed.length,"gabimin","gabimet")}</button>`:""}<button class="${G.missed.length?"btn btn-ghost":"btn-play"}" id="q-again">Luaj sërish</button><button class="btn btn-ghost" id="q-set">Cilësimet</button><button class="btn btn-ghost" id="q-next">${IC.timer.replace('width="22" height="22"','width="18" height="18"')} Provo Sprint</button></div>
+  </div>`;
   $("#q-again").onclick=()=>renderQuiz(s,true);
+  $("#q-set").onclick=()=>{G.state="setup";renderQuiz(s)};
   if($("#q-miss"))$("#q-miss").onclick=()=>{newGame(s,true);renderQuiz(s)};
-  $("#q-match").onclick=()=>{setMode("perputh");app.querySelectorAll("[data-mode]").forEach(x=>x.setAttribute("aria-selected",String(x.dataset.mode==="perputh")));renderMatch(s,true)};
+  $("#q-next").onclick=()=>switchMode(s,"sprint");
 }
 
+/* ===== SPRINT 60 SEKONDA ===== */
+let SP=null;const SPRINT_MS=60000;
+function renderSprint(s){
+  const box=$("#study");if(!box)return;const md=MODES[2];
+  if(!buildQuestions(s).length){box.innerHTML=emptyBox("Ky set ka shumë pak karta për Sprint","Duhen të paktën 4 karta.");return}
+  if(!SP||SP.id!==s.id)SP={id:s.id,state:"setup"};
+  if(SP.state==="setup"){const b=lsGet("sin_sprint",{})[s.id];
+    box.innerHTML=setupScreen(md,"Sprint 60 sekonda","Përgjigjuni sa më shumë pyetjeve në një minutë. Çdo gabim ju merr 3 sekonda. Seritë japin pikë shtesë.","",b?`<div class="pb">Rekordi juaj: ${b} të sakta</div>`:"");
+    $("#g-start").onclick=()=>{SP={id:s.id,state:"play",qs:buildQuestions(s),i:0,score:0,wrong:0,combo:0,best:0,xp:0,end:Date.now()+SPRINT_MS,lock:false};renderSprint(s)};return}
+  if(SP.state==="done")return sprintResult(s);
+  if(SP.i>=SP.qs.length){SP.qs=buildQuestions(s);SP.i=0}
+  const q=SP.qs[SP.i];
+  box.innerHTML=`<div class="gtop"><div class="ring" id="ring"><b id="secs">60</b></div><div style="flex:1"><div class="score-big" id="sc">${SP.score}</div><small style="color:var(--muted);font-weight:700">të sakta</small></div>
+      ${SP.combo>1?`<span class="streak">${I.flame}${SP.combo}</span>`:""}<span class="xp" id="xp">${IC.star.replace('width="22" height="22"','width="15" height="15"')} ${SP.xp}</span>${muteBtn()}</div>
+    <div class="qcard" id="qcard"><span class="qhint">Shpejt!</span><div class="qtext">${esc(q.q)}</div>
+      <div class="opts">${q.options.map((o,i)=>`<button class="qopt" data-opt="${i}"><span class="k k${i}">${LET[i]}</span><span class="t">${esc(o)}</span></button>`).join("")}</div></div>
+    <div class="kbd">Tastiera: 1–4</div>`;
+  bindMute(()=>renderSprint(s));
+  const tick=()=>{const left=Math.max(0,SP.end-Date.now());const r=$("#ring"),sec=$("#secs");if(r){r.style.setProperty("--p",(left/SPRINT_MS*100).toFixed(1));r.classList.toggle("low",left<10000)}if(sec)sec.textContent=Math.ceil(left/1000);
+    if(left<=0){stopTimers();SP.state="done";renderSprint(s)}};
+  stopTimers();tick();T1=setInterval(()=>{if(view.name!=="set"||view.mode!=="sprint"){stopTimers();return}tick()},100);
+  box.querySelectorAll("[data-opt]").forEach(b=>b.onclick=()=>{
+    if(SP.lock||SP.state!=="play")return;SP.lock=true;const pick=+b.dataset.opt,ok=pick===q.answer;
+    box.querySelectorAll("[data-opt]").forEach(x=>{const i=+x.dataset.opt;x.disabled=true;if(i===q.answer)x.classList.add("right");else if(i===pick)x.classList.add("wrong");else x.classList.add("dim")});
+    if(ok){SP.score++;SP.combo++;SP.best=Math.max(SP.best,SP.combo);const g=8+Math.min(SP.combo-1,6)*2;SP.xp+=g;beep(true);popXp($("#xp"),"+"+g)}
+    else{SP.combo=0;SP.wrong++;SP.end-=3000;beep(false);const c=$("#qcard");if(c)c.classList.add("shake")}
+    setTimeout(()=>{if(SP.state!=="play")return;SP.i++;SP.lock=false;renderSprint(s)},ok?380:900);
+  });
+}
+function sprintResult(s){
+  const box=$("#study");
+  if(!SP.finished){SP.finished=true;const b=lsGet("sin_sprint",{});SP.record=SP.score>(b[s.id]||0);if(SP.record){b[s.id]=SP.score;lsSet("sin_sprint",b)}
+    SP.fresh=finishGame({mode:"sprint",setId:s.id,xp:SP.xp,combo:SP.best,sprint:SP.score}).fresh;refreshHub(s)}
+  box.innerHTML=`<div class="result"><h2>${SP.record&&SP.score?"Rekord i ri!":"Koha mbaroi!"}</h2><p style="color:var(--muted);margin:6px 0 0">Ja sa arritët në 60 sekonda.</p>
+    ${(SP.fresh||[]).length?`<div class="new-ach" style="margin-top:14px">${SP.fresh.map(a=>`<span>${medal(a,true)} ${esc(a.name)}</span>`).join("")}</div>`:""}
+    <div class="rstats"><div><b>${SP.score}</b><small>të sakta</small></div><div><b>${SP.wrong}</b><small>gabime</small></div><div><b>${SP.best}</b><small>seria më e gjatë</small></div><div><b>${SP.xp}</b><small>XP</small></div></div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><button class="btn-play" id="sp-again">Luaj sërish</button><button class="btn btn-ghost" id="sp-next">${IC.tf.replace('width="22" height="22"','width="18" height="18"')} Provo E vërtetë apo e gabuar</button></div></div>`;
+  $("#sp-again").onclick=()=>{SP={id:s.id,state:"setup"};renderSprint(s);$("#g-start").click()};
+  $("#sp-next").onclick=()=>switchMode(s,"vg");
+}
+
+/* ===== E VËRTETË APO E GABUAR ===== */
+let TF=null;
+function buildTF(s){const c=(s.cards||[]).filter(x=>x.term&&x.def);if(c.length<3)return[];
+  return shuffle(c).concat(shuffle(c)).slice(0,15).map(card=>{const truth=Math.random()<.5;if(truth)return{term:card.term,def:card.def,truth,real:card.def};
+    const other=shuffle(c.filter(x=>x.term!==card.term&&x.def!==card.def))[0];return other?{term:card.term,def:other.def,truth:false,real:card.def}:{term:card.term,def:card.def,truth:true,real:card.def}})}
+function renderTF(s){
+  const box=$("#study");if(!box)return;const md=MODES[3];
+  if(!buildTF(s).length){box.innerHTML=emptyBox("Ky set ka shumë pak karta për këtë lojë","Duhen të paktën 3 karta.");return}
+  if(!TF||TF.id!==s.id)TF={id:s.id,state:"setup"};
+  if(TF.state==="setup"){const b=lsGet("sin_tf",{})[s.id];
+    box.innerHTML=setupScreen(md,"E vërtetë apo e gabuar","A i përket ky përkufizim këtij termi? Vendosni shpejt. Keni 3 jetë dhe 15 pohime.","",b?`<div class="pb">Rekordi juaj: ${b} të sakta</div>`:"");
+    $("#g-start").onclick=()=>{TF={id:s.id,state:"play",items:buildTF(s),i:0,score:0,hearts:3,combo:0,best:0,xp:0,lock:false,last:null};renderTF(s)};return}
+  if(TF.state==="done")return tfResult(s);
+  const it=TF.items[TF.i];
+  box.innerHTML=`<div class="gtop"><div class="hearts">${[0,1,2].map(i=>`<span style="color:${i<TF.hearts?"var(--coral)":"var(--line)"};fill:currentColor">${I.heart}</span>`).join("")}</div>
+      <div class="gbar"><i style="width:${(TF.i/TF.items.length*100).toFixed(1)}%"></i></div>${TF.combo>1?`<span class="streak">${I.flame}${TF.combo}</span>`:""}<span class="xp" id="xp">${IC.star.replace('width="22" height="22"','width="15" height="15"')} ${TF.xp}</span>${muteBtn()}</div>
+    <div class="qcard tf-card" id="qcard"><span class="qhint">Pohimi ${TF.i+1} nga ${TF.items.length}</span><div class="term">${esc(it.term)}</div><div class="eq" aria-hidden="true">=</div><div class="def">${esc(it.def)}</div>
+      ${TF.last?`<div class="fbk ${TF.last.ok?"ok":"no"}" style="text-align:left"><div class="msg"><b>${TF.last.ok?pickPraise():"Gabim!"}</b><span>${TF.last.ok?"":esc("Përkufizimi i saktë i “"+TF.last.term+"”: "+TF.last.real)}</span></div></div>`:""}
+      <div class="tf-btns"><button class="tf-yes" id="tf-yes" ${TF.lock?"disabled":""}>${IC.tf} E vërtetë</button><button class="tf-no" id="tf-no" ${TF.lock?"disabled":""}>${IC.x} E gabuar</button></div></div>
+    <div class="kbd">Tastiera: ← ose V = e vërtetë · → ose G = e gabuar</div>`;
+  bindMute(()=>renderTF(s));
+  const answer=yes=>{if(TF.lock)return;const ok=yes===it.truth;TF.lock=true;
+    if(ok){TF.score++;TF.combo++;TF.best=Math.max(TF.best,TF.combo);const g=6+Math.min(TF.combo-1,5)*2;TF.xp+=g;beep(true)}
+    else{TF.hearts--;TF.combo=0;beep(false)}
+    TF.last={ok,term:it.term,real:it.real};renderTF(s);const c=$("#qcard");if(c)c.classList.add(ok?"flash-ok":"flash-no");if(ok)popXp($("#xp"),"+"+(6+Math.min(TF.combo-1,5)*2));
+    setTimeout(()=>{if(TF.state!=="play")return;TF.lock=false;TF.i++;if(TF.hearts<=0||TF.i>=TF.items.length)TF.state="done";if(ok)TF.last=null;renderTF(s)},ok?450:1600)};
+  $("#tf-yes").onclick=()=>answer(true);$("#tf-no").onclick=()=>answer(false);
+}
+function tfResult(s){
+  const box=$("#study");
+  if(!TF.finished){TF.finished=true;const b=lsGet("sin_tf",{});TF.record=TF.score>(b[s.id]||0);if(TF.record){b[s.id]=TF.score;lsSet("sin_tf",b)}
+    TF.fresh=finishGame({mode:"vg",setId:s.id,xp:TF.xp,combo:TF.best,tf:TF.score}).fresh;refreshHub(s)}
+  box.innerHTML=`<div class="result"><h2>${TF.hearts>0?"Bravo, detektiv!":"Mbaruan jetët!"}</h2><p style="color:var(--muted);margin:6px 0 0">${TF.score} nga ${TF.items.length} pohime i gjetët saktë.</p>
+    ${(TF.fresh||[]).length?`<div class="new-ach" style="margin-top:14px">${TF.fresh.map(a=>`<span>${medal(a,true)} ${esc(a.name)}</span>`).join("")}</div>`:""}
+    <div class="rstats"><div><b>${TF.score}</b><small>të sakta${TF.record&&TF.score?" · rekord!":""}</small></div><div><b>${TF.best}</b><small>seria më e gjatë</small></div><div><b>${TF.xp}</b><small>XP</small></div></div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><button class="btn-play" id="tf-again">Luaj sërish</button><button class="btn btn-ghost" id="tf-next">${IC.match.replace('width="22" height="22"','width="18" height="18"')} Provo Përputh</button></div></div>`;
+  $("#tf-again").onclick=()=>{TF={id:s.id,state:"setup"};renderTF(s);$("#g-start").click()};
+  $("#tf-next").onclick=()=>switchMode(s,"perputh");
+}
+
+/* ===== PËRPUTH ===== */
 let M=null,matchTimer=null;
 function stopMatchTimer(){if(matchTimer){clearInterval(matchTimer);matchTimer=null}}
 function newMatch(s){
@@ -1216,16 +1497,19 @@ function fmtTime(ms){return (ms/1000).toFixed(1).replace(".",",")+" s"}
 function renderMatch(s,restart){
   const box=$("#study");if(!box)return;stopMatchTimer();
   if(restart||!M||M.id!==s.id)newMatch(s);
-  if(M.pairs<2){box.innerHTML=`<div class="game">${emptyBox("Ky set ka shumë pak karta për këtë lojë")}</div>`;return}
-  if(M.end){const t=M.end-M.start+M.penalty,bests=lsGet("sin_match",{}),prev=bests[s.id],rec=!prev||t<prev;if(rec){bests[s.id]=t;lsSet("sin_match",bests)}
-    box.innerHTML=`<div class="game"><div class="result"><h2>${rec?"Rekord i ri!":"Bravo!"}</h2><p style="color:var(--muted);margin:6px 0 0">I përputhët të ${M.pairs} çiftet.</p>
-      <div class="rstats"><div><b>${fmtTime(t)}</b><small>koha juaj</small></div><div><b>${fmtTime(Math.min(t,prev||t))}</b><small>rekordi juaj</small></div></div>
-      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><button class="btn btn-primary" id="m-again">Luaj sërish</button><button class="btn btn-ghost" id="m-quiz">${I.game} Provo Kuizin</button></div></div></div>`;
+  if(M.pairs<2){box.innerHTML=emptyBox("Ky set ka shumë pak karta për këtë lojë");return}
+  if(M.end){const t=M.end-M.start+M.penalty;
+    if(!M.finished){M.finished=true;const bests=lsGet("sin_match",{});M.prev=bests[s.id];M.record=!M.prev||t<M.prev;if(M.record){bests[s.id]=t;lsSet("sin_match",bests)}
+      M.fresh=finishGame({mode:"perputh",setId:s.id,xp:M.pairs*8+Math.max(0,40-Math.round(t/1000)),matchMs:t}).fresh;refreshHub(s)}
+    box.innerHTML=`<div class="result"><h2>${M.record?"Rekord i ri!":"Bravo!"}</h2><p style="color:var(--muted);margin:6px 0 0">I përputhët të ${M.pairs} çiftet.</p>
+      ${(M.fresh||[]).length?`<div class="new-ach" style="margin-top:14px">${M.fresh.map(a=>`<span>${medal(a,true)} ${esc(a.name)}</span>`).join("")}</div>`:""}
+      <div class="rstats"><div><b>${fmtTime(t)}</b><small>koha juaj</small></div><div><b>${fmtTime(Math.min(t,M.prev||t))}</b><small>rekordi juaj</small></div></div>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><button class="btn-play" id="m-again">Luaj sërish</button><button class="btn btn-ghost" id="m-quiz">${IC.quiz.replace('width="22" height="22"','width="18" height="18"')} Provo Kuizin</button></div></div>`;
     $("#m-again").onclick=()=>renderMatch(s,true);
-    $("#m-quiz").onclick=()=>{setMode("kuiz");app.querySelectorAll("[data-mode]").forEach(x=>x.setAttribute("aria-selected",String(x.dataset.mode==="kuiz")));renderQuiz(s,true)};
+    $("#m-quiz").onclick=()=>switchMode(s,"kuiz");
     return}
-  box.innerHTML=`<div class="game" style="max-width:900px"><div class="match-top"><div><b>Përputhni termat me përkufizimet</b><div style="color:var(--muted);font-size:14px">Çdo gabim shton 1 sekondë.</div></div><span class="clock" id="clock" aria-live="off">0,0 s</span></div>
-    <div class="match-grid">${M.tiles.map(t=>`<button class="mt ${t.kind}${M.gone.has(t.k)?" gone":""}" data-k="${t.k}">${esc(t.text)}</button>`).join("")}</div></div>`;
+  box.innerHTML=`<div class="match-top"><div><b style="font-family:var(--display);font-size:19px">Përputhni termat me përkufizimet</b><div style="color:var(--muted);font-size:14px">Çdo gabim shton 1 sekondë.</div></div><span class="clock" id="clock" aria-live="off">0,0 s</span></div>
+    <div class="match-grid">${M.tiles.map(t=>`<button class="mt ${t.kind}${M.gone.has(t.k)?" gone":""}" data-k="${t.k}">${esc(t.text)}</button>`).join("")}</div>`;
   const clock=$("#clock");
   const tick=()=>{if(!M.start){clock.textContent="0,0 s";return}clock.textContent=fmtTime(Date.now()-M.start+M.penalty)};
   if(M.start){matchTimer=setInterval(()=>{if(view.name!=="set"||view.mode!=="perputh"){stopMatchTimer();return}tick()},100);tick()}
@@ -1236,9 +1520,24 @@ function renderMatch(s,restart){
     if(M.sel===t.k){M.sel=null;b.classList.remove("sel");return}
     const a=M.tiles[M.sel],ea=box.querySelector(`[data-k="${a.k}"]`);M.sel=null;
     if(a.pair===t.pair&&a.kind!==t.kind){beep(true);[ea,b].forEach(x=>{x.classList.remove("sel");x.classList.add("ok")});M.gone.add(a.k);M.gone.add(t.k);
-      setTimeout(()=>{[ea,b].forEach(x=>x.classList.add("gone"));if(M.gone.size===M.tiles.length){M.end=Date.now();stopMatchTimer();markPlayed();setTimeout(()=>renderMatch(s),350)}},250)}
+      setTimeout(()=>{[ea,b].forEach(x=>x.classList.add("gone"));if(M.gone.size===M.tiles.length){M.end=Date.now();stopMatchTimer();setTimeout(()=>renderMatch(s),350)}},250)}
     else{beep(false);M.penalty+=1000;[ea,b].forEach(x=>{x.classList.remove("sel");x.classList.add("bad")});setTimeout(()=>[ea,b].forEach(x=>x.classList.remove("bad")),450)}
   });
+}
+
+/* ===== ARRITJET ===== */
+function renderAchievements(){
+  const p=prof(),L=levelInfo(p.xp),ds=dayStreak(),got=ACH.filter(a=>p.unlocked[a.id]).length;
+  app.innerHTML=`<div class="prof-head"><span class="lvl">${L.n}</span><div style="flex:1;min-width:220px"><div class="meta-row" style="font-weight:800">Niveli ${L.n}</div><h1>${L.title}</h1>
+      <div class="lvl-bar"><i style="width:${L.pct}%"></i></div><small style="color:var(--muted);font-weight:700">${p.xp} XP · edhe ${L.toNext} XP për nivelin ${L.n+1}</small></div>
+      <div class="chips" style="display:flex;gap:8px;flex-wrap:wrap"><span class="pchip fire">${I.flame} ${plural(ds,"ditë","ditë")} rresht</span><span class="pchip achc">${got}/${ACH.length} arritje</span></div></div>
+    <div class="tiles"><div class="tile"><div class="k">Lojëra të luajtura</div><div class="v">${p.games}</div></div><div class="tile"><div class="k">Seria më e gjatë</div><div class="v">${p.bestCombo}</div></div>
+      <div class="tile"><div class="k">Sprint – rekordi</div><div class="v">${p.sprintBest}</div></div><div class="tile"><div class="k">Përputh – rekordi</div><div class="v">${p.matchBest!=null?fmtTime(p.matchBest):"–"}</div></div><div class="tile"><div class="k">Sete të luajtura</div><div class="v">${Object.keys(p.sets).length}</div></div></div>
+    <section class="section"><div class="section-head"><h2>Arritjet</h2><span class="meta-row">${got} nga ${ACH.length}</span></div>
+      <div class="ach-grid">${ACH.map(a=>{const t=p.unlocked[a.id];return `<div class="ach${t?"":" locked"}">${t?medal(a):`<span class="medal" style="background:var(--line);color:var(--line)">${IC.lock}</span>`}<div><b>${esc(a.name)}</b><small>${esc(a.desc)}</small>${t?`<div class="when">Fituar ${esc(ago(t))}</div>`:""}</div></div>`}).join("")}</div></section>
+    <p style="color:var(--muted);font-size:14px">Pikët dhe arritjet ruhen në këtë pajisje.</p>
+    <div style="text-align:center;margin-top:18px"><button class="btn btn-primary" data-go2="sets">Shko te kartat dhe luaj</button></div>`;
+  bindCommon();
 }
 
 const AI_EXT=["pdf","png","jpg","jpeg","gif","webp","docx","pptx","odt","odp","txt"];
@@ -1263,9 +1562,8 @@ function renderAbout(){
   <section class="about-hero">${I.syn}<div style="position:relative"><h1>Rreth nesh</h1>
     <p>Sinapsa është një platformë falas ku studentët nga çdo fakultet krijojnë karta mësimore, ndajnë skriptat dhe ligjëratat, dhe mësojnë së bashku. Ashtu si sinapsat lidhin neuronet, ne duam të lidhim studentët dhe njohuritë e tyre.</p></div></section>
   <div class="about-grid">
-    <div class="panel"><h3>Karta mësimore</h3><p>Krijoni sete me pyetje dhe përgjigje, shtoni foto, dhe mësoni duke i kthyer kartat. Shënoni çfarë dini dhe praktikoni atë që ju mungon.</p></div>
+    <div class="panel"><h3>Mëso duke luajtur</h3><p>Nga çdo material krijohen karta dhe kuize. Luani Kuiz, Sprint 60 sekondash, E vërtetë apo e gabuar dhe Përputh – mblidhni XP, ngjituni në nivel dhe fitoni arritje.</p></div>
     <div class="panel"><h3>Materiale për të gjithë</h3><p>Ngarkoni PDF, Word, PowerPoint e Excel. Kolegët i hapin drejtpërdrejt në faqe ose i shkarkojnë.</p></div>
-    <div class="panel"><h3>Pa komplikime</h3><p>Nuk ju duhet llogari për të mësuar ose për të ndarë materiale. Mjafton të shkruani emrin tuaj.</p></div>
   </div>
   <section class="panel"><h2>Na ndiqni</h2><p class="hint">Lajmet, këshillat për mësim dhe materialet e reja i ndajmë në rrjetet sociale.</p>
     <div class="socials">${SOCIALS.map(s=>`<a class="soc" href="${s.url}" target="_blank" rel="noopener">${s.icon}<span>${s.name}<span class="opt" style="margin-left:6px">${esc(s.handle)}</span></span></a>`).join("")}</div>
@@ -1387,7 +1685,7 @@ async function refresh(force){
     const v=view.name;
     linkGeneratedKeys();
     if(!wasReady&&v!=="upload")render();
-    else if(["create","edit","upload","auth","about","admin"].includes(v)){/* mos e ndërpre formularin, lojën ose panelin */}
+    else if(["create","edit","upload","auth","about","admin","achievements"].includes(v)){/* mos e ndërpre formularin, lojën ose panelin */}
     else if(v==="set"||v==="material"){const gone=v==="set"?!sets.some(x=>x.id===view.id):!materials.some(x=>x.id===view.id);
       const mt=v==="material"&&materials.find(x=>x.id===view.id),st=mt?mt.aiStatus+(mt.setId||""):"";
       if(!wasReady||gone||(v==="material"&&st!==shownAiStatus))render()}
