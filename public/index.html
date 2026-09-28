@@ -69,7 +69,17 @@ a{color:var(--accent)}
 .hamb{display:none;background:none;border:1.5px solid var(--line);border-radius:10px;width:44px;height:44px;cursor:pointer;place-items:center;flex-shrink:0}
 .mobile-menu{display:none;border-top:1px solid var(--line);padding:8px 16px 14px;flex-direction:column;gap:6px}
 .mobile-menu .menu-link{text-align:left;padding:12px}
-@media (max-width:900px){
+.user-chip{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 12px 0 6px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);cursor:pointer;font-weight:700;max-width:220px}
+.user-chip:hover{border-color:var(--accent)}
+.user-chip .avatar{width:32px;height:32px}
+.user-chip span.nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dd{position:relative}
+.dd-menu{position:absolute;right:0;top:calc(100% + 6px);background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:6px;min-width:200px;z-index:30;display:flex;flex-direction:column}
+.dd-menu button{background:none;border:0;text-align:left;padding:11px 12px;border-radius:8px;cursor:pointer;font-weight:700}
+.dd-menu button:hover{background:var(--accent-soft)}
+.dd-menu .who{padding:8px 12px 10px;border-bottom:1px solid var(--line);margin-bottom:4px;font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+.admin-badge{display:inline-block;background:var(--brand);color:#fff;border-radius:6px;font-size:11px;font-weight:700;padding:1px 6px;letter-spacing:.04em;vertical-align:middle}
+@media (max-width:1260px){
   .menu{display:none}
   .hamb{display:grid}
   .nav-in{flex-wrap:wrap;gap:10px}
@@ -245,8 +255,75 @@ a.file-item:hover,button.file-item:hover{border-color:var(--accent)}
 .lightbox{position:fixed;inset:0;background:rgba(8,6,28,.88);z-index:60;display:grid;place-items:center;padding:20px;cursor:zoom-out}
 .lightbox img{max-height:90vh;max-width:100%;border-radius:10px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-footer{max-width:1180px;margin:0 auto;padding:0 16px 40px;color:var(--muted);font-size:14px;display:flex;align-items:center;gap:10px}
+footer{max-width:1180px;margin:0 auto;padding:22px 16px 40px;color:var(--muted);font-size:14px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;border-top:1px solid var(--line)}
+footer .fb{display:flex;align-items:center;gap:10px}
 footer img{width:24px;height:24px;border-radius:6px}
+.socials{display:flex;gap:8px;flex-wrap:wrap}
+.soc{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);text-decoration:none;font-weight:700}
+.soc:hover{border-color:var(--accent);color:var(--accent)}
+.soc.icon-only{width:44px;padding:0;justify-content:center}
+
+/* ABOUT */
+.about-hero{background:var(--brand);color:#fff;border-radius:22px;padding:34px 28px;position:relative;overflow:hidden;margin-bottom:26px}
+.about-hero h1{font-size:clamp(30px,5vw,46px);font-weight:800;letter-spacing:-.02em}
+.about-hero p{max-width:60ch;opacity:.9;margin:12px 0 0;font-size:17px}
+.about-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:26px}
+.about-grid .panel{margin:0}
+.about-grid h3{font-size:18px;font-weight:600;margin-bottom:6px}
+.about-grid p{margin:0;color:var(--muted)}
+
+/* AUTH */
+.auth{max-width:440px;margin:10px auto}
+.auth .panel{padding:26px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:4px;margin-bottom:18px}
+.tabs button{border:0;background:none;padding:10px;border-radius:9px;font-weight:700;cursor:pointer;color:var(--muted)}
+.tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.auth form{display:flex;flex-direction:column;gap:14px}
+
+/* ADMIN */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px;margin-bottom:22px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px}
+.tile .k{font-size:13px;font-weight:700;color:var(--muted)}
+.tile .v{font-family:var(--display);font-size:32px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1;margin-top:4px}
+.tile .s{font-size:13px;color:var(--muted)}
+.tile.hl{background:var(--brand);border-color:var(--brand);color:#fff}
+.tile.hl .k,.tile.hl .s{color:rgba(255,255,255,.8)}
+.live-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#3ED68A;margin-right:6px;box-shadow:0 0 0 3px rgba(62,214,138,.25)}
+.chart{position:relative;height:200px;display:flex;align-items:flex-end;gap:2px;padding:0 0 22px;border-bottom:1px solid var(--line);margin-top:10px}
+.chart .grid-l{position:absolute;left:0;right:0;border-top:1px dashed var(--line);font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.chart .grid-l span{position:absolute;right:0;top:-16px}
+.chart .col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%;position:relative;cursor:default;min-width:0}
+.chart .bar{background:var(--accent);border-radius:4px 4px 0 0;min-height:2px}
+.chart .col:hover .bar,.chart .col:focus .bar{background:var(--accent-hover)}
+.chart .col.today .bar{background:var(--accent)}
+.chart .col:not(.today) .bar{opacity:.75}
+.chart .lbl{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--muted);white-space:nowrap}
+.chart .tip{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);font-size:12px;padding:6px 9px;border-radius:8px;white-space:nowrap;pointer-events:none;opacity:0;z-index:2}
+.chart .col:hover .tip,.chart .col:focus .tip{opacity:1}
+.admin-cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:900px){.admin-cols{grid-template-columns:1fr}}
+.task-list{display:flex;flex-direction:column}
+.task{display:flex;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--line);flex-wrap:wrap}
+.task:first-child{border-top:0}
+.task .body{flex:1;min-width:200px}
+.task .body b{display:block;overflow-wrap:anywhere}
+.task .body small{color:var(--muted)}
+.task .acts{display:flex;gap:6px;flex-wrap:wrap}
+.btn-sm{min-height:36px;padding:0 12px;font-size:14px}
+.count-badge{display:inline-grid;place-items:center;min-width:24px;height:24px;padding:0 7px;border-radius:999px;background:var(--warn-soft);color:var(--warn);font-size:13px;font-weight:800;margin-left:6px;vertical-align:middle}
+.table-wrap{overflow-x:auto}
+table.users{width:100%;border-collapse:collapse;font-size:14px}
+table.users th{text-align:left;color:var(--muted);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.06em;padding:8px 10px;border-bottom:1px solid var(--line)}
+table.users td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle}
+table.users td.num{font-variant-numeric:tabular-nums}
+.report-box{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:12px}
+.report-box input{flex:1;min-width:200px}
+.multi-row{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.multi-row .ftype{width:42px;height:42px}
+.multi-row .inner{min-width:0;display:flex;flex-direction:column;gap:4px}
+.multi-row small{color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.multi-row .st{font-size:13px;font-weight:700}
+.multi-row .st.ok{color:var(--good)}.multi-row .st.bad{color:var(--danger)}
 </style>
 </head>
 <body>
@@ -254,7 +331,7 @@ footer img{width:24px;height:24px;border-radius:6px}
 <header class="nav">
   <div class="nav-in">
     <button class="brand" id="brand" aria-label="Sinapsa – kreu">
-      <img src="logo.png" alt="" width="38" height="38">
+      <img src="/logo.png" alt="" width="38" height="38">
       <span class="brand-name">Sinapsa</span>
     </button>
     <div class="search" role="search">
@@ -267,6 +344,8 @@ footer img{width:24px;height:24px;border-radius:6px}
       <button class="menu-link" data-go="sets">Kartat</button>
       <button class="menu-link" data-go="materials">Materialet</button>
       <button class="menu-link" data-go="mine">Të miat</button>
+      <button class="menu-link" data-go="about">Rreth nesh</button>
+      <span class="auth-slot"></span>
       <button class="btn btn-primary" data-go="create">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Krijo set</button>
     </nav>
@@ -279,13 +358,15 @@ footer img{width:24px;height:24px;border-radius:6px}
     <button class="menu-link" data-go="sets">Kartat</button>
     <button class="menu-link" data-go="materials">Materialet</button>
     <button class="menu-link" data-go="mine">Të miat</button>
+    <button class="menu-link" data-go="about">Rreth nesh</button>
+    <div class="auth-slot-m" style="display:flex;flex-direction:column;gap:6px"></div>
     <button class="btn btn-primary" data-go="create">+ Krijo set</button>
-    <button class="btn btn-ghost" data-go="upload">Ngarko material</button>
+    <button class="btn btn-ghost" data-go="upload">Ngarko materiale</button>
   </div>
 </header>
 
 <main id="app" aria-live="polite"></main>
-<footer><img src="/logo.png" alt=""> Sinapsa · Mësojmë së bashku</footer>
+<footer><span class="fb"><img src="/logo.png" alt=""> Sinapsa · Mësojmë së bashku</span><span class="socials" id="foot-soc"></span></footer>
 
 <script>
 (function(){
@@ -304,17 +385,30 @@ const $=(s,r=document)=>r.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const app=$("#app");
 
-let dbState="loading", sets=[], materials=[];
+let dbState="loading", sets=[], materials=[], me=null;
 let view={name:"home"}, facultyFilter="", query="";
+const SOCIALS=[
+  {name:"Instagram",handle:"@sinapsa.al",url:"https://www.instagram.com/sinapsa.al/",icon:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>'},
+  {name:"TikTok",handle:"@sinapsa.al",url:"https://www.tiktok.com/@sinapsa.al",icon:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 3c.4 2.6 2.3 4.5 5 4.8"/></svg>'},
+  {name:"Facebook",handle:"Sinapsa",url:"https://www.facebook.com/profile.php?id=61588422658031",icon:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M15 3h-2.5A3.5 3.5 0 0 0 9 6.5V21M6 11h8"/></svg>'}
+];
 
 function lsGet(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}}
 function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
-async function api(method,path,body){
-  const r=await fetch(path,{method,headers:body?{"Content-Type":"application/json"}:{},body:body?JSON.stringify(body):undefined});
+function visitorId(){let v=lsGet("sin_vid","");if(!v){v=(crypto.randomUUID?crypto.randomUUID():String(Math.random()).slice(2)+Date.now());lsSet("sin_vid",v)}return v}
+/* Çelësat e pronësisë: kush krijon një set/material në këtë pajisje merr një çelës sekret */
+function ownerKeys(){return lsGet("sin_keys",{})}
+function saveOwnerKey(id,key){if(!key)return;const k=ownerKeys();k[id]=key;lsSet("sin_keys",k)}
+function canManage(item){return !!(item&&(item.mine||(me&&me.isAdmin)||ownerKeys()[item.id]))}
+function isMine(item){return !!(item&&(item.mine||ownerKeys()[item.id]))}
+async function api(method,path,body,extra){
+  const headers=Object.assign({"X-Visitor":visitorId()},body?{"Content-Type":"application/json"}:{},extra||{});
+  const r=await fetch(path,{method,headers,body:body?JSON.stringify(body):undefined,credentials:"same-origin"});
   const j=await r.json().catch(()=>({}));
-  if(!r.ok)throw new Error(j.error||"Diçka shkoi keq. Ju lutemi provoni përsëri.");
+  if(!r.ok){const e=new Error(j.error||"Diçka shkoi keq. Ju lutemi provoni përsëri.");e.status=r.status;throw e}
   return j;
 }
+const ownerHeader=id=>{const k=ownerKeys()[id];return k?{"X-Owner-Key":k}:{}};
 function uploadFile(file,onProgress){
   return new Promise((resolve,reject)=>{
     const x=new XMLHttpRequest();
@@ -371,8 +465,32 @@ const I={
 };
 
 /* ---------- NAV ---------- */
-function go(name,extra){view=Object.assign({name},extra||{});$("#mmenu").classList.remove("open");$("#hamb").setAttribute("aria-expanded","false");render();window.scrollTo(0,0)}
+function go(name,extra){view=Object.assign({name},extra||{});$("#mmenu").classList.remove("open");$("#hamb").setAttribute("aria-expanded","false");closeDd();render();window.scrollTo(0,0)}
 document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>{const g=b.dataset.go;if(g==="home"){query="";$("#q").value=""}go(g)}));
+/* Butoni i llogarisë në navbar */
+function closeDd(){document.querySelectorAll(".dd-menu").forEach(m=>m.remove())}
+document.addEventListener("click",e=>{if(!e.target.closest(".dd"))closeDd()});
+function renderAuthSlots(){
+  const d=$(".auth-slot"),m=$(".auth-slot-m");
+  if(!me){
+    d.innerHTML=`<button class="btn btn-ghost" data-auth="login">Hyr</button>`;
+    m.innerHTML=`<button class="btn btn-ghost" data-auth="login">Hyr / Regjistrohu</button>`;
+  }else{
+    d.innerHTML=`<span class="dd"><button class="user-chip" id="uchip" aria-haspopup="true">${avatar(me.name)}<span class="nm">${esc(me.name.split(" ")[0])}</span>${me.isAdmin?'<span class="admin-badge">ADMIN</span>':""}</button></span>`;
+    m.innerHTML=`${me.isAdmin?`<button class="btn btn-ghost" data-go-a="admin">Paneli i adminit</button>`:""}<button class="btn btn-ghost" data-logout>Dil (${esc(me.name)})</button>`;
+    $("#uchip").onclick=e=>{e.stopPropagation();if(document.querySelector(".dd-menu")){closeDd();return}
+      const menu=document.createElement("div");menu.className="dd-menu";
+      menu.innerHTML=`<div class="who"><b style="color:var(--ink)">${esc(me.name)}</b><br>${esc(me.email)}</div>${me.isAdmin?`<button data-go-a="admin">Paneli i adminit</button>`:""}<button data-go-a="mine">Të miat</button><button data-logout>Dil</button>`;
+      $("#uchip").parentNode.appendChild(menu);bindAuthButtons(menu)};
+  }
+  bindAuthButtons(d);bindAuthButtons(m);
+}
+function bindAuthButtons(root){
+  root.querySelectorAll("[data-auth]").forEach(b=>b.onclick=()=>go("auth",{tab:b.dataset.auth}));
+  root.querySelectorAll("[data-go-a]").forEach(b=>b.onclick=()=>go(b.dataset.goA));
+  root.querySelectorAll("[data-logout]").forEach(b=>b.onclick=async()=>{try{await api("POST","/api/auth/logout")}catch(e){}me=null;renderAuthSlots();toast("Dolët nga llogaria");await refresh(true);go("home")});
+}
+$("#foot-soc").innerHTML=SOCIALS.map(s=>`<a class="soc icon-only" href="${s.url}" target="_blank" rel="noopener" aria-label="Sinapsa në ${s.name}" title="${s.name}">${s.icon}</a>`).join("");
 $("#brand").onclick=()=>{query="";$("#q").value="";go("home")};
 $("#hamb").onclick=()=>{const m=$("#mmenu");const o=m.classList.toggle("open");$("#hamb").setAttribute("aria-expanded",String(o))};
 let qT;$("#q").addEventListener("input",e=>{clearTimeout(qT);qT=setTimeout(()=>{query=e.target.value.trim();if(!["home","sets","materials","mine"].includes(view.name))view={name:"home"};render()},150)});
@@ -385,6 +503,9 @@ function render(){
   if(view.name==="set")return renderSet();
   if(view.name==="upload")return renderUpload();
   if(view.name==="material")return renderMaterial();
+  if(view.name==="about")return renderAbout();
+  if(view.name==="auth")return renderAuth();
+  if(view.name==="admin")return renderAdmin();
   renderList();
 }
 function banner(){return dbState==="offline"?`<div class="notice">Nuk po lidhemi dot me serverin e Sinapsës. Kontrolloni internetin dhe rifreskoni faqen.</div>`:""}
@@ -430,10 +551,8 @@ function bindCommon(){
 }
 function renderList(){
   const loading=dbState==="loading";
-  const myName=(lsGet("sin_name","")||"").toLowerCase();
-  const mineSets=lsGet("sin_mine",[]),mineMats=lsGet("sin_mine_mat",[]);
   let S=sets.filter(setMatches),M=materials.filter(matMatches);
-  if(view.name==="mine"){S=S.filter(s=>mineSets.includes(s.id)||(myName&&(s.author||"").toLowerCase()===myName));M=M.filter(m=>mineMats.includes(m.id)||(myName&&(m.uploader||"").toLowerCase()===myName))}
+  if(view.name==="mine"){S=S.filter(isMine);M=M.filter(isMine)}
   let html=banner();
   const setsBlock=(title,list,limit,more)=>`<section class="section"><div class="section-head"><h2>${title}</h2><span class="meta-row">${loading?"":plural(list.length,"set","sete")}${more?` · <button class="link-btn" data-go2="sets">Shiko të gjitha</button>`:""}</span></div>
     ${loading?emptyBox("Duke u ngarkuar…"):list.length?`<div class="grid">${list.slice(0,limit||9999).map(setCard).join("")}</div>`
@@ -458,17 +577,19 @@ function renderList(){
   }else if(view.name==="materials"){
     html+=`<div class="page-head"><div><h1>Materialet</h1><p>Skripta, ligjërata, prezantime dhe detyra – për t'i hapur këtu ose për t'i shkarkuar.</p></div><button class="btn btn-primary" data-go2="upload">${I.up.replace('width="30" height="30"','width="18" height="18"')} Ngarko material</button></div>${filterRow()}`+matsBlock(facultyFilter||"Të gjitha materialet",M);
   }else if(view.name==="mine"){
-    html+=`<div class="page-head"><div><h1>Të miat</h1><p>Setet dhe materialet që keni krijuar në këtë pajisje ose me emrin tuaj.</p></div></div>`+setsBlock("Setet e mia",S)+matsBlock("Materialet e mia",M);
+    html+=`<div class="page-head"><div><h1>Të miat</h1><p>${me?"Setet dhe materialet e llogarisë suaj, si dhe ato që keni krijuar në këtë pajisje.":"Setet dhe materialet që keni krijuar në këtë pajisje. <a href=\"#\" data-auth-link>Hyni në llogari</a> për t'i parë nga çdo pajisje."}</p></div></div>`+setsBlock("Setet e mia",S)+matsBlock("Materialet e mia",M);
   }
   app.innerHTML=html;bindCommon();
+  const al=app.querySelector("[data-auth-link]");if(al)al.onclick=e=>{e.preventDefault();go("auth",{tab:"login"})};
 }
 
 /* ---------- SET FORM ---------- */
 let draft=null;
-function newDraft(){return{title:"",author:lsGet("sin_name",""),faculty:facultyFilter||lsGet("sin_fac","")||"",subject:"",description:"",cards:[{term:"",def:""},{term:"",def:""},{term:"",def:""}],files:[]}}
+function newDraft(){return{title:"",author:(me&&me.name)||lsGet("sin_name",""),faculty:facultyFilter||lsGet("sin_fac","")||"",subject:"",description:"",cards:[{term:"",def:""},{term:"",def:""},{term:"",def:""}],files:[]}}
 function renderForm(){
   if(!draft||draft._for!==(view.id||"new")){
     if(view.name==="edit"){const s=sets.find(x=>x.id===view.id);if(!s){go("home");return}
+      if(!canManage(s)){toast("Vetëm krijuesi i setit mund ta ndryshojë.");go("set",{id:s.id});return}
       draft=JSON.parse(JSON.stringify({title:s.title,author:s.author,faculty:s.faculty,subject:s.subject||"",description:s.description||"",cards:s.cards||[],files:s.files||[]}));}
     else draft=newDraft();
     draft._for=view.id||"new";
@@ -478,7 +599,7 @@ function renderForm(){
   <div class="page-head"><h1>${edit?"Ndrysho setin":"Krijo një set të ri me karta"}</h1></div>
   <section class="panel"><h2>Të dhënat e setit</h2><p class="hint">Emri juaj shfaqet te seti, që kolegët ta dinë kush e ka krijuar.</p>
     <div class="fields">
-      <label class="f">Emri juaj<input class="t" id="f-author" maxlength="60" placeholder="p.sh. Blerta Krasniqi" value="${esc(d.author)}"></label>
+      <label class="f">Emri juaj<input class="t" id="f-author" maxlength="60" placeholder="p.sh. Drilon Berisha" value="${esc(d.author)}"></label>
       <label class="f">Fakulteti<select class="t" id="f-faculty"><option value="">– Zgjidhni fakultetin –</option>${facultyOptions(d.faculty)}</select></label>
       <label class="f full">Titulli<input class="t" id="f-title" maxlength="120" placeholder="p.sh. Nervat kraniale – emrat dhe funksionet" value="${esc(d.title)}"></label>
       <label class="f">Lënda <span class="opt">(opsionale)</span><input class="t" id="f-subject" maxlength="60" placeholder="p.sh. Anatomia" value="${esc(d.subject)}"></label>
@@ -573,66 +694,85 @@ async function saveDraft(){
     const body={title,author,faculty:d.faculty,subject:d.subject.trim(),description:d.description.trim(),cards:outCards,files:outFiles};
     lsSet("sin_name",author);lsSet("sin_fac",d.faculty);
     let id=view.id,rec;
-    if(id)rec=await api("PUT","/api/sets/"+encodeURIComponent(id),body);else rec=await api("POST","/api/sets",body);
-    id=rec.id;upsert(sets,rec);
-    const mine=lsGet("sin_mine",[]);if(!mine.includes(id)){mine.push(id);lsSet("sin_mine",mine)}
+    if(id)rec=await api("PUT","/api/sets/"+encodeURIComponent(id),body,ownerHeader(id));else rec=await api("POST","/api/sets",body);
+    id=rec.id;saveOwnerKey(id,rec.ownerKey);delete rec.ownerKey;upsert(sets,rec);
     const wasEdit=view.name==="edit";draft=null;toast(wasEdit?"Ndryshimet u ruajtën":"Seti u krijua");go("set",{id});
   }catch(e){btn.disabled=false;btn.textContent=label;err.textContent=(e&&e.message)||"Ruajtja dështoi. Kontrolloni lidhjen dhe provoni përsëri."}
 }
 function upsert(arr,rec){const i=arr.findIndex(s=>s.id===rec.id);if(i>=0)arr[i]=rec;else arr.unshift(rec)}
 
-/* ---------- MATERIAL UPLOAD ---------- */
+/* ---------- MATERIAL UPLOAD (disa skedarë njëherësh) ---------- */
 let up=null;
 function renderUpload(){
-  if(!up)up={file:null,title:"",faculty:facultyFilter||lsGet("sin_fac",""),subject:"",uploader:lsGet("sin_name","")};
+  if(!up)up={files:[],faculty:facultyFilter||lsGet("sin_fac",""),subject:"",uploader:(me&&me.name)||lsGet("sin_name",""),busy:false};
   app.innerHTML=`${banner()}
   <button class="back" id="back">${I.back} Kthehu</button>
-  <div class="page-head"><div><h1>Ngarko material</h1><p>PDF, Word, PowerPoint, Excel, foto, tekst ose arkiva ZIP – deri në ${MAX_MB} MB.</p></div></div>
-  <section class="panel"><h2>1. Zgjidhni skedarin</h2>
-    <div class="drop" id="mdrop" tabindex="0" role="button" aria-label="Zgjidh skedarin">${I.up}<strong>Prekni për të zgjedhur skedarin ose tërhiqeni këtu</strong><small>PDF · DOC/DOCX · PPT/PPTX · XLS/XLSX · TXT · JPG/PNG · ZIP</small></div>
-    <input type="file" id="mfile" hidden accept="${MAT_EXT.map(e=>"."+e).join(",")}">
+  <div class="page-head"><div><h1>Ngarko materiale</h1><p>Mund të zgjidhni disa skedarë njëherësh: PDF, Word, PowerPoint, Excel, foto, tekst ose ZIP – deri në ${MAX_MB} MB secili.</p></div></div>
+  <section class="panel"><h2>1. Zgjidhni skedarët</h2>
+    <div class="drop" id="mdrop" tabindex="0" role="button" aria-label="Zgjidh skedarët">${I.up}<strong>Prekni për të zgjedhur skedarët ose tërhiqini këtu</strong><small>PDF · DOC/DOCX · PPT/PPTX · XLS/XLSX · TXT · JPG/PNG · ZIP</small></div>
+    <input type="file" id="mfile" hidden multiple accept="${MAT_EXT.map(e=>"."+e).join(",")}">
     <div class="file-list" id="mchosen"></div>
   </section>
-  <section class="panel"><h2>2. Përshkruajeni</h2>
+  <section class="panel"><h2>2. Përshkruajini</h2><p class="hint">Këto vlejnë për të gjithë skedarët që ngarkoni tani. Emrin e secilit skedar mund ta ndryshoni më lart.</p>
     <div class="fields">
-      <label class="f full">Emri i skedarit<input class="t" id="m-title" maxlength="140" placeholder="p.sh. Skripta e Fiziologjisë – Kapitulli 3" value="${esc(up.title)}"></label>
       <label class="f">Fakulteti<select class="t" id="m-faculty"><option value="">– Zgjidhni fakultetin –</option>${facultyOptions(up.faculty)}</select></label>
       <label class="f">Lënda <span class="opt">(opsionale)</span><input class="t" id="m-subject" maxlength="60" placeholder="p.sh. Fiziologjia" value="${esc(up.subject)}"></label>
-      <label class="f full">Emri juaj <span class="opt">(opsional – nëse e lini bosh, shfaqet “Anonim”)</span><input class="t" id="m-uploader" maxlength="60" placeholder="p.sh. Arta Berisha" value="${esc(up.uploader)}"></label>
+      <label class="f full">Emri juaj <span class="opt">(opsional – nëse e lini bosh, shfaqet “Anonim”)</span><input class="t" id="m-uploader" maxlength="60" placeholder="p.sh. Drilon Berisha" value="${esc(up.uploader)}"></label>
     </div>
   </section>
   <div id="m-err" class="err" role="alert"></div>
   <div class="bar" id="mbar" hidden><i></i></div>
-  <div class="save-bar"><button class="btn btn-ghost" id="m-cancel">Anulo</button><button class="btn btn-primary" id="m-save" style="min-width:170px">Ngarko</button></div>`;
-  const showChosen=()=>{$("#mchosen").innerHTML=up.file?`<div class="file-item">${typeBox(up.file.name)}<div class="file-meta"><b>${esc(up.file.name)}</b><small>${esc(fmtSize(up.file.size))}</small></div><button class="icon-btn del" id="m-rm" aria-label="Hiq skedarin">${I.trash}</button></div>`:"";
-    const rm=$("#m-rm");if(rm)rm.onclick=()=>{up.file=null;showChosen()}};
-  const pick=f=>{if(!f)return;const e=extOf(f.name);
-    if(!MAT_EXT.includes(e)){toast("Ky lloj skedari nuk lejohet. Përdorni PDF, Word, PowerPoint, Excel, foto, TXT ose ZIP.");return}
-    if(f.size>MAX_MB*1048576){toast(`Skedari është më i madh se ${MAX_MB} MB.`);return}
-    up.file=f;if(!up.title.trim()){up.title=f.name.replace(/\.[^.]+$/,"").replace(/[_]+/g," ");$("#m-title").value=up.title}showChosen()};
-  showChosen();
+  <div class="save-bar"><button class="btn btn-ghost" id="m-cancel">Anulo</button><button class="btn btn-primary" id="m-save" style="min-width:190px">Ngarko</button></div>`;
+  const list=$("#mchosen");
+  const showChosen=()=>{
+    list.innerHTML=up.files.map((f,i)=>`<div class="multi-row">${typeBox(f.file.name)}
+      <div class="inner"><label class="sr" for="mt-${i}">Emri i skedarit ${i+1}</label><input class="t" id="mt-${i}" data-mt="${i}" maxlength="140" value="${esc(f.title)}" placeholder="Emri i skedarit" ${up.busy?"disabled":""}>
+        <small>${esc(f.file.name)} · ${esc(fmtSize(f.file.size))}</small>${f.status?`<span class="st ${f.status==="ok"?"ok":f.status==="bad"?"bad":""}">${esc(f.msg||"")}</span>`:""}</div>
+      ${up.busy||f.status==="ok"?"<span></span>":`<button class="icon-btn del" data-rmm="${i}" aria-label="Hiq ${esc(f.file.name)}">${I.trash}</button>`}</div>`).join("");
+    list.querySelectorAll("[data-mt]").forEach(inp=>inp.oninput=()=>up.files[+inp.dataset.mt].title=inp.value);
+    list.querySelectorAll("[data-rmm]").forEach(b=>b.onclick=()=>{up.files.splice(+b.dataset.rmm,1);showChosen();updBtn()});
+  };
+  const updBtn=()=>{const n=up.files.filter(f=>f.status!=="ok").length;$("#m-save").textContent=n>1?`Ngarko ${n} skedarët`:"Ngarko"};
+  const pick=fl=>{for(const f of fl){const e=extOf(f.name);
+      if(!MAT_EXT.includes(e)){toast(`“${f.name}” nuk lejohet. Përdorni PDF, Word, PowerPoint, Excel, foto, TXT ose ZIP.`);continue}
+      if(f.size>MAX_MB*1048576){toast(`“${f.name}” është më i madh se ${MAX_MB} MB.`);continue}
+      if(up.files.length>=20){toast("Mund të ngarkoni deri në 20 skedarë njëherësh.");break}
+      up.files.push({file:f,title:f.name.replace(/\.[^.]+$/,"").replace(/[_]+/g," ")})}
+    showChosen();updBtn()};
+  showChosen();updBtn();
   const drop=$("#mdrop"),fi=$("#mfile");
-  drop.onclick=()=>fi.click();drop.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();fi.click()}};
+  drop.onclick=()=>{if(!up.busy)fi.click()};drop.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();if(!up.busy)fi.click()}};
   drop.ondragover=e=>{e.preventDefault();drop.classList.add("over")};drop.ondragleave=()=>drop.classList.remove("over");
-  drop.ondrop=e=>{e.preventDefault();drop.classList.remove("over");pick(e.dataTransfer.files[0])};
-  fi.onchange=()=>{pick(fi.files[0]);fi.value=""};
-  $("#m-title").oninput=e=>up.title=e.target.value;$("#m-subject").oninput=e=>up.subject=e.target.value;
+  drop.ondrop=e=>{e.preventDefault();drop.classList.remove("over");if(!up.busy)pick(e.dataTransfer.files)};
+  fi.onchange=()=>{pick(fi.files);fi.value=""};
+  $("#m-subject").oninput=e=>up.subject=e.target.value;
   $("#m-uploader").oninput=e=>up.uploader=e.target.value;$("#m-faculty").onchange=e=>up.faculty=e.target.value;
-  $("#back").onclick=$("#m-cancel").onclick=()=>{up=null;go("materials")};
+  $("#back").onclick=$("#m-cancel").onclick=()=>{if(up.busy)return;up=null;go("materials")};
   $("#m-save").onclick=async()=>{
     const err=$("#m-err");err.textContent="";
-    if(!up.file){err.textContent="Ju lutemi zgjidhni një skedar.";return}
-    if(!up.title.trim()){err.textContent="Ju lutemi shkruani emrin e skedarit.";$("#m-title").focus();return}
+    const todo=up.files.filter(f=>f.status!=="ok");
+    if(!todo.length){err.textContent="Ju lutemi zgjidhni të paktën një skedar.";return}
+    const noName=todo.findIndex(f=>!f.title.trim());
+    if(noName>=0){err.textContent="Çdo skedar duhet të ketë një emër.";const el=$("#mt-"+up.files.indexOf(todo[noName]));if(el)el.focus();return}
     if(!up.faculty){err.textContent="Ju lutemi zgjidhni fakultetin.";$("#m-faculty").focus();return}
-    const btn=$("#m-save"),bar=$("#mbar");btn.disabled=true;bar.hidden=false;
-    try{
-      const r=await uploadFile(up.file,p=>{bar.firstElementChild.style.width=(p*100).toFixed(0)+"%";btn.textContent=`Duke ngarkuar ${Math.round(p*100)}%`});
-      btn.textContent="Duke ruajtur…";
-      const rec=await api("POST","/api/materials",{title:up.title.trim(),faculty:up.faculty,subject:up.subject.trim(),uploader:up.uploader.trim(),asset:r.id,fileName:up.file.name,size:up.file.size});
-      if(up.uploader.trim())lsSet("sin_name",up.uploader.trim());lsSet("sin_fac",up.faculty);
-      const mine=lsGet("sin_mine_mat",[]);mine.push(rec.id);lsSet("sin_mine_mat",mine);
-      upsert(materials,rec);up=null;toast("Materiali u ngarkua");go("material",{id:rec.id});
-    }catch(e){btn.disabled=false;btn.textContent="Ngarko";bar.hidden=true;err.textContent=e.message}
+    const btn=$("#m-save"),bar=$("#mbar");up.busy=true;btn.disabled=true;bar.hidden=false;
+    const total=todo.reduce((a,f)=>a+f.file.size,0)||1;let doneBytes=0,okCount=0,lastId=null;
+    for(const f of todo){
+      f.status="up";f.msg="Duke ngarkuar…";showChosen();
+      try{
+        const r=await uploadFile(f.file,p=>{const pct=(doneBytes+p*f.file.size)/total;bar.firstElementChild.style.width=(pct*100).toFixed(0)+"%";btn.textContent=`Duke ngarkuar ${Math.round(pct*100)}%`});
+        const rec=await api("POST","/api/materials",{title:f.title.trim(),faculty:up.faculty,subject:up.subject.trim(),uploader:up.uploader.trim(),asset:r.id,fileName:f.file.name,size:f.file.size});
+        saveOwnerKey(rec.id,rec.ownerKey);delete rec.ownerKey;upsert(materials,rec);lastId=rec.id;
+        f.status="ok";f.msg="U ngarkua";okCount++;
+      }catch(e){f.status="bad";f.msg=e.message}
+      doneBytes+=f.file.size;showChosen();
+    }
+    if(up.uploader.trim())lsSet("sin_name",up.uploader.trim());lsSet("sin_fac",up.faculty);
+    up.busy=false;btn.disabled=false;bar.hidden=true;
+    const failed=up.files.filter(f=>f.status==="bad").length;
+    if(!failed){const n=okCount;up=null;toast(n===1?"Materiali u ngarkua":`U ngarkuan ${n} materiale`);n===1&&lastId?go("material",{id:lastId}):go("materials");return}
+    showChosen();updBtn();
+    err.textContent=`${okCount?`U ngarkuan ${okCount}. `:""}${failed===1?"Një skedar nuk u ngarkua":`${failed} skedarë nuk u ngarkuan`} – shikoni arsyen më lart dhe provoni përsëri.`;
   };
 }
 
@@ -652,16 +792,13 @@ function renderMaterial(){
       <h1>${esc(m.title)}</h1>
       <div class="set-meta"><div class="author" style="border:0;padding:0;margin:0">${avatar(m.uploader||"Anonim")}<div><div class="by">Ngarkuar nga</div><div class="nm">${esc(m.uploader||"Anonim")}</div></div></div><span class="meta-row">${esc(m.fileName)} · ${esc(fmtSize(m.size))} · ${esc(ago(m.createdAt))}</span></div></div>
     </div>
-    <div class="detail-actions"><a class="btn btn-primary" href="${esc(dl)}" download="${esc(m.fileName)}">${I.down} Shkarko</a>${canOpenTab?`<a class="btn btn-ghost" href="${esc(url)}" target="_blank" rel="noopener">${I.ext} Hape në skedë të re</a>`:""}<button class="btn btn-danger" id="mdel">Fshi</button></div>
+    <div class="detail-actions"><a class="btn btn-primary" href="${esc(dl)}" download="${esc(m.fileName)}">${I.down} Shkarko</a>${canOpenTab?`<a class="btn btn-ghost" href="${esc(url)}" target="_blank" rel="noopener">${I.ext} Hape në skedë të re</a>`:""}${canManage(m)?`<button class="btn btn-danger" id="mdel">Fshi</button>`:`<button class="btn btn-ghost" id="report">Raporto</button>`}</div>
   </div>
   <div id="confirm-slot"></div>
   <section class="viewer"><div class="viewer-head"><span>Parapamja</span><span class="meta-row" id="vhint"></span></div><div class="viewer-body" id="vbody"><div class="msg">Duke hapur skedarin…</div></div></section>`;
   $("#back").onclick=()=>go("materials");
-  $("#mdel").onclick=()=>{
-    $("#confirm-slot").innerHTML=`<div class="confirm"><b>Ta fshini “${esc(m.title)}” për të gjithë?</b> Ky veprim nuk kthehet mbrapsht.<span style="flex:1"></span><button class="btn btn-ghost" id="no">Jo, mbaje</button><button class="btn btn-primary" style="background:var(--danger);color:#fff" id="yes">Po, fshije</button></div>`;
-    $("#no").onclick=()=>$("#confirm-slot").innerHTML="";
-    $("#yes").onclick=async()=>{try{await api("DELETE","/api/materials/"+encodeURIComponent(m.id));materials=materials.filter(x=>x.id!==m.id);toast("Materiali u fshi");go("materials")}catch(e){toast("Fshirja dështoi. Provoni përsëri.")}};
-  };
+  if($("#mdel"))$("#mdel").onclick=()=>confirmDelete(m.title,async()=>{await api("DELETE","/api/materials/"+encodeURIComponent(m.id),null,ownerHeader(m.id));materials=materials.filter(x=>x.id!==m.id);toast("Materiali u fshi");go("materials")});
+  if($("#report"))$("#report").onclick=()=>reportBox("material",m.id);
   showPreview(m,k,url);
 }
 async function showPreview(m,k,url){
@@ -711,7 +848,7 @@ function renderSet(){
       ${s.description?`<p class="set-desc">${esc(s.description)}</p>`:""}
       <div class="set-meta"><div class="author" style="border:0;padding:0;margin:0">${avatar(s.author)}<div><div class="by">Krijuar nga</div><div class="nm">${esc(s.author)}</div></div></div><span class="meta-row">${esc(ago(s.createdAt))}${s.updatedAt?" · ndryshuar "+esc(ago(s.updatedAt)):""}</span></div>
     </div>
-    <div class="detail-actions"><button class="btn btn-ghost" id="edit">Ndrysho</button><button class="btn btn-danger" id="del">Fshi</button></div>
+    <div class="detail-actions">${canManage(s)?`<button class="btn btn-ghost" id="edit">Ndrysho</button><button class="btn btn-danger" id="del">Fshi</button>`:`<button class="btn btn-ghost" id="report">Raporto</button>`}</div>
   </div>
   <div id="confirm-slot"></div>
   <section class="study" id="study" aria-label="Kartat mësimore"></section>
@@ -724,12 +861,9 @@ function renderSet(){
       <div class="terms">${cards.map(c=>`<div class="term"><b>${esc(c.term)}</b><div><p>${esc(c.def)}</p>${c.img?`<img src="${esc(fileUrl(c.img))}" alt="" data-zoom="${esc(fileUrl(c.img))}" style="cursor:zoom-in">`:""}</div></div>`).join("")}</div></section>
   </div>`;
   $("#back").onclick=()=>go("sets");
-  $("#edit").onclick=()=>{draft=null;go("edit",{id:s.id})};
-  $("#del").onclick=()=>{
-    $("#confirm-slot").innerHTML=`<div class="confirm"><b>Ta fshini “${esc(s.title)}” për të gjithë?</b> Ky veprim nuk kthehet mbrapsht.<span style="flex:1"></span><button class="btn btn-ghost" id="no">Jo, mbaje</button><button class="btn btn-primary" style="background:var(--danger);color:#fff" id="yes">Po, fshije</button></div>`;
-    $("#no").onclick=()=>$("#confirm-slot").innerHTML="";
-    $("#yes").onclick=async()=>{try{await api("DELETE","/api/sets/"+encodeURIComponent(s.id));sets=sets.filter(x=>x.id!==s.id);toast("Seti u fshi");go("sets")}catch(e){toast("Fshirja dështoi. Provoni përsëri.")}};
-  };
+  if($("#edit"))$("#edit").onclick=()=>{draft=null;go("edit",{id:s.id})};
+  if($("#del"))$("#del").onclick=()=>confirmDelete(s.title,async()=>{await api("DELETE","/api/sets/"+encodeURIComponent(s.id),null,ownerHeader(s.id));sets=sets.filter(x=>x.id!==s.id);toast("Seti u fshi");go("sets")});
+  if($("#report"))$("#report").onclick=()=>reportBox("set",s.id);
   app.querySelectorAll("[data-zoom]").forEach(el=>el.onclick=()=>{const src=el.dataset.zoom;if(!src)return;const lb=document.createElement("div");lb.className="lightbox";lb.innerHTML=`<img src="${esc(src)}" alt="">`;lb.onclick=()=>lb.remove();document.body.appendChild(lb)});
   renderStudy(s);
 }
@@ -779,22 +913,144 @@ document.addEventListener("keydown",e=>{
   else if(e.key==="ArrowLeft"){const b=$("#prev");if(b&&!b.disabled)b.click()}
 });
 
+/* ---------- FSHIRJA DHE RAPORTIMI ---------- */
+function confirmDelete(title,run){
+  $("#confirm-slot").innerHTML=`<div class="confirm"><b>Ta fshini “${esc(title)}” për të gjithë?</b> Ky veprim nuk kthehet mbrapsht.<span style="flex:1"></span><button class="btn btn-ghost" id="no">Jo, mbaje</button><button class="btn btn-primary" style="background:var(--danger);color:#fff" id="yes">Po, fshije</button></div>`;
+  $("#no").onclick=()=>$("#confirm-slot").innerHTML="";
+  $("#yes").onclick=async()=>{try{await run()}catch(e){toast(e.status===403?e.message:"Fshirja dështoi. Provoni përsëri.")}};
+}
+function reportBox(type,id){
+  const slot=$("#confirm-slot");
+  slot.innerHTML=`<form class="report-box" id="rform"><label class="sr" for="r-reason">Arsyeja</label><input class="t" id="r-reason" maxlength="300" placeholder="Pse po e raportoni? p.sh. përmbajtje e gabuar, spam, e drejtë autori"><button class="btn btn-primary" type="submit">Dërgo raportin</button><button class="btn btn-ghost" type="button" id="r-cancel">Anulo</button></form>`;
+  $("#r-reason").focus();
+  $("#r-cancel").onclick=()=>slot.innerHTML="";
+  $("#rform").onsubmit=async e=>{e.preventDefault();try{await api("POST","/api/reports",{type,id,reason:$("#r-reason").value.trim()});slot.innerHTML="";toast("Faleminderit! Admini do ta shqyrtojë.")}catch(err){toast(err.message)}};
+}
+
+/* ---------- RRETH NESH ---------- */
+function renderAbout(){
+  app.innerHTML=`
+  <section class="about-hero">${I.syn}<div style="position:relative"><h1>Rreth nesh</h1>
+    <p>Sinapsa është një platformë falas ku studentët nga çdo fakultet krijojnë karta mësimore, ndajnë skriptat dhe ligjëratat, dhe mësojnë së bashku. Ashtu si sinapsat lidhin neuronet, ne duam të lidhim studentët dhe njohuritë e tyre.</p></div></section>
+  <div class="about-grid">
+    <div class="panel"><h3>Karta mësimore</h3><p>Krijoni sete me pyetje dhe përgjigje, shtoni foto, dhe mësoni duke i kthyer kartat. Shënoni çfarë dini dhe praktikoni atë që ju mungon.</p></div>
+    <div class="panel"><h3>Materiale për të gjithë</h3><p>Ngarkoni PDF, Word, PowerPoint e Excel. Kolegët i hapin drejtpërdrejt në faqe ose i shkarkojnë.</p></div>
+    <div class="panel"><h3>Pa komplikime</h3><p>Nuk ju duhet llogari për të mësuar ose për të ndarë materiale. Mjafton të shkruani emrin tuaj.</p></div>
+  </div>
+  <section class="panel"><h2>Na ndiqni</h2><p class="hint">Lajmet, këshillat për mësim dhe materialet e reja i ndajmë në rrjetet sociale.</p>
+    <div class="socials">${SOCIALS.map(s=>`<a class="soc" href="${s.url}" target="_blank" rel="noopener">${s.icon}<span>${s.name}<span class="opt" style="margin-left:6px">${esc(s.handle)}</span></span></a>`).join("")}</div>
+  </section>
+  <section class="panel"><h2>Keni gjetur diçka të gabuar?</h2><p class="hint" style="margin:0">Në faqen e çdo seti ose materiali shtypni <b>Raporto</b>. Adminët e shqyrtojnë dhe e heqin nëse duhet. Për çdo gjë tjetër na shkruani në Instagram ose Facebook.</p></section>`;
+}
+
+/* ---------- HYRJA / REGJISTRIMI ---------- */
+function renderAuth(){
+  if(me){go(me.isAdmin?"admin":"home");return}
+  const tab=view.tab==="signup"?"signup":"login";
+  app.innerHTML=`<div class="auth">
+    <div style="text-align:center;margin-bottom:18px"><img src="/logo.png" alt="" width="56" height="56" style="border-radius:14px"><h1 style="font-size:28px;font-weight:800;margin-top:10px">${tab==="login"?"Mirë se u kthyet":"Krijoni llogari"}</h1>
+      <p style="color:var(--muted);margin:6px 0 0">${tab==="login"?"Hyni për t'i parë setet tuaja nga çdo pajisje.":"Llogaria është opsionale. Me të, setet dhe materialet tuaja i keni në çdo pajisje."}</p></div>
+    <div class="panel">
+      <div class="tabs" role="tablist"><button role="tab" aria-selected="${tab==="login"}" data-tab="login">Hyr</button><button role="tab" aria-selected="${tab==="signup"}" data-tab="signup">Regjistrohu</button></div>
+      <form id="aform" novalidate>
+        ${tab==="signup"?`<label class="f">Emri dhe mbiemri<input class="t" id="a-name" autocomplete="name" maxlength="60" placeholder="p.sh. Drilon Berisha"></label>`:""}
+        <label class="f">Email<input class="t" id="a-email" type="email" autocomplete="email" maxlength="120" placeholder="emri@shembull.com"></label>
+        <label class="f">Fjalëkalimi${tab==="signup"?' <span class="opt">(të paktën 8 shkronja)</span>':""}<input class="t" id="a-pass" type="password" autocomplete="${tab==="login"?"current-password":"new-password"}"></label>
+        <div id="a-err" class="err" role="alert"></div>
+        <button class="btn btn-primary" type="submit" id="a-btn" style="min-height:50px">${tab==="login"?"Hyr":"Krijo llogarinë"}</button>
+      </form>
+    </div></div>`;
+  app.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>go("auth",{tab:b.dataset.tab}));
+  $(tab==="signup"?"#a-name":"#a-email").focus();
+  $("#aform").onsubmit=async e=>{e.preventDefault();const err=$("#a-err"),btn=$("#a-btn");err.textContent="";
+    const body={email:$("#a-email").value.trim(),password:$("#a-pass").value,keys:ownerKeys()};
+    if(tab==="signup")body.name=$("#a-name").value.trim();
+    if(tab==="signup"&&!body.name){err.textContent="Shkruani emrin tuaj.";return}
+    if(!body.email||!body.password){err.textContent="Plotësoni email-in dhe fjalëkalimin.";return}
+    btn.disabled=true;
+    try{const r=await api("POST",tab==="login"?"/api/auth/login":"/api/auth/signup",body);me=r.me;renderAuthSlots();
+      toast(tab==="login"?`Mirë se u kthyet, ${me.name.split(" ")[0]}!`:"Llogaria u krijua");await refresh(true);go(me.isAdmin?"admin":"home")}
+    catch(ex){btn.disabled=false;err.textContent=ex.message}};
+}
+
+/* ---------- PANELI I ADMINIT ---------- */
+let adminData=null;
+function renderAdmin(){
+  if(!me||!me.isAdmin){app.innerHTML=emptyBox("Kjo faqe është vetëm për adminët","Hyni me llogarinë e adminit.",`<button class="btn btn-primary" data-auth-go>Hyr</button>`);const b=app.querySelector("[data-auth-go]");if(b)b.onclick=()=>go("auth",{tab:"login"});return}
+  if(!adminData){app.innerHTML=emptyBox("Duke ngarkuar panelin…");loadAdmin();return}
+  const d=adminData,st=d.stats,max=Math.max(4,...d.days.map(x=>x.visitors));
+  const nice=Math.ceil(max/4)*4, fmtDay=k=>{const [y,mo,da]=k.split("-");return `${+da}.${+mo}`};
+  const setTitle=id=>{const s=sets.find(x=>x.id===id);return s?s.title:null};
+  app.innerHTML=`
+  <div class="page-head"><div><h1>Paneli i adminit</h1><p>Mirë se erdhe, ${esc(me.name.split(" ")[0])}. Këtu shihni vizitorët dhe detyrat që presin.</p></div><button class="btn btn-ghost" id="a-refresh">Rifresko</button></div>
+  <div class="tiles">
+    <div class="tile hl"><div class="k"><span class="live-dot" aria-hidden="true"></span>Tani në faqe</div><div class="v">${st.online}</div><div class="s">në 5 minutat e fundit</div></div>
+    <div class="tile"><div class="k">Vizitorë sot</div><div class="v">${st.today}</div><div class="s">${plural(st.viewsToday,"hapje","hapje")} të faqes</div></div>
+    <div class="tile"><div class="k">7 ditët e fundit</div><div class="v">${st.week}</div><div class="s">vizitorë të ndryshëm</div></div>
+    <div class="tile"><div class="k">30 ditët e fundit</div><div class="v">${st.month}</div><div class="s">vizitorë të ndryshëm</div></div>
+    <div class="tile"><div class="k">Llogari</div><div class="v">${st.users}</div><div class="s">të regjistruara</div></div>
+    <div class="tile"><div class="k">Përmbajtja</div><div class="v">${st.sets+st.materials}</div><div class="s">${plural(st.sets,"set","sete")} · ${plural(st.materials,"material","materiale")}</div></div>
+    <div class="tile"><div class="k">Hapësira</div><div class="v">${esc(fmtSize(st.bytes)||"0 B")}</div><div class="s">${plural(st.files,"skedar","skedarë")} në disk</div></div>
+  </div>
+  <section class="panel"><h2>Vizitorët në 30 ditët e fundit</h2><p class="hint">Numri i personave të ndryshëm që hapën faqen çdo ditë. Kaloni mbi një shtyllë për detajet.</p>
+    <div class="chart" role="img" aria-label="Vizitorët në ditë për 30 ditët e fundit">
+      ${[1,.5].map(f=>`<div class="grid-l" style="bottom:calc(22px + ${f*100}% - ${f*22}px)"><span>${Math.round(nice*f)}</span></div>`).join("")}
+      ${d.days.map((x,i)=>`<div class="col${i===d.days.length-1?" today":""}" tabindex="0"><span class="tip" style="${i<5?"left:0;transform:none":i>24?"left:auto;right:0;transform:none":""}">${fmtDay(x.day)}: ${plural(x.visitors,"vizitor","vizitorë")} · ${x.views} hapje</span><div class="bar" style="height:${(x.visitors/nice*100).toFixed(1)}%"></div>${i%5===4||i===d.days.length-1?`<span class="lbl">${i===d.days.length-1?"Sot":fmtDay(x.day)}</span>`:""}</div>`).join("")}
+    </div>
+  </section>
+  <div class="admin-cols">
+    <section class="panel"><h2>Raportimet që presin${d.reports.length?`<span class="count-badge">${d.reports.length}</span>`:""}</h2><p class="hint">Përmbajtje që studentët kanë raportuar. Shikojeni dhe vendosni.</p>
+      ${d.reports.length?`<div class="task-list">${d.reports.map(r=>`<div class="task"><div class="body"><b>${esc(r.itemTitle||"(përmbajtja nuk ekziston më)")}</b><small>${r.type==="set"?"Set kartash":"Material"} · ${esc(ago(r.createdAt))}${r.reason?` · “${esc(r.reason)}”`:""}</small></div>
+        <div class="acts">${r.itemTitle?`<button class="btn btn-ghost btn-sm" data-open-r="${esc(r.type)}:${esc(r.itemId)}">Shiko</button><button class="btn btn-danger btn-sm" data-del-r="${esc(r.type)}:${esc(r.itemId)}">Fshi përmbajtjen</button>`:""}<button class="btn btn-ghost btn-sm" data-dismiss="${esc(r.id)}">Hiq raportin</button></div></div>`).join("")}</div>`
+        :`<p style="margin:0;color:var(--good);font-weight:700">Asnjë raportim. Gjithçka në rregull ✓</p>`}
+    </section>
+    <section class="panel"><h2>Përmbajtja më e re</h2><p class="hint">Setet dhe materialet e fundit. Si admin mund të fshini çdo gjë.</p>
+      <div class="task-list">${[...sets.map(s=>({t:"set",x:s})),...materials.map(m=>({t:"material",x:m}))].sort((a,b)=>(b.x.createdAt||0)-(a.x.createdAt||0)).slice(0,8).map(({t,x})=>`<div class="task"><div class="body"><b>${esc(x.title)}</b><small>${t==="set"?"Set":"Material"} · ${esc(x.faculty)} · ${esc(t==="set"?x.author:(x.uploader||"Anonim"))} · ${esc(ago(x.createdAt))}</small></div>
+        <div class="acts"><button class="btn btn-ghost btn-sm" data-open-r="${t}:${esc(x.id)}">Shiko</button><button class="btn btn-danger btn-sm" data-del-r="${t}:${esc(x.id)}">Fshi</button></div></div>`).join("")||`<p style="margin:0;color:var(--muted)">Ende nuk ka përmbajtje.</p>`}</div>
+    </section>
+  </div>
+  <section class="panel"><h2>Llogaritë (${d.users.length})</h2><p class="hint">Mund t'i bëni të tjerët admin ose t'ua fshini llogarinë. Setet e tyre mbeten në faqe.</p>
+    ${d.users.length?`<div class="table-wrap"><table class="users"><thead><tr><th>Emri</th><th>Email</th><th>Sete</th><th>Materiale</th><th>Regjistruar</th><th>Hyrja e fundit</th><th></th></tr></thead><tbody>
+      ${d.users.map(u=>`<tr><td><b>${esc(u.name)}</b> ${u.isAdmin?'<span class="admin-badge">ADMIN</span>':""}</td><td>${esc(u.email)}</td><td class="num">${u.sets}</td><td class="num">${u.materials}</td><td>${esc(ago(u.createdAt))}</td><td>${esc(ago(u.lastLogin))}</td>
+        <td>${u.id===me.id?'<span class="opt">Ju</span>':`<div class="acts" style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn btn-ghost btn-sm" data-role="${esc(u.id)}" data-make="${u.isAdmin?0:1}">${u.isAdmin?"Hiq adminin":"Bëje admin"}</button><button class="btn btn-danger btn-sm" data-deluser="${esc(u.id)}" data-name="${esc(u.name)}">Fshi</button></div>`}</td></tr>`).join("")}
+    </tbody></table></div>`:`<p style="margin:0;color:var(--muted)">Ende nuk është regjistruar askush.</p>`}
+  </section>
+  <div id="confirm-slot"></div>`;
+  $("#a-refresh").onclick=()=>{adminData=null;renderAdmin()};
+  app.querySelectorAll("[data-open-r]").forEach(b=>b.onclick=()=>{const [t,id]=b.dataset.openR.split(":");go(t==="set"?"set":"material",{id})});
+  app.querySelectorAll("[data-del-r]").forEach(b=>b.onclick=async()=>{const [t,id]=b.dataset.delR.split(":");
+    if(b.dataset.sure!=="1"){b.dataset.sure="1";b.textContent="Kliko sërish për ta fshirë";return}
+    try{await api("DELETE",(t==="set"?"/api/sets/":"/api/materials/")+encodeURIComponent(id));toast("U fshi");await refresh(true);adminData=null;renderAdmin()}catch(e){toast(e.message)}});
+  app.querySelectorAll("[data-dismiss]").forEach(b=>b.onclick=async()=>{try{await api("DELETE","/api/admin/reports/"+encodeURIComponent(b.dataset.dismiss));adminData=null;renderAdmin()}catch(e){toast(e.message)}});
+  app.querySelectorAll("[data-role]").forEach(b=>b.onclick=async()=>{try{await api("POST","/api/admin/users/"+encodeURIComponent(b.dataset.role),{isAdmin:b.dataset.make==="1"});toast("U ruajt");adminData=null;renderAdmin()}catch(e){toast(e.message)}});
+  app.querySelectorAll("[data-deluser]").forEach(b=>b.onclick=async()=>{
+    if(b.dataset.sure!=="1"){b.dataset.sure="1";b.textContent="Kliko sërish";return}
+    try{await api("DELETE","/api/admin/users/"+encodeURIComponent(b.dataset.deluser));toast(`Llogaria e ${b.dataset.name} u fshi`);adminData=null;renderAdmin()}catch(e){toast(e.message)}});
+}
+async function loadAdmin(){
+  try{adminData=await api("GET","/api/admin/overview");if(view.name==="admin")renderAdmin()}
+  catch(e){if(view.name==="admin")app.innerHTML=emptyBox("Paneli nuk u hap",esc(e.message))}
+}
+
 /* ---------- BOOT ---------- */
 let lastStamp="";
-async function refresh(){
+async function refresh(force){
   try{
     const r=await api("GET","/api/all");
+    const meChanged=JSON.stringify(r.me)!==JSON.stringify(me);me=r.me;if(meChanged)renderAuthSlots();
+    if(force)lastStamp="";
     const stamp=JSON.stringify([r.sets.map(s=>[s.id,s.updatedAt||s.createdAt]),r.materials.map(m=>m.id)]);
     const wasReady=dbState==="ready";
     sets=r.sets;materials=r.materials;dbState="ready";
     const v=view.name;
-    if(["create","edit","upload"].includes(v)){/* never interrupt a form */}
+    if(["create","edit","upload","auth","about","admin"].includes(v)){/* mos e ndërpre formularin ose panelin */}
     else if(v==="set"||v==="material"){const gone=v==="set"?!sets.some(x=>x.id===view.id):!materials.some(x=>x.id===view.id);if(!wasReady||gone)render()}
     else if(stamp!==lastStamp||!wasReady)render();
     lastStamp=stamp;
   }catch(e){if(dbState!=="ready"){dbState="offline";render()}}
 }
-render();refresh();
+renderAuthSlots();render();refresh().then(()=>{if(view.name==="admin")render()});
+try{if(!sessionStorage.getItem("sin_counted")){sessionStorage.setItem("sin_counted","1");api("POST","/api/visit",{vid:visitorId()}).catch(()=>{})}}catch(e){api("POST","/api/visit",{vid:visitorId()}).catch(()=>{})}
 setInterval(()=>{if(!document.hidden)refresh()},15000);
 })();
 </script>
