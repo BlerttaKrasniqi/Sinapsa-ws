@@ -353,9 +353,9 @@ async function pumpAi() {
         }
         aiQueue.shift();
       } catch (e) {
-        const again = (e.status === 429 || e.status === 502 || e.name === "TimeoutError") && (mat.aiTries || 0) < 3;
+        const again = (e.transient || e.name === "TimeoutError" || e.name === "TypeError") && (mat.aiTries || 0) < 3;
         if (again) { mat.aiTries = (mat.aiTries || 0) + 1; aiQueue.shift(); aiQueue.push(id); saveDb(); await sleep(60000); continue; }
-        mat.aiStatus = "failed"; mat.aiError = e.status && e.status < 500 ? e.message : "Kartat nuk u krijuan dot për këtë skedar.";
+        mat.aiStatus = "failed"; mat.aiError = (e.message || "Kartat nuk u krijuan dot për këtë skedar.") + (e.name === "TimeoutError" ? " (koha mbaroi)" : "");
         console.error("AI:", mat.fileName, e.message); aiQueue.shift();
       }
       saveDb();
