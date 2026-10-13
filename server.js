@@ -541,7 +541,7 @@ const server = http.createServer(async (req, res) => {
 
     // --- skedarët ---
     if (p === "/api/upload" && req.method === "POST") {
-      needUser(user.name ? user : null);
+      if (!user) throw fail(401, "Hyni ose regjistrohuni për të ngarkuar skedarë.");
       const name = str(url.searchParams.get("name"), 200);
       const ext = (name.toLowerCase().match(/\.([a-z0-9]+)$/) || [])[1];
       if (!ext || !TYPES[ext]) return send(res, 415, { error: "Ky lloj skedari nuk lejohet. Përdorni PDF, Word, PowerPoint, Excel, foto, TXT ose ZIP." });
